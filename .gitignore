@@ -1,0 +1,11 @@
+# vscode
+.vscode 
+
+# npm
+node_modules
+
+# Exclude sourcemaps
+*.map
+
+# Exclude macOS Finder
+.DS_Store

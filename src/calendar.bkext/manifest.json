@@ -1,0 +1,9 @@
+{
+  "id": "calendar",
+  "name": "calendar",
+  "version": "0.0.0",
+  "minAppVersion": "0.0.0",
+  "safari_inspectable": true,
+  "permissions": [],
+  "host_permissions": []
+}
