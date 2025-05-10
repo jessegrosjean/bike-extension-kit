@@ -32,7 +32,7 @@ async function main() {
         return;
     }
     
-    await fs.cp('./scripts/extension-template', dest, { recursive: true });
+    await fs.cp('./scripts/template.bkext', dest, { recursive: true });
     await fs.writeFile(path.join(dest, 'manifest.json'), JSON.stringify({
         "id": id,
         "name": id,
