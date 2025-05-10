@@ -7,5 +7,8 @@ node_modules
 # Exclude sourcemaps
 *.map
 
+# Exclude build artifacts
+out
+
 # Exclude macOS Finder
 .DS_Store

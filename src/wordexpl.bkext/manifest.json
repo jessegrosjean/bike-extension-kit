@@ -1,0 +1,12 @@
+{
+    "id": "wordexpl",
+    "name": "wordexpl",
+    "version": "0.0.0",
+    "minAppVersion": "0.0.0",
+    "enabled": true,
+    "app_context_inspectable": true,
+    "permissions": ["domScript", "fetch"],
+    "host_permissions": [
+        "https://api.datamuse.com/*"
+    ]
+}

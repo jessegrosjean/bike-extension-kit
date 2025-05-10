@@ -1,45 +1,30 @@
-import { AppExtensionContext, Window, DOMScriptName, Sidebar, SidebarItem, Row } from "@app";
+import { AppExtensionContext, Window, DOMScriptName, Row } from "@app";
 
 export async function activate(context: AppExtensionContext) {
     bike.commands.addCommands({
         commands: {
-            "d3:show-tree-view": showTreeView,
-            "d3:show-radial-view": showRadialView,
+            "d3:show-tree-view": () => showD3Sheet("tree-view.js"),
+            "d3:show-radial-view": () => showD3Sheet("radial-view.js"),
         }
     });
     
     bike.observeWindows(async (window: Window) => {
-        window.sidebar.addItem(treeViewItem(window.sidebar));
-        window.sidebar.addItem(radialViewItem(window.sidebar));
+        window.sidebar.addItem({
+            id: "d3:tree-view",
+            text: "Tree View",
+            symbol: "tree",
+            ordering: { section: "actions" },
+            action: "d3:show-tree-view",
+        });
+
+        window.sidebar.addItem({
+            id: "d3:radial-view",
+            text: "Radial View",
+            symbol: "tree.circle",
+            ordering: { section: "actions" },
+            action: "d3:show-radial-view",
+        });
     });
-}
-
-function treeViewItem(sidebar: Sidebar): SidebarItem {
-    return {
-        id: "d3:tree-view",
-        text: "Tree View",
-        symbol: "tree",
-        ordering: { section: "actions" },
-        action: "d3:show-tree-view",
-    };
-}
-
-function radialViewItem(sidebar: Sidebar): SidebarItem {
-    return {
-        id: "d3:radial-view",
-        text: "Radial View",
-        symbol: "tree.circle",
-        ordering: { section: "actions" },
-        action: "d3:show-radial-view",
-    };
-}
-
-function showTreeView(): boolean {
-    return showD3Sheet("tree-view.ts");
-}
-
-function showRadialView(): boolean {
-    return showD3Sheet("radial-view.ts");
 }
 
 function showD3Sheet(domScriptName: DOMScriptName): boolean {

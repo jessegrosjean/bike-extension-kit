@@ -8,7 +8,6 @@
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "noPropertyAccessFromIndexSignature": true,
-        "exactOptionalPropertyTypes": true,
         "forceConsistentCasingInFileNames": true,
         "module": "esnext",
         "moduleResolution": "node",

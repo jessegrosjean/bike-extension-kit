@@ -3,7 +3,8 @@
   "name": "d3",
   "version": "0.0.0",
   "minAppVersion": "0.0.0",
-  "safari_inspectable": true,
-  "permissions": [],
+  "enabled": true,
+  "app_context_inspectable": true,
+  "permissions": ["domScript"],
   "host_permissions": []
 }

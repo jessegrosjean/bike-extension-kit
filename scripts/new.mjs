@@ -38,7 +38,8 @@ async function main() {
         "name": id,
         "version": "0.0.0",
         "minAppVersion": "0.0.0",
-        "safari_inspectable" : true,
+        "enabled": true,
+        "app_context_inspectable" : true,
         "permissions": [],
         "host_permissions": []
     }, null, 2), 'utf-8');

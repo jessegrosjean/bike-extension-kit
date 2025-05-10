@@ -2,11 +2,11 @@
 
 🚧 **Work in Progress**
 
-This is a kit for building a set of **Bike 2** extensions.
+This is a kit for building **Bike 2** extensions.
 
 Set this kit up once. Then use it to easily modify existing extensions and to
-build your own extensions. It provides a consistent development environment,
-build process, and best practices.
+create your own. It provides a consistent development environment, build
+process, and best practices.
 
 - TODO: Walkthrough setup
 - TODO: Walkthrough extension development
@@ -34,31 +34,31 @@ You are now ready to start modifying or creating extensions.
 
 ## How this Kit Works
 
-Inside the `src/` folder you will see a subfolder for each extension in the kit.
+Inside the `src` folder there is a subfolder for each extension in the kit.
 Delete a folder to remove an extension. Add a folder to add a new extension.
 Each extension folder should have the following structure:
 
 ```
 extensions-folder
 ├── manifest.json
-├── app
+├── app (optional)
 │   ├── main.ts
 │   └── tsconfig.json
-├── dom
+├── dom (optional)
 │   ├── view1.ts
 │   ├── view2.ts
 │   └── tsconfig.json
-├── style
+├── style (optional)
 │   ├── main.ts
 │   └── tsconfig.json
 ```
 
 The `manifest.json` file is required, and is the entry point of each extension.
-The (app, dom, style) subfolders are optional and corespond to different
+The (app, dom, style) subfolders are optional and correspond to different
 contexts where your extension can contribute code.
 
 Extensions must be built before Bike can load them. This kit builds all
-extensions in the kit at once, and then install them where Bike will find and
+extensions in the kit at once, and then installs them where Bike will find and
 reload them.
 
 There two ways to build extensions:
@@ -66,12 +66,12 @@ There two ways to build extensions:
 1. **Build**: To build extensions once in an optimized form use the `npm run
    build` command.
 
-2. **Watch**: To rebuild the extensions anytime you save changes use the `npm
-   run watch` command. This can be very useful for development. Save changes and
-   see the results immediatly in Bike.
+2. **Watch**: To rebuild the extensions anytime you save changes to `src` use
+   the `npm run watch` command. This can be very useful for development. Save
+   changes and see the results immediately in Bike.
 
 To create a new extension, copy an existing extension folder and rename or use
-the new command to create the right folder structure:
+this kit's new command to create the right folder structure:
 
 ```sh
 npm run new
@@ -79,13 +79,21 @@ npm run new
 
 ### Updates
 
-When there is a new version of Bike's extension API, I will update this kit to
-include the new API. You should update your copy of this kit to the latest
-version. If you are using `git` you can do this with the following command:
+This kit will change over time:
+
+- Bike's API will be updated.
+- New extensions will be added.
+- Existing extensions will be updated.
+
+To incorporate these changes into your local extension development use the
+following git command:
 
 ```sh
 git pull origin main
 ```
+
+If you have a generally useful extension that you would like to contribute back to
+this kit please open a pull request.
 
 ## Extension Development
 
@@ -126,5 +134,4 @@ Look at the existing extensions that come with this kit. See how they work and
 try to make some simple changes. Read through the `api` folder to see what is
 possible. Then start building your own extensions.
 
-When you have questions please post in the [Support
-Forum](https://support.hogbaysoftware.com/c/bike/22).
+When you have questions please post in the [Support Forum](https://support.hogbaysoftware.com/c/bike/22).
