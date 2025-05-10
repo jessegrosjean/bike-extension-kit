@@ -54,11 +54,11 @@ extensions-folder
 ```
 
 The `manifest.json` file is required, and is the entry point of each extension.
-The (app, dom, style) subfolders are optional and corespond to different
+The (app, dom, style) subfolders are optional and correspond to different
 contexts where your extension can contribute code.
 
 Extensions must be built before Bike can load them. This kit builds all
-extensions in the kit at once, and then install them where Bike will find and
+extensions in the kit at once, and then installs them where Bike will find and
 reload them.
 
 There two ways to build extensions:
@@ -68,7 +68,7 @@ There two ways to build extensions:
 
 2. **Watch**: To rebuild the extensions anytime you save changes use the `npm
    run watch` command. This can be very useful for development. Save changes and
-   see the results immediatly in Bike.
+   see the results immediately in Bike.
 
 To create a new extension, copy an existing extension folder and rename or use
 the new command to create the right folder structure:
@@ -126,5 +126,4 @@ Look at the existing extensions that come with this kit. See how they work and
 try to make some simple changes. Read through the `api` folder to see what is
 possible. Then start building your own extensions.
 
-When you have questions please post in the [Support
-Forum](https://support.hogbaysoftware.com/c/bike/22).
+When you have questions please post in the [Support Forum](https://support.hogbaysoftware.com/c/bike/22).
