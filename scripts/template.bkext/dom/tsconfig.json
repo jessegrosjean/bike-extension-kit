@@ -1,3 +1,3 @@
 {
-  "extends": "../../../api/dom/tsconfig.json",
+  "extends": "../../../api/dom/tsconfig.json"
 }

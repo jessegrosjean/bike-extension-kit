@@ -16,11 +16,13 @@ process, and best practices.
 This requires that you have `git` and `node.js` installed.
 
 1. Clone this repository (or download copy).
+
    ```sh
    git clone https://github.com/jessegrosjean/bike-extension-kit.git
    ```
 
 2. Install dependencies:
+
    ```sh
    npm install
    ```
@@ -64,7 +66,7 @@ reload them.
 There two ways to build extensions:
 
 1. **Build**: To build extensions once in an optimized form use the `npm run
-   build` command.
+build` command.
 
 2. **Watch**: To rebuild the extensions anytime you save changes to `src` use
    the `npm run watch` command. This can be very useful for development. Save
@@ -114,19 +116,19 @@ purpose and environment:
 - WebViews are sandboxed and have no network access.
 - Use this context to define HTML/DOM-based views, such as panels or sheets.
 - These views are loaded dynamically from @app context APIs.
-- Import @dom context API using  `import { SYMBOL } from '@dom'`.
+- Import @dom context API using `import { SYMBOL } from '@dom'`.
 - [@dom context API documentation](https://github.com/jessegrosjean/bike-extension-api/tree/main/dom).
 
 ### @style: Outline Editor Styles
 
 - Used to define custom stylesheets for Bike’s outline editor.
 - Most extensions will not need this; delete the src/style folder if unused.
-- Import @style context API using  `import { SYMBOL } from '@style'`.
+- Import @style context API using `import { SYMBOL } from '@style'`.
 - [@style context API documentation](https://github.com/jessegrosjean/bike-extension-api/tree/main/style).
 
 > ✅ Each folder contains a `tsconfig.json` file to enable type checking.  
 > 🗂 Each context corresponds to an extension subfolder. Delete unused folders.  
-> ☎️ @app and @dom from the same extension can communicate using `postMessage`.  
+> ☎️ @app and @dom from the same extension can communicate using `postMessage`.
 
 # Next Steps
 

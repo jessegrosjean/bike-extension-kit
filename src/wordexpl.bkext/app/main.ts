@@ -1,5 +1,14 @@
-import { AppExtensionContext, Window, InspectorItem, DOMScriptHandle } from "@app";
+import { AppExtensionContext, Outline } from '@app'
 
+export async function activate(context: AppExtensionContext) {
+  console.log('Word Explorer extension activated!!!!!!!!')
+  let outline = new Outline()
+  console.log('Outline created')
+  console.log(outline)
+}
+
+/*
+import { AppExtensionContext, Window, InspectorItem, DOMScriptHandle } from "@app";
 export async function activate(context: AppExtensionContext) {
     bike.observeWindows(async (window: Window) => {
         const synonymsHandle = await window.inspector.addItem({
@@ -36,4 +45,4 @@ async function fetchSynonymsAndPostToDOM(handle: DOMScriptHandle, word: string) 
     } catch (error) {
         console.error("Error fetching synonyms:", error);
     }
-}
+}*/

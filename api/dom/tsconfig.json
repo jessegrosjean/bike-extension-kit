@@ -5,6 +5,6 @@
     "jsx": "react-jsx",
     "paths": {
       "@dom": ["./index.d.ts"]
-    },
-  },
+    }
+  }
 }

@@ -1,9 +1,9 @@
 {
-    "extends": "../../tsconfig-base.json",
-    "compilerOptions": {
-        "lib": ["ESNext"],
-        "paths": {
-            "@app": ["./index.d.ts"]
-        },
-    },
+  "extends": "../../tsconfig-base.json",
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "paths": {
+      "@app": ["./index.d.ts"]
+    }
+  }
 }
