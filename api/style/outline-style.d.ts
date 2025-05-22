@@ -5,37 +5,40 @@ import { Insets, Rect, Point, Size } from './geometry'
 /**
  * Defines OutlineStyle – Ordered list of style rules.
  *
- * Each rule is a function. The rule is called when its outline path matches
- * the current element being styled. The rule function modifies the passed in
- * style object, and then that object is passed on to the next matching rule.
+ * Each rule is a function. The rule is called when its outline path matches the
+ * current element being styled. The rule function modifies the passed in style
+ * object, and then that object is passed on to the next matching rule.
  *
- * Rules should be ordered from least specific to most specific. The first
- * rule sets the general style, following rules can modify that style for
- * specific situations. Unlike CSS there is specificity, rules are always
+ * Rules should be ordered from least specific to most specific. The first rule
+ * sets the general style, following rules can modify that style for specific
+ * situations. Unlike CSS there is no specificity calculation, rules are always
  * processed in defined order.
  *
  * Rule functions are cached. The same set of inputs to a rule should always
- * generate the same output style object. Never use global mutable state in
- * rule logic or you will get unexpected results. Unlike CSS, you can read the
+ * generate the same output style object. Never use global mutable state in rule
+ * logic or you will get unexpected results. Unlike CSS, you can read the
  * incomming rule state, and make decisions based on that state.
  *
  * Rules are organized into layers. Use `defineOutlineStyleModifier` to inject
- * new rules into existing styles.
+ * new rules into existing outline style layers.
  *
  * Example (new outline style):
  * ```ts
- * defineOutlineStyle({
- *   id: "my-style",
- *   name: "My Style",
- *   description: "My custom style",
+ * let style = defineOutlineStyle("my-style", "My Style")
+ *
+ * style.layer("base", (row, run, caret, viewport) => {
+ *   row(`.*`, (editor, row) => {
+ *     row.padding = new Insets(10, 10, 10, 28)
+ *   })
+ *   run('.@emphasized', (editor, text) => {
+ *     text.font = text.font.withItalics()
+ *   })
  * })
- * .layer("base")
- *    .row(".*", (editor, row) => {
- *       row.padding = new Insets(10, 10, 10, 28);
- *    })
  * ```
+ * @param id - Outline style id
+ * @param displayName - User visible outline style name
  */
-declare function defineOutlineStyle(id: string, name: string): OutlineStyle
+declare function defineOutlineStyle(id: string, displayName: string): OutlineStyle
 
 /**
  * OutlineStyleModifier – Insert rules into existing OutlineStyles.
@@ -43,6 +46,12 @@ declare function defineOutlineStyle(id: string, name: string): OutlineStyle
  * Rules defined here are merged into existing styles whose `id` matches
  * `matchingOutlineStyleIds`. If that matcher is not set then these rules are
  * merged into all outline styles. outline styles that are modified.
+ *
+ * @param id - Outline style modifier id
+ * @param displayName - User visible outline style modifier name
+ * @param matchingOutlineStyleIds - Regular expression to match outline style
+ *   ids that this modifier should be applied to. If not set then this modifier
+ *   is applied to all outline styles.
  */
 declare function defineOutlineStyleModifier(
   id: string,
@@ -51,26 +60,82 @@ declare function defineOutlineStyleModifier(
 ): OutlineStyle
 
 export interface OutlineStyle {
-  layer(name: RulesLayerName, rules: (layer: RulesLayer) => void): OutlineStyle
+  /**
+   * Add/Modify an outline style rules layer.
+   *
+   * Layers are ordered by when they are first named. The rules within a layer
+   * are ordered by definition order. If `layer` is called multiple times with
+   * the same name, the new rules are added to the end of the existing layer.
+   *
+   * The purpose of layers is to group rules together, and allow later style
+   * modifiers to insert rules into known locations.
+   *
+   * Example:
+   * ```ts
+   * outlineStyle.layer("base", (row, run, caret, viewport) => {
+   *   row(`.*`, (editor, row) => {
+   *     row.padding = new Insets(10, 10, 10, 28)
+   *   })
+   * })
+   * ```
+   * @param name - Layer name
+   * @param rulesCallback - Callback to define rules for this layer.
+   */
+  layer(
+    name: RulesLayerName,
+    rulesCallback: (
+      /**
+       * Define a row rule.
+       * @param match - The outline path to match rows.
+       * @param apply - Function to modify the matched row style.
+       */
+      row: (match: RelativeOutlinePath, apply: (editor: Editor, row: RowStyle) => void) => void,
+      /**
+       * Define a text run rule.
+       * @param match - The outline path to match runs.
+       * @param apply - Function to modify the matched run style.
+       */
+      run: (match: RelativeOutlinePath, apply: (editor: Editor, run: TextRunStyle) => void) => void,
+      /**
+       * Define a caret rule. Generally this only needs to be used once per
+       * outline style, by convention it is defined in the base layer.
+       * @param apply - Function to modify the caret style.
+       */
+      caret: (apply: (editor: Editor, caret: CaretStyle) => void) => void,
+      /**
+       * Define a viewport rule. Generally this only needs to be used once per
+       * outline style, by convention it is defined in the base layer.
+       * @param apply - Function to modify the viewport style.
+       */
+      viewport: (apply: (editor: Editor, viewport: ViewportStyle) => void) => void
+    ) => void
+  ): void
 }
 
-export interface RulesLayer {
-  row(match: RelativeOutlinePath, apply: (editor: Editor, row: RowStyle) => void): void
-  run(match: RelativeOutlinePath, apply: (editor: Editor, row: TextRunStyle) => void): void
-  caret(apply: (editor: Editor, caret: CaretStyle) => void): void
-  viewport(apply: (editor: Editor, viewport: ViewportStyle) => void): void
-}
-
+/**
+ * RulesLayerName - The name of a rules layer.
+ *
+ * The name is used to identify the layer when defining rules. The name is also
+ * used to identify the layer when modifying existing styles.
+ */
 type RulesLayerName =
   | 'base' // Default rows/runs (*) formatting
-  | 'controls' // Base controls formatting
-  | 'rowformatting' // Base row type formatting
-  | 'inlineformatting' // Base inline text formatting
-  | 'selection' // Apply to selected rows
-  | 'focus' // Apply to focus rows
+  | 'row-formatting' // Row type formatting
+  | 'run-formatting' // Inline text formatting
+  | 'controls' // Controls formatting
+  | 'selection' // Selection formatting
+  | 'outline-focus' // Focus row formatting
+  | 'text-focus' // Text focus formatting (word/sentence/paragraph)
+  | 'filter-match' // Filter match formatting
   | string
 
-/** Editor – The editor state passed into the stylesheet `apply` functions */
+/**
+ * Editor – Editor state passed to stylesheet `apply` functions.
+ *
+ * Use this state in rule definitions to determine the applied style values.
+ * Cache values derived from this state in `userCache` to avoid recomputing
+ * them. Anytime editor state changes the `userCache` is also invalidated.
+ */
 interface Editor {
   /** True when editor has keyboard focus  */
   isKey: boolean
@@ -78,35 +143,40 @@ interface Editor {
   isTyping: boolean
   /** True when editor is filtering  */
   isFiltering: boolean
+  /** True when in dark mode  */
+  isDarkMode: boolean
+  /** True when in full screen mode  */
+  isFullScreen: boolean
   /** Size of the editor's viewport  */
   viewportSize: Size
   /** Ordered row index  */
   orderedIndex?: number
-  /** Cache to use when resolving images, fonts, and colors  */
-  graphicsCache: GraphicsCache
-  /** Cache for computed values derived from the editor state */
-  userCache: Map<string, any>
-  /** User specified settings  */
-  settings: Settings
-}
-
-/** Settings – User settings that style rules should generally follow. */
-interface Settings {
-  font: Font
-  wrapToColumn?: number
-  lineHeightMultiple: number
-  rowSpacingMultiple: number
-  isFullScreen: boolean
-  isDarkMode: boolean
-  textColor: Color
-  accentColor: Color
-  backgroundColor: Color
+  /** Theme font  */
+  themeFont: Font
+  /** Theme text color  */
+  themeTextColor: Color
+  /** Theme accent color  */
+  themeAccentColor: Color
+  /** Theme background color  */
+  themeBackgroundColor: Color
+  /** Theme line height multiple  */
+  themeLineHeightMultiple: number
+  /** Theme row spacing multiple  */
+  themeRowSpacingMultiple: number
+  /** Focus mode setting  */
   focusMode?: FocusMode
-  /** 0-1 value representing y-postion in viewport that will be scrolled to  */
+  /** Typewriter mode setting (0-1)  */
   typewriterMode?: number
+  /** Wrap to column setting  */
+  wrapToColumn?: number
+  /** Show caret line setting  */
   showCaretLine: boolean
+  /** Show guide lines setting  */
   showGuideLines: boolean
+  /** Hide controls when typing setting  */
   hideControlsWhenTyping: boolean
+  /** Cache for values derived from this editor state */
+  userCache: Map<string, any>
 }
 
 type FocusMode = 'paragraph' | 'sentence' | 'word'
@@ -158,6 +228,8 @@ interface RowStyle extends DecorationContainer {
   text: TextStyle
 }
 
+//either move opacity to textstyle (best I think) or move scale to RowStyle
+
 /**
  * TextStyle - The style for row text.
  */
@@ -176,11 +248,14 @@ interface TextRunStyle extends TextContainer {
   readonly scale: number
 
   /**
-   * Attachment size. Ignored unless text run contains a singel attatchment
-   * character. Frontmostly only used when implementing hr's.
+   * Attachment size.
    *
-   * 0-1 percent of line width. >1 fixed size (defaults 1) 0-1 percent of line
-   * height. >1 fixed size (defaults 1)
+   * Ignored unless text run contains a single attatchment character. Currently
+   * only used when implementing hr's. The size values are interpreted based on
+   * the range of the value (default 1):
+   *
+   * 1. 0-1: Interpreted as a percentage of line width/height.
+   * 2. > 1: Interpreted as a fixed point size.
    */
   attachmentSize: Size
 }
@@ -263,12 +338,12 @@ interface DecorationContainer {
 }
 
 /**
- * Decoration - Add visual decoration's to outline.
+ * Decoration - Add visual decorations to outline.
  *
- * Decorations are used to draw visuals that are attached to a row or text run.
- * They can have a background color, border, and corner radius. They can also
- * have image content. Decorations do not effect layout, you need to make space
- * for them using row and text padding and margins.
+ * Decorations are used to add visual attachements to a row, row text, or row
+ * text run. They can have a background color, border, and corner radius. They
+ * can also have image content. Decorations do not effect layout, you need to
+ * make space for them using row and text padding and margins.
  *
  * Decorations closely wrap a `CALayer`. Look into the `CALayer` documentation
  * for more information on possiblilities.
@@ -302,10 +377,15 @@ interface Decoration {
   width: LayoutValue
   /** The height value (default fill container) */
   height: LayoutValue
-
-  // Transitions?
-  // Animations?
+  /**
+   * The transition to use when modifying a specific decoration property.
+   */
+  transitions: {
+    color: boolean
+  }
 }
+
+type DecorationPropertyTransition = {}
 
 // Action - NOT WORKING YET!
 type Action = 'toggle-fold' | 'toggle-done' | 'toggle-focus'

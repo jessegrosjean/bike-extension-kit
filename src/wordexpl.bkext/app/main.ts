@@ -1,8 +1,7 @@
-import { AppExtensionContext, Window, InspectorItem, DOMScriptHandle } from '@app'
+import { AppExtensionContext, Window, DOMScriptHandle } from '@app'
 
 export async function activate(context: AppExtensionContext) {
   bike.observeWindows(async (window: Window) => {
-    console.log('Window opened!!!')
     const synonymsHandle = await window.inspector.addItem({
       id: 'bike:synonyms',
       name: 'synonyms-view.js',

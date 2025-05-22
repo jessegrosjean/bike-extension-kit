@@ -105,7 +105,8 @@ type SelectionCommon = {
 
 type SelectionTypeDetail =
   | {
-      /** A collapsed blinking caret selection */ type: 'caret'
+      /** A collapsed blinking caret selection */
+      type: 'caret'
       detail: {
         /** Character offset in headRow */
         char: number
@@ -122,7 +123,8 @@ type SelectionTypeDetail =
       }
     }
   | {
-      /** A text range selection within a single row */ type: 'text'
+      /** A text range selection within a single row */
+      type: 'text'
       detail: {
         /** Character range of the selection in the headRow */
         range: Range
@@ -135,7 +137,8 @@ type SelectionTypeDetail =
       }
     }
   | {
-      /** A block selection over one or more rows */ type: 'block'
+      /** A block selection over one or more rows */
+      type: 'block'
       detail: {
         /** The head row of the selection */
         headRow: Row

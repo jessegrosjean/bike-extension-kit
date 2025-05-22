@@ -9,32 +9,74 @@ import {
   Path,
   Point,
   Shape,
+  SymbolConfiguration,
 } from '@style'
 
 /**
- * This OutlineStyle dynamically computes font size, and also derives some new
- * settings values. So instead of accessing `editor.settings` this outline style
- * uses `computeSettings`.
+ * This function computes/caches values derived from `Editor` state. Bike styles
+ * should use `editor` values where appropriate to the style, but it's also
+ * useful to adjust those values in some cases.
  *
- * For example when `wrapToColumn` is set the font may be scaled to fit nicely
- * into the current viewport width.
+ * For example, consider the case where the editor is wrapping text to a
+ * specific column (`wrapToColumn`) while displaying in a large viewport. In
+ * that case we can end up with a tiny column of text in the center of a large
+ * viewport. This function detects that case and dynamically scales the user's
+ * choosen font to better fill the viewport, while maintaining the user's
+ * `wrapToColumn` setting.
  *
- * These computed settings are cached in the editor. The cache is cleared when
- * any editor state changes such as viewport size or isTyping, etc.
+ * This function also caches derived values for performance and ease of use. For
+ * example there is no user setting for `guideColor`, but that value is needed
+ * by this outline style. Instead of hard coding a value, this function creates
+ * the guide color by combining various values from the editor state.
+ *
+ * This function is not a required part of an outline style, but I think it's a
+ * useful pattern, especially for more complex outline styles that try to work
+ * under a variety of conditions.
  *
  * @param editor
- * @returns The computed settings for the editor
+ * @returns The computed values derived from the editor
  */
-export function computeSettings(editor: Editor): Settings {
-  if (editor.userCache.has('settings')) {
-    return editor.userCache.get('settings')
+export function computeValues(editor: Editor): {
+  font: Font
+  wrapToColumn: number | undefined
+  lineHeightMultiple: number
+  rowSpacingMultiple: number
+  isFullScreen: boolean
+  isDarkMode: boolean
+  textColor: Color
+  accentColor: Color
+  backgroundColor: Color
+  focusMode: FocusMode | undefined
+  typewriterMode: number | undefined
+  showCaretLine: boolean
+  showGuideLines: boolean
+  hideControlsWhenTyping: boolean
+  fontAttributes: FontAttributes
+  indent: number
+  uiScale: number
+  rowPadding: Insets
+  rowTextMargin: Insets
+  rowTextPadding: Insets
+  viewportPadding: Insets
+  selectionColor: Color
+  blockSelectionColor: Color
+  handleColor: Color
+  guideColor: Color
+  separatorColor: Color
+  secondaryControlColor: Color
+  secondaryControlAlpha: number
+  handleImage: Image
+  outlineFocusAlpha: number
+  textFocusAlpha: number
+} {
+  if (editor.userCache.has('values')) {
+    return editor.userCache.get('values')
   }
 
-  let settings = editor.settings
-  let font = settings.font
+  let font = editor.themeFont
   let viewportSize = editor.viewportSize
-  let typewriterMode = settings.typewriterMode
-  let wrapToColumn = settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let typewriterMode = editor.typewriterMode
+  let wrapToColumn = editor.wrapToColumn ?? Number.MAX_SAFE_INTEGER
   let geometry = computeGeometryForFont(font, editor)
 
   if (wrapToColumn == 0 || wrapToColumn == Number.MAX_SAFE_INTEGER) {
@@ -74,7 +116,7 @@ export function computeSettings(editor: Editor): Settings {
     if (typewriterMode) {
       geometry.viewportPadding.top = viewportSize.height * typewriterMode
     } else {
-      let lineHeight = geometry.fontAttributes.pointSize * settings.lineHeightMultiple
+      let lineHeight = geometry.fontAttributes.pointSize * editor.themeLineHeightMultiple
       if (rowWrapWidth + lineHeight * 64 < viewportSize.width) {
         geometry.viewportPadding.top = lineHeight * 8
       } else if (rowWrapWidth + lineHeight * 32 < viewportSize.width) {
@@ -88,10 +130,10 @@ export function computeSettings(editor: Editor): Settings {
   }
 
   let uiScale = geometry.uiScale
-  let textColor = settings.textColor
+  let textColor = editor.themeTextColor
   let handleColor = textColor
-  let backgroundColor = settings.backgroundColor
-  let secondaryControlAlpha = settings.isDarkMode ? 0.175 : 0.075
+  let backgroundColor = editor.themeBackgroundColor
+  let secondaryControlAlpha = editor.isDarkMode ? 0.175 : 0.075
   let secondaryControlColor = textColor.withAlpha(secondaryControlAlpha)
   let guideColor = textColor.withAlpha(secondaryControlAlpha / 2)
   let selectionColor = editor.isKey
@@ -112,24 +154,22 @@ export function computeSettings(editor: Editor): Settings {
   handleShape.fill.color = handleColor
   handleShape.line.width = 0
   let handleImage = Image.fromShape(handleShape)
-  let computedSettings: Settings = {
-    // User settings
-    font: font,
-    wrapToColumn: settings.wrapToColumn,
-    lineHeightMultiple: settings.lineHeightMultiple,
-    rowSpacingMultiple: settings.rowSpacingMultiple,
-    isFullScreen: settings.isFullScreen,
-    isDarkMode: settings.isDarkMode,
-    textColor: textColor,
-    accentColor: settings.accentColor,
-    backgroundColor: settings.backgroundColor,
-    focusMode: settings.focusMode,
-    typewriterMode: settings.typewriterMode,
-    showCaretLine: settings.showCaretLine,
-    showGuideLines: settings.showGuideLines,
-    hideControlsWhenTyping: settings.hideControlsWhenTyping,
 
-    // Extra computed settings
+  let values = {
+    font: font,
+    wrapToColumn: editor.wrapToColumn,
+    lineHeightMultiple: editor.themeLineHeightMultiple,
+    rowSpacingMultiple: editor.themeRowSpacingMultiple,
+    isFullScreen: editor.isFullScreen,
+    isDarkMode: editor.isDarkMode,
+    textColor: textColor,
+    accentColor: editor.themeAccentColor,
+    backgroundColor: editor.themeBackgroundColor,
+    focusMode: editor.focusMode,
+    typewriterMode: editor.typewriterMode,
+    showCaretLine: editor.showCaretLine,
+    showGuideLines: editor.showGuideLines,
+    hideControlsWhenTyping: editor.hideControlsWhenTyping,
     fontAttributes: geometry.fontAttributes,
     indent: geometry.indent,
     uiScale: uiScale,
@@ -145,60 +185,34 @@ export function computeSettings(editor: Editor): Settings {
     secondaryControlColor: secondaryControlColor,
     secondaryControlAlpha: secondaryControlAlpha,
     handleImage: handleImage,
-    outlineFocusAlpha: 0.15,
+    outlineFocusAlpha: 0.0,
     textFocusAlpha: 0.15,
   }
 
-  editor.userCache.set('settings', computedSettings)
+  editor.userCache.set('values', values)
 
-  return computedSettings
+  return values
 }
 
-type Settings = {
-  // User settings
-  font: Font
-  wrapToColumn: number | undefined
-  lineHeightMultiple: number
-  rowSpacingMultiple: number
-  isFullScreen: boolean
-  isDarkMode: boolean
-  textColor: Color
-  accentColor: Color
-  backgroundColor: Color
-  focusMode: FocusMode | undefined
-  typewriterMode: number | undefined
-  showCaretLine: boolean
-  showGuideLines: boolean
-  hideControlsWhenTyping: boolean
-
-  // Extra computed settings
-  fontAttributes: FontAttributes
-  indent: number
+function computeGeometryForFont(
+  font: Font,
+  editor: Editor
+): {
   uiScale: number
+  indent: number
   rowPadding: Insets
   rowTextMargin: Insets
   rowTextPadding: Insets
+  rowWrapWidth: number
   viewportPadding: Insets
-  selectionColor: Color
-  blockSelectionColor: Color
-  handleColor: Color
-  guideColor: Color
-  separatorColor: Color
-  secondaryControlColor: Color
-  secondaryControlAlpha: number
-  handleImage: Image
-  outlineFocusAlpha: 0.15
-  textFocusAlpha: 0.15
-}
-
-function computeGeometryForFont(font: Font, editor: Editor): ThemeGeometry {
-  let settings = editor.settings
+  fontAttributes: FontAttributes
+} {
   let viewportSize = editor.viewportSize
   let fontAttributes = font.resolve(editor)
   let pointSize = fontAttributes.pointSize
   let uiScale = pointSize / 14
   let indent = 22 * uiScale
-  let rowPaddingBase = settings.rowSpacingMultiple * pointSize * uiScale
+  let rowPaddingBase = editor.themeRowSpacingMultiple * pointSize * uiScale
   let rowTextPaddingBase = 5 * uiScale
   let rowTextMarginBase = rowPaddingBase / 2
   let rowPadding = new Insets(rowPaddingBase, rowPaddingBase, rowPaddingBase, indent)
@@ -212,7 +226,7 @@ function computeGeometryForFont(font: Font, editor: Editor): ThemeGeometry {
     10 * uiScale
   )
 
-  let wrapToColumn = settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let wrapToColumn = editor.wrapToColumn ?? Number.MAX_SAFE_INTEGER
   let rowWrapWidth = Number.MAX_SAFE_INTEGER
 
   if (wrapToColumn > 0 && wrapToColumn < Number.MAX_SAFE_INTEGER) {
@@ -233,13 +247,7 @@ function computeGeometryForFont(font: Font, editor: Editor): ThemeGeometry {
   }
 }
 
-type ThemeGeometry = {
-  uiScale: number
-  indent: number
-  rowPadding: Insets
-  rowTextMargin: Insets
-  rowTextPadding: Insets
-  rowWrapWidth: number
-  viewportPadding: Insets
-  fontAttributes: FontAttributes
+export function symbolImage(name: string, color: Color, font: Font): Image {
+  let symbol = new SymbolConfiguration(name).withHierarchicalColor(color).withFont(font)
+  return Image.fromSymbol(symbol)
 }

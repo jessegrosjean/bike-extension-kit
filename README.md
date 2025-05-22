@@ -126,7 +126,7 @@ purpose and environment:
 - Import @style context API using `import { SYMBOL } from '@style'`.
 - [@style context API documentation](https://github.com/jessegrosjean/bike-extension-api/tree/main/style).
 
-> ✅ Each folder contains a `tsconfig.json` file to enable type checking.  
+> ✅ Each folder contains a `tsconfig.json` file to enable proper type checking.  
 > 🗂 Each context corresponds to an extension subfolder. Delete unused folders.  
 > ☎️ @app and @dom from the same extension can communicate using `postMessage`.
 
