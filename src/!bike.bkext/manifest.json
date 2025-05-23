@@ -1,10 +1,10 @@
 {
-  "id": "calendar",
-  "name": "calendar",
+  "id": "bike",
+  "name": "bike",
   "version": "0.0.0",
   "minAppVersion": "0.0.0",
   "enabled": true,
-  "install": false,
+  "install": true,
   "app_context_inspectable": true,
   "permissions": [],
   "host_permissions": []

@@ -11,6 +11,12 @@ process, and best practices.
 - TODO: Walkthrough setup
 - TODO: Walkthrough extension development
 
+TODO: Consistent UI
+
+Looking at Ant. Maybe wrap the components that I think will be useful...
+Calendar, collapsible and only reexport those ones? Or wrap them in Bike
+specific components?
+
 ## Getting Started
 
 This requires that you have `git` and `node.js` installed.
@@ -57,20 +63,29 @@ extensions-folder
 
 The `manifest.json` file is required, and is the entry point of each extension.
 The (app, dom, style) subfolders are optional and correspond to different
-contexts where your extension can contribute code.
+contexts where your extension can contribute code. Extensions must be built and
+installed before they can be used in Bike.
 
-Extensions must be built before Bike can load them. This kit builds all
-extensions in the kit at once, and then installs them where Bike will find and
-reload them.
-
-There two ways to build extensions:
+### Build extensions:
 
 1. **Build**: To build extensions once in an optimized form use the `npm run
 build` command.
 
 2. **Watch**: To rebuild the extensions anytime you save changes to `src` use
-   the `npm run watch` command. This can be very useful for development. Save
-   changes and see the results immediately in Bike.
+   the `npm run watch` command.
+
+The build process places the built extensions in the `./out` folder.
+
+### Install extensions:
+
+You must install a built extension before it can be used in Bike.
+
+To install an extension copy it to Bike's Extensions folder. You can do this
+manually, or you can set the `install` flag in the extension's `manifest.json`
+file to `true`. When you do that the build process will copy the extension to
+Bike's Extensions folder after each build.
+
+### Create extensions:
 
 To create a new extension, copy an existing extension folder and rename or use
 this kit's new command to create the right folder structure:
@@ -79,7 +94,7 @@ this kit's new command to create the right folder structure:
 npm run new
 ```
 
-### Updates
+## Updates
 
 This kit will change over time:
 

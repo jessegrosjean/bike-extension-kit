@@ -54,7 +54,7 @@ declare function defineOutlineStyle(id: string, displayName: string): OutlineSty
  *   is applied to all outline styles.
  */
 declare function defineOutlineStyleModifier(
-  id: string,
+  id: OutlineStyleId,
   name: string,
   matchingOutlineStyleIds?: RegExp
 ): OutlineStyle
@@ -107,10 +107,29 @@ export interface OutlineStyle {
        * outline style, by convention it is defined in the base layer.
        * @param apply - Function to modify the viewport style.
        */
-      viewport: (apply: (editor: Editor, viewport: ViewportStyle) => void) => void
+      viewport: (apply: (editor: Editor, viewport: ViewportStyle) => void) => void,
+      /**
+       * Include rules from another outline style layer.
+       *
+       * For example, you might want to `include('bike', 'run-formatting')` to
+       * add the standard run formatting rules. This saves typing and means
+       * you'll get updated run-formatting rules when the standard Bike style
+       * changes.
+       *
+       * The includes added immediately and won't contain any rules added later
+       * by modifiers. Expectation is you will only include rules from the
+       * standard `bike` outline style, or some future standard style that also
+       * ships with Bike.
+       *
+       * @param fromId Outline style id to import from
+       * @param fromLayer The rules layer to import
+       */
+      include: (fromId: OutlineStyleId, fromLayer: RulesLayerName) => void
     ) => void
   ): void
 }
+
+type OutlineStyleId = string
 
 /**
  * RulesLayerName - The name of a rules layer.
@@ -137,6 +156,8 @@ type RulesLayerName =
  * them. Anytime editor state changes the `userCache` is also invalidated.
  */
 interface Editor {
+  /** Ordered row index being styled  */
+  orderedIndex?: number
   /** True when editor has keyboard focus  */
   isKey: boolean
   /** True when editor is typing (mouse hidden)  */
@@ -149,34 +170,42 @@ interface Editor {
   isFullScreen: boolean
   /** Size of the editor's viewport  */
   viewportSize: Size
-  /** Ordered row index  */
-  orderedIndex?: number
+  /** Editor Theme  */
+  theme: EditorTheme
+  /** Editor Settings  */
+  settings: EditorSettings
+  /** Cache for values derived from this editor state */
+  userCache: Map<string, any>
+}
+
+interface EditorTheme {
   /** Theme font  */
-  themeFont: Font
+  font: Font
   /** Theme text color  */
-  themeTextColor: Color
+  textColor: Color
   /** Theme accent color  */
-  themeAccentColor: Color
+  accentColor: Color
   /** Theme background color  */
-  themeBackgroundColor: Color
+  backgroundColor: Color
   /** Theme line height multiple  */
-  themeLineHeightMultiple: number
+  lineHeightMultiple: number
   /** Theme row spacing multiple  */
-  themeRowSpacingMultiple: number
+  rowSpacingMultiple: number
+  /** Show caret line setting  */
+  showCaretLine: boolean
+  /** Show guide lines setting  */
+  showGuideLines: boolean
+}
+
+interface EditorSettings {
   /** Focus mode setting  */
   focusMode?: FocusMode
   /** Typewriter mode setting (0-1)  */
   typewriterMode?: number
   /** Wrap to column setting  */
   wrapToColumn?: number
-  /** Show caret line setting  */
-  showCaretLine: boolean
-  /** Show guide lines setting  */
-  showGuideLines: boolean
   /** Hide controls when typing setting  */
   hideControlsWhenTyping: boolean
-  /** Cache for values derived from this editor state */
-  userCache: Map<string, any>
 }
 
 type FocusMode = 'paragraph' | 'sentence' | 'word'

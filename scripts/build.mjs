@@ -3,6 +3,7 @@ import fastGlob from 'fast-glob'
 import esbuild from 'esbuild'
 import process from 'process'
 import path from 'path'
+import os from 'os'
 import fs from 'fs'
 
 const outdir = './out'
@@ -23,10 +24,10 @@ const context = await esbuild.context({
     'src/**/dom/*.tsx',
   ],
   external: ['@app', '@dom', '@style', 'react', 'react-dom', 'react/jsx-runtime'],
-  plugins: [copyManifestPlugin(outdir), typecheckTSConfigPlugin()],
+  plugins: [copyManifestPlugin(outdir), typecheckTSConfigPlugin(), installExtensionPlugin()],
   format: 'cjs',
   logLevel: 'info',
-  sourcemap: prod ? false : 'inline',
+  sourcemap: prod ? 'external' : 'inline',
   treeShaking: true,
   outdir: outdir,
   outbase: 'src',
@@ -35,7 +36,16 @@ const context = await esbuild.context({
   keepNames: true,
 })
 
-export function copyManifestPlugin(outdir) {
+if (prod) {
+  await context.rebuild()
+  process.exit(0)
+} else {
+  await context.watch()
+}
+
+// Plugins
+
+function copyManifestPlugin(outdir) {
   let pattern = 'src/**/manifest.json'
   return {
     name: 'copy-manifest.json',
@@ -52,7 +62,7 @@ export function copyManifestPlugin(outdir) {
   }
 }
 
-export function typecheckTSConfigPlugin() {
+function typecheckTSConfigPlugin() {
   let pattern = 'src/**/**/tsconfig.json'
   return {
     name: 'typecheck-tsconfig.json',
@@ -67,11 +77,40 @@ export function typecheckTSConfigPlugin() {
   }
 }
 
-if (prod) {
-  await context.rebuild()
-  process.exit(0)
-} else {
-  await context.watch()
+function installExtensionPlugin() {
+  return {
+    name: 'install-extension',
+    setup(build) {
+      build.onEnd(async () => {
+        const extensionsPath = path.join(
+          os.homedir(),
+          'Library/Containers/com.hogbaysoftware.Bike/Data/Library/Application Support/Bike/Extensions'
+        )
+        const files = await fastGlob('out/**/manifest.json')
+        for (const manifestFile of files) {
+          const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf-8'))
+          if (manifest.install == true) {
+            let extensionDir = path.dirname(manifestFile)
+            let extensionName = path.basename(extensionDir)
+            let srcPath = path.join(process.cwd(), extensionDir)
+            let destPath = path.join(extensionsPath, extensionName)
+
+            try {
+              if (fs.existsSync(destPath)) {
+                fs.rmSync(destPath, { recursive: true, force: true })
+              }
+              fs.mkdirSync(destPath, { recursive: true })
+              fs.cpSync(srcPath, destPath, { recursive: true })
+              console.log(`Installed extension: ${extensionName}`)
+            } catch (error) {
+              console.error(`Failed to install extension: ${extensionName}`)
+              console.error(error)
+            }
+          }
+        }
+      })
+    },
+  }
 }
 
 /*

@@ -73,10 +73,10 @@ export function computeValues(editor: Editor): {
     return editor.userCache.get('values')
   }
 
-  let font = editor.themeFont
+  let font = editor.theme.font
   let viewportSize = editor.viewportSize
-  let typewriterMode = editor.typewriterMode
-  let wrapToColumn = editor.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let typewriterMode = editor.settings.typewriterMode
+  let wrapToColumn = editor.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
   let geometry = computeGeometryForFont(font, editor)
 
   if (wrapToColumn == 0 || wrapToColumn == Number.MAX_SAFE_INTEGER) {
@@ -116,7 +116,7 @@ export function computeValues(editor: Editor): {
     if (typewriterMode) {
       geometry.viewportPadding.top = viewportSize.height * typewriterMode
     } else {
-      let lineHeight = geometry.fontAttributes.pointSize * editor.themeLineHeightMultiple
+      let lineHeight = geometry.fontAttributes.pointSize * editor.theme.lineHeightMultiple
       if (rowWrapWidth + lineHeight * 64 < viewportSize.width) {
         geometry.viewportPadding.top = lineHeight * 8
       } else if (rowWrapWidth + lineHeight * 32 < viewportSize.width) {
@@ -130,9 +130,9 @@ export function computeValues(editor: Editor): {
   }
 
   let uiScale = geometry.uiScale
-  let textColor = editor.themeTextColor
+  let textColor = editor.theme.textColor
   let handleColor = textColor
-  let backgroundColor = editor.themeBackgroundColor
+  let backgroundColor = editor.theme.backgroundColor
   let secondaryControlAlpha = editor.isDarkMode ? 0.175 : 0.075
   let secondaryControlColor = textColor.withAlpha(secondaryControlAlpha)
   let guideColor = textColor.withAlpha(secondaryControlAlpha / 2)
@@ -157,19 +157,19 @@ export function computeValues(editor: Editor): {
 
   let values = {
     font: font,
-    wrapToColumn: editor.wrapToColumn,
-    lineHeightMultiple: editor.themeLineHeightMultiple,
-    rowSpacingMultiple: editor.themeRowSpacingMultiple,
+    wrapToColumn: editor.settings.wrapToColumn,
+    lineHeightMultiple: editor.theme.lineHeightMultiple,
+    rowSpacingMultiple: editor.theme.rowSpacingMultiple,
     isFullScreen: editor.isFullScreen,
     isDarkMode: editor.isDarkMode,
     textColor: textColor,
-    accentColor: editor.themeAccentColor,
-    backgroundColor: editor.themeBackgroundColor,
-    focusMode: editor.focusMode,
-    typewriterMode: editor.typewriterMode,
-    showCaretLine: editor.showCaretLine,
-    showGuideLines: editor.showGuideLines,
-    hideControlsWhenTyping: editor.hideControlsWhenTyping,
+    accentColor: editor.theme.accentColor,
+    backgroundColor: editor.theme.backgroundColor,
+    focusMode: editor.settings.focusMode,
+    typewriterMode: editor.settings.typewriterMode,
+    showCaretLine: editor.theme.showCaretLine,
+    showGuideLines: editor.theme.showGuideLines,
+    hideControlsWhenTyping: editor.settings.hideControlsWhenTyping,
     fontAttributes: geometry.fontAttributes,
     indent: geometry.indent,
     uiScale: uiScale,
@@ -212,7 +212,7 @@ function computeGeometryForFont(
   let pointSize = fontAttributes.pointSize
   let uiScale = pointSize / 14
   let indent = 22 * uiScale
-  let rowPaddingBase = editor.themeRowSpacingMultiple * pointSize * uiScale
+  let rowPaddingBase = editor.theme.rowSpacingMultiple * pointSize * uiScale
   let rowTextPaddingBase = 5 * uiScale
   let rowTextMarginBase = rowPaddingBase / 2
   let rowPadding = new Insets(rowPaddingBase, rowPaddingBase, rowPaddingBase, indent)
@@ -226,7 +226,7 @@ function computeGeometryForFont(
     10 * uiScale
   )
 
-  let wrapToColumn = editor.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let wrapToColumn = editor.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
   let rowWrapWidth = Number.MAX_SAFE_INTEGER
 
   if (wrapToColumn > 0 && wrapToColumn < Number.MAX_SAFE_INTEGER) {

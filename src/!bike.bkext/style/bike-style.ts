@@ -3,7 +3,7 @@ import { computeValues, symbolImage } from './util'
 
 let style = defineOutlineStyle('bike', 'Bike (default)')
 
-style.layer('base', (row, run, caret, viewport) => {
+style.layer('base', (row, run, caret, viewport, include) => {
   viewport((editor, viewport) => {
     let values = computeValues(editor)
     viewport.padding = values.viewportPadding
@@ -88,7 +88,7 @@ style.layer('base', (row, run, caret, viewport) => {
   })
 })
 
-style.layer('row-formatting', (row, run, caret, viewport) => {
+style.layer('row-formatting', (row, run, caret, viewport, include) => {
   row(`.heading`, (editor, row) => {
     row.text.font = row.text.font.withBold()
   })
@@ -179,7 +179,7 @@ style.layer('row-formatting', (row, run, caret, viewport) => {
   })
 })
 
-style.layer(`run-formatting`, (row, run, caret, viewport) => {
+style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
   run('.@emphasized', (editor, text) => {
     text.font = text.font.withItalics()
   })
@@ -258,7 +258,7 @@ style.layer(`run-formatting`, (row, run, caret, viewport) => {
   })
 })
 
-style.layer('controls', (row, run, caret, viewport) => {
+style.layer('controls', (row, run, caret, viewport, include) => {
   row(`.parent() = true`, (editor, row) => {
     let values = computeValues(editor)
     row.text.decoration('focus', (focus, layout) => {
@@ -309,7 +309,7 @@ style.layer('controls', (row, run, caret, viewport) => {
   })
 })
 
-style.layer('selection', (row, run, caret, viewport) => {
+style.layer('selection', (row, run, caret, viewport, include) => {
   row(`.selection() = block`, (editor, row) => {
     let values = computeValues(editor)
     row.text.decoration('background', (background, _) => {
@@ -330,7 +330,7 @@ style.layer('selection', (row, run, caret, viewport) => {
   })
 })
 
-style.layer('outline-focus', (row, run, caret, viewport) => {
+style.layer('outline-focus', (row, run, caret, viewport, include) => {
   row(`.focused-branch() = false`, (editor, row) => {
     let values = computeValues(editor)
     row.opacity = values.outlineFocusAlpha
@@ -355,7 +355,7 @@ style.layer('outline-focus', (row, run, caret, viewport) => {
   })
 })
 
-style.layer('text-focus', (row, run, caret, viewport) => {
+style.layer('text-focus', (row, run, caret, viewport, include) => {
   row(`.*`, (editor, row) => {
     let values = computeValues(editor)
     if (values.focusMode) {
@@ -428,7 +428,7 @@ style.layer('text-focus', (row, run, caret, viewport) => {
   })
 })
 
-style.layer('filter-match', (row, run, caret, viewport) => {
+style.layer('filter-match', (row, run, caret, viewport, include) => {
   row(`.filter-match() = false`, (editor, row) => {
     if (editor.isFiltering) {
       row.text.scale = 0.25

@@ -1,3 +1,5 @@
+// JESSE SAYS: NOT SETUP OR WORKING YET
+
 import * as td from 'typedoc'
 
 // Application.bootstrap also exists, which will not load plugins

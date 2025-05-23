@@ -2,7 +2,7 @@ import { Color, Image, SymbolConfiguration, defineOutlineStyle, Insets, Font } f
 
 let style = defineOutlineStyle('plain', 'Plain')
 
-style.layer('base', (row, run, caret, viewport) => {
+style.layer('base', (row, run, caret, viewport, include) => {
   row(`.*`, (editor, row) => {
     row.padding = new Insets(10, 10, 10, 28)
 
@@ -19,7 +19,7 @@ style.layer('base', (row, run, caret, viewport) => {
   })
 })
 
-style.layer('row-formatting', (row, run, caret, viewport) => {
+style.layer('row-formatting', (row, run, caret, viewport, include) => {
   row(`.@type = task`, (env, row) => {
     row.text.decoration('mark', (mark, layout) => {
       let lineHeight = layout.firstLine.height
@@ -48,17 +48,11 @@ style.layer('row-formatting', (row, run, caret, viewport) => {
   })
 })
 
-style.layer('run-formatting', (row, run, caret, viewport) => {
-  run(`.@strong`, (env, run) => {
-    run.font = run.font.withBold()
-  })
-
-  run(`.@emphasized`, (env, run) => {
-    run.font = run.font.withItalics()
-  })
+style.layer('run-formatting', (row, run, caret, viewport, include) => {
+  include('bike', 'run-formatting')
 })
 
-style.layer('selection', (row, run, caret, viewport) => {
+style.layer('selection', (row, run, caret, viewport, include) => {
   run(`.@view-selected-range`, (env, run) => {
     run.decoration('selection', (selection, layout) => {
       selection.zPosition = 1
