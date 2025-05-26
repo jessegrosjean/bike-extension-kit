@@ -18,5 +18,10 @@ export async function activate(context: AppExtensionContext) {
       ordering: { section: 'actions' },
       action: 'calendar:today',
     })
+
+    const synonymsHandle = await window.inspector.addItem({
+      id: 'calendar:calendar',
+      name: 'Calendar.js',
+    })
   })
 }

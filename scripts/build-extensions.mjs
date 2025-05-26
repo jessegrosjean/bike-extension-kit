@@ -1,3 +1,4 @@
+import externalGlobalPlugin from 'esbuild-plugin-external-global'
 import { typecheck } from './typecheck.mjs'
 import fastGlob from 'fast-glob'
 import esbuild from 'esbuild'
@@ -6,7 +7,7 @@ import path from 'path'
 import os from 'os'
 import fs from 'fs'
 
-const outdir = './out'
+const outdir = './out/extensions'
 
 console.log(`Building to directory: ${outdir}\n`)
 
@@ -23,17 +24,29 @@ const context = await esbuild.context({
     'src/**/dom/*.ts',
     'src/**/dom/*.tsx',
   ],
-  external: ['@app', '@dom', '@style', 'react', 'react-dom', 'react/jsx-runtime'],
-  plugins: [copyManifestPlugin(outdir), typecheckTSConfigPlugin(), installExtensionPlugin()],
-  format: 'cjs',
-  logLevel: 'info',
-  sourcemap: prod ? 'external' : 'inline',
-  treeShaking: true,
+  external: ['@app', '@dom', '@style', 'react', 'react-dom'],
+  plugins: [
+    externalGlobalPlugin.externalGlobalPlugin({
+      react: 'window.React',
+      'react-dom': 'window.ReactDOM',
+      'react-dom/client': 'window.ReactDOMClient',
+      'react/jsx-runtime': 'window.ReactJSXRuntime',
+    }),
+    copyManifestPlugin(outdir),
+    typecheckTSConfigPlugin(),
+    installExtensionPlugin(),
+  ],
+
+  format: 'iife',
+  globalName: 'extensionExports',
+  //logLevel: 'info',
+  //sourcemap: prod ? 'external' : 'inline',
+  //treeShaking: true,
   outdir: outdir,
   outbase: 'src',
   bundle: true,
   minify: prod,
-  keepNames: true,
+  //keepNames: true,
 })
 
 if (prod) {
@@ -86,7 +99,7 @@ function installExtensionPlugin() {
           os.homedir(),
           'Library/Containers/com.hogbaysoftware.Bike/Data/Library/Application Support/Bike/Extensions'
         )
-        const files = await fastGlob('out/**/manifest.json')
+        const files = await fastGlob('out/extensions/**/manifest.json')
         for (const manifestFile of files) {
           const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf-8'))
           if (manifest.install == true) {

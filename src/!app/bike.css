@@ -1,0 +1,47 @@
+body {
+  font: -apple-system-body;
+}
+
+h1 {
+  font: -apple-system-headline;
+}
+
+h2 {
+  font: -apple-system-subheadline;
+}
+
+.caption1 {
+  font: -apple-system-caption1;
+}
+
+.caption2 {
+  font: -apple-system-caption2;
+}
+
+.footnote {
+  font: -apple-system-footnote;
+}
+
+.short-body {
+  font: -apple-system-short-body;
+}
+
+.short-headline {
+  font: -apple-system-short-headline;
+}
+
+.short-subheadline {
+  font: -apple-system-short-subheadline;
+}
+
+.short-caption1 {
+  font: -apple-system-short-caption1;
+}
+
+.short-footnote {
+  font: -apple-system-short-footnote;
+}
+
+.tall-body {
+  font: -apple-system-tall-body;
+}

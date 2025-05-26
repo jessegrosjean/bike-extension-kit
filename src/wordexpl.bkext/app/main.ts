@@ -3,7 +3,7 @@ import { AppExtensionContext, Window, DOMScriptHandle } from '@app'
 export async function activate(context: AppExtensionContext) {
   bike.observeWindows(async (window: Window) => {
     const synonymsHandle = await window.inspector.addItem({
-      id: 'bike:synonyms',
+      id: 'word-explorer:synonyms',
       name: 'synonyms-view.js',
     })
 
