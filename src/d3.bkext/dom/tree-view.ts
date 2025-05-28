@@ -2,20 +2,20 @@ import { DOMExtensionContext } from '@dom'
 import * as d3 from 'd3'
 
 interface NodeData {
+  id: string
   name: string
   children?: NodeData[]
 }
 
 export function activate(context: DOMExtensionContext) {
   context.onmessage = (message: { type: string; data: NodeData }) => {
-    console.log('Received message:', message)
     if (message.type == 'load' && message.data) {
-      context.element.appendChild(generateTreeSVG(message.data))
+      context.element.appendChild(generateTreeSVG(message.data, context))
     }
   }
 }
 
-function generateTreeSVG(data: NodeData): any {
+function generateTreeSVG(data: NodeData, context: DOMExtensionContext): any {
   const hierarchyRoot = d3.hierarchy(data)
   const width = window.innerWidth
   const dx = 14
@@ -71,6 +71,19 @@ function generateTreeSVG(data: NodeData): any {
 
   node
     .append('text')
+    .style('cursor', 'default')
+    .on('mouseover', function (event) {
+      d3.select(this).style('text-decoration', 'underline')
+    })
+    .on('mouseout', function (event) {
+      d3.select(this).style('text-decoration', 'none')
+    })
+    .on('click', function (event, d) {
+      context.postMessage({
+        type: 'select',
+        id: d.data.id,
+      })
+    })
     .attr('dy', '0.31em')
     .attr('x', (d) => (d.children ? -6 : 6))
     .attr('text-anchor', (d) => (d.children ? 'end' : 'start'))

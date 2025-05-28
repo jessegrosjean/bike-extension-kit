@@ -4,22 +4,17 @@
 
 This is a kit for building **Bike 2** extensions.
 
-Set this kit up once. Then use it to easily modify existing extensions and to
-create your own. It provides a consistent development environment, build
-process, and best practices.
+Set this kit up once. Then use it to modify existing extensions and to create
+your own. It provides a consistent development environment, build process, and
+best practices.
 
 - TODO: Walkthrough setup
 - TODO: Walkthrough extension development
 
-TODO: Consistent UI
-
-Looking at Ant. Maybe wrap the components that I think will be useful...
-Calendar, collapsible and only reexport those ones? Or wrap them in Bike
-specific components?
-
 ## Getting Started
 
-This requires that you have `git` and `node.js` installed.
+This requires that you have `git` and `node.js` installed. It's also best tested
+with the VS Code editor, but you can use any editor that you like.
 
 1. Clone this repository (or download copy).
 
@@ -34,8 +29,14 @@ This requires that you have `git` and `node.js` installed.
    ```
 
 3. Create a build:
+
    ```sh
    npm run build
+   ```
+
+4. Or watch for changes and rebuild automatically:
+   ```sh
+   npm run watch
    ```
 
 You are now ready to start modifying or creating extensions.
@@ -74,16 +75,16 @@ build` command.
 2. **Watch**: To rebuild the extensions anytime you save changes to `src` use
    the `npm run watch` command.
 
-The build process places the built extensions in the `./out` folder.
+The build process places the built extensions in the `./out/extensions` folder.
 
 ### Install extensions:
 
-You must install a built extension before it can be used in Bike.
+You must install each built extension before it can be used in Bike.
 
 To install an extension copy it to Bike's Extensions folder. You can do this
 manually, or you can set the `install` flag in the extension's `manifest.json`
 file to `true`. When you do that the build process will copy the extension to
-Bike's Extensions folder after each build.
+Bike's Extensions folder after each successful build.
 
 ### Create extensions:
 
@@ -102,15 +103,15 @@ This kit will change over time:
 - New extensions will be added.
 - Existing extensions will be updated.
 
-To incorporate these changes into your local extension development use the
-following git command:
+To merge these changes into your local extension development use the following
+git command:
 
 ```sh
 git pull origin main
 ```
 
-If you have a generally useful extension that you would like to contribute back to
-this kit please open a pull request.
+If you have a useful extension that you would like to contribute back to this
+kit please open a pull request.
 
 ## Extension Development
 

@@ -33,7 +33,7 @@ export function monthCommand(): boolean {
 }
 
 export function todayCommand(): boolean {
-  let editor = bike.frontmostWindow?.outlineEditors[0]
+  let editor = bike.frontmostWindow?.currentOutlineEditor
   if (!editor) {
     return true
   }

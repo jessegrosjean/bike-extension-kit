@@ -42,7 +42,7 @@ async function main() {
         version: '0.0.0',
         minAppVersion: '0.0.0',
         enabled: true,
-        install: false,
+        install: true,
         app_context_inspectable: true,
         permissions: [],
         host_permissions: [],

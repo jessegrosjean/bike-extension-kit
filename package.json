@@ -8,10 +8,7 @@
     "new": "node scripts/new.mjs",
     "watch": "node scripts/build-extensions.mjs",
     "build": "node scripts/build-extensions.mjs production",
-    "watch-bike": "node scripts/build-bike.mjs",
-    "build-bike": "node scripts/build-bike.mjs production",
-    "checkapi": "node scripts/checkapi.mjs",
-    "build:apitypes": "tsc --declaration index.ts --emitDeclarationOnly --outDir ./dist"
+    "build-internals": "node scripts/build-internals.mjs production"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",

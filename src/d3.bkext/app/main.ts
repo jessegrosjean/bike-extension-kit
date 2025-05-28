@@ -39,7 +39,14 @@ function showD3Sheet(domScriptName: DOMScriptName): boolean {
         })
       }
       handle.onmessage = (message) => {
-        console.log(message)
+        let editor = window.currentOutlineEditor
+        if (editor && message.type === 'select') {
+          let row = editor.outline.getRowById(message.id)
+          if (row) {
+            editor.selectRows(row)
+          }
+        }
+        handle.dispose()
       }
     })
   }

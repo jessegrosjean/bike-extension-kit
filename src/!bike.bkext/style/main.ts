@@ -1,2 +1,2 @@
 import './bike-style'
-import './plain-style'
+import './tutorial-style'

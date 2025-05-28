@@ -1,6 +1,6 @@
 import { Color, Image, SymbolConfiguration, defineOutlineStyle, Insets, Font } from '@style'
 
-let style = defineOutlineStyle('plain', 'Plain')
+let style = defineOutlineStyle('tutorial', 'Tutorial')
 
 style.layer('base', (row, run, caret, viewport, include) => {
   row(`.*`, (editor, row) => {

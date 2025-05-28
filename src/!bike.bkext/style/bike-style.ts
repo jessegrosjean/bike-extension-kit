@@ -317,7 +317,7 @@ style.layer('selection', (row, run, caret, viewport, include) => {
     })
   })
 
-  run(`.@view-selected-range`, (editor, text) => {
+  run(`.@view-selected-range and not @view-marked-range`, (editor, text) => {
     let values = computeValues(editor)
     text.decoration('selection', (background, layout) => {
       background.zPosition = -2
@@ -327,6 +327,18 @@ style.layer('selection', (row, run, caret, viewport, include) => {
       background.y = layout.top
       background.color = values.selectionColor
     })
+  })
+
+  run(`.@view-selected-range and @view-marked-range`, (editor, text) => {
+    let values = computeValues(editor)
+    text.underline.thick = true
+    text.underline.color = values.accentColor
+  })
+
+  run(`.@view-marked-range`, (editor, text) => {
+    let values = computeValues(editor)
+    text.underline.thick = true
+    text.underline.color = values.selectionColor
   })
 })
 

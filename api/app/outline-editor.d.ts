@@ -1,12 +1,4 @@
-import {
-  Affinity,
-  AttributedString,
-  Outline,
-  Range,
-  Row,
-  RowId,
-  TransactionOptions,
-} from './outline'
+import { Affinity, AttributedString, Outline, Range, Row, TransactionOptions } from './outline'
 import { OutlinePath } from '../core/outline-path'
 import { Disposable } from './system'
 import { View } from './bike'

@@ -39,14 +39,12 @@ const context = await esbuild.context({
 
   format: 'iife',
   globalName: 'extensionExports',
-  //logLevel: 'info',
-  //sourcemap: prod ? 'external' : 'inline',
-  //treeShaking: true,
+  sourcemap: prod ? 'external' : 'inline',
+  treeShaking: true,
   outdir: outdir,
   outbase: 'src',
   bundle: true,
   minify: prod,
-  //keepNames: true,
 })
 
 if (prod) {
@@ -125,10 +123,3 @@ function installExtensionPlugin() {
     },
   }
 }
-
-/*
-const parentDir = path.join(process.cwd(), "../");
-if (path.basename(parentDir) === 'Extensions') {
-    outdir = parentDir;
-}
-*/
