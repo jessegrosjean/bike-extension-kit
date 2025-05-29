@@ -48,7 +48,7 @@ Delete a folder to remove an extension. Add a folder to add a new extension.
 Each extension folder should have the following structure:
 
 ```
-extensions-folder
+extensions-folder.bkext
 ├── manifest.json
 ├── app (optional)
 │   └── main.ts
