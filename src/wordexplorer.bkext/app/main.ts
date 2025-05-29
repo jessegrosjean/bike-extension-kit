@@ -3,8 +3,8 @@ import { AppExtensionContext, Window, DOMScriptHandle } from '@app'
 export async function activate(context: AppExtensionContext) {
   bike.observeWindows(async (window: Window) => {
     const synonymsHandle = await window.inspector.addItem({
-      id: 'word-explorer:synonyms',
-      name: 'word-explorer-view.js',
+      id: 'word-explorer',
+      name: 'WordExplorer.js',
     })
 
     synonymsHandle.onmessage = (message: string) => {
@@ -30,11 +30,20 @@ export async function activate(context: AppExtensionContext) {
 
 async function fetchSynonymsAndPostToDOM(handle: DOMScriptHandle, word: string) {
   try {
-    const response = await fetch(`https://api.datamuse.com/words?rel_syn=${word}`)
-    const json = (await response.json()) as { word: string }[]
-    const synonyms = json.map((item) => item.word)
+    let [dictionaryJSON, synonymsJSON] = await Promise.all([
+      (await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)).json(),
+      (await fetch(`https://api.datamuse.com/words?rel_syn=${word}`)).json(),
+    ])
+
+    const normalizedWord = dictionaryJSON[0]?.word || word
+    const definitions =
+      dictionaryJSON[0]?.meanings?.flatMap((meaning: any) =>
+        meaning.definitions.map((definition: any) => definition.definition)
+      ) || []
+    const synonyms = (synonymsJSON as { word: string }[]).map((item) => item.word)
     handle.postMessage({
-      word: word,
+      word: normalizedWord,
+      definitions: definitions,
       synonyms: synonyms,
     })
   } catch (error) {
