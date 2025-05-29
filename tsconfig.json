@@ -1,4 +1,10 @@
 {
+  "files": [],
+  "references": [
+    { "path": "./configs/tsconfig.app.json" },
+    { "path": "./configs/tsconfig.dom.json" },
+    { "path": "./configs/tsconfig.style.json" }
+  ],
   "compilerOptions": {
     "lib": ["ESNext"],
     "allowJs": true,

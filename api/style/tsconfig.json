@@ -1,7 +1,6 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["ESNext"],
+    "lib": ["esnext"],
     "paths": {
       "@style": ["./index.d.ts"]
     }

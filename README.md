@@ -51,15 +51,12 @@ Each extension folder should have the following structure:
 extensions-folder
 ├── manifest.json
 ├── app (optional)
-│   ├── main.ts
-│   └── tsconfig.json
+│   └── main.ts
 ├── dom (optional)
 │   ├── view1.ts
-│   ├── view2.ts
-│   └── tsconfig.json
+│   └── view2.ts
 ├── style (optional)
-│   ├── main.ts
-│   └── tsconfig.json
+│   └── main.ts
 ```
 
 The `manifest.json` file is required, and is the entry point of each extension.
@@ -142,7 +139,6 @@ purpose and environment:
 - Import @style context API using `import { SYMBOL } from '@style'`.
 - [@style context API documentation](https://github.com/jessegrosjean/bike-extension-api/tree/main/style).
 
-> ✅ Each folder contains a `tsconfig.json` file to enable proper type checking.  
 > 🗂 Each context corresponds to an extension subfolder. Delete unused folders.  
 > ☎️ @app and @dom from the same extension can communicate using `postMessage`.
 
