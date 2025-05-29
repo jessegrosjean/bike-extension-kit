@@ -1,6 +1,6 @@
 # Bike Extension Kit
 
-🚧 **Work in Progress**
+🚧 **Work in Progress (Requires Bike 225 or later)**
 
 This is a kit for building **Bike 2** extensions.
 
