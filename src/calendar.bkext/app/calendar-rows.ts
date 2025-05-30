@@ -1,4 +1,4 @@
-import { Outline, Row } from '@app'
+import { Outline, Row } from 'bike/app'
 import { getDaysInMonth, getMonthsInYear, getDateComponents } from './util'
 
 export function getCalendarRow(outline: Outline): Row {

@@ -1,4 +1,4 @@
-import { Color, Text, Image, SymbolConfiguration, defineOutlineStyle } from '@style'
+import { Color, Text, Image, SymbolConfiguration, defineOutlineStyle } from 'bike/style'
 import { computeValues, symbolImage } from './util'
 
 let style = defineOutlineStyle('bike', 'Bike (default)')

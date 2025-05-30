@@ -10,7 +10,7 @@ import {
   Point,
   Shape,
   SymbolConfiguration,
-} from '@style'
+} from 'bike/style'
 
 /**
  * This function computes/caches values derived from `Editor` state. Bike styles

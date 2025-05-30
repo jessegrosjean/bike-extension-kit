@@ -1,4 +1,4 @@
-import { DOMExtensionContext } from '@dom'
+import { DOMExtensionContext } from 'bike/dom'
 import * as d3 from 'd3'
 
 interface NodeData {

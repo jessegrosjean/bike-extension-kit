@@ -1,4 +1,4 @@
-import { DOMExtensionContext } from '@dom'
+import { DOMExtensionContext } from 'bike/dom'
 import { createRoot } from 'react-dom/client'
 import { useState, useEffect } from 'react'
 

@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window, DOMScriptName, Row } from '@app'
+import { AppExtensionContext, Window, DOMScriptName, Row } from 'bike/app'
 
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({

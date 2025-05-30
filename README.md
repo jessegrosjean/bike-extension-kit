@@ -66,17 +66,15 @@ installed before they can be used in Bike.
 
 ### Build extensions:
 
-1. **Build**: To build extensions once in an optimized form use the `npm run
-build` command.
+1. **Build**: To build extensions once in an optimized form use `npm run build`.
 
-2. **Watch**: To rebuild the extensions anytime you save changes to `src` use
-   the `npm run watch` command.
+2. **Watch**: To rebuild extensions after you save use `npm run watch`.
 
-The build process places the built extensions in the `./out/extensions` folder.
+The build extensions are saved to `./out/extensions`.
 
 ### Install extensions:
 
-You must install each built extension before it can be used in Bike.
+You must install each built extension before Bike can load it.
 
 To install an extension copy it to Bike's Extensions folder. You can do this
 manually, or you can set the `install` flag in the extension's `manifest.json`
@@ -108,44 +106,39 @@ git pull origin main
 ```
 
 If you have a useful extension that you would like to contribute back to this
-kit please open a pull request.
+kit please open a pull request. My hope is to include many useful extensions
+with this kit for learning, modifying, and using.
 
 ## Extension Development
 
-Bike extensions contribute code in three separate contexts, each with its own
-purpose and environment:
+Bike extensions may contribute code in three separate contexts, each with its
+own purpose and environment.
 
-### @app: Application Logic
+### bike/app: Application Logic
 
-- Runs in Bike's native app environment.
+- Code runs in Bike's native app environment.
 - Interact with outlines, clipboard, networking, etc.
 - Some API's require appropriate `manifest.json` permissions.
-- Import @app context API using `import { SYMBOL } from '@app'`.
-- [@app context API documentation](https://github.com/jessegrosjean/bike-extension-api/tree/main/app).
+- Import app context API using `import { SYMBOL } from 'bike/app'`.
+- [See bike/app context API](https://github.com/jessegrosjean/bike-extension-api/tree/main/app).
 
-### @dom: DOM/HTML Views
+### bike/dom: DOM/HTML Views
 
-- Runs inside a WebView embedded in Bike’s UI.
-- WebViews are sandboxed and have no network access.
-- Use this context to define HTML/DOM-based views, such as panels or sheets.
-- These views are loaded dynamically from @app context APIs.
-- Import @dom context API using `import { SYMBOL } from '@dom'`.
-- [@dom context API documentation](https://github.com/jessegrosjean/bike-extension-api/tree/main/dom).
+- Code runs in web views embedded in Bike’s UI.
+- Web views are sandboxed and have no network access.
+- These views are loaded dynamically from bike/app context APIs.
+- Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
+- [See bike/dom context API](https://github.com/jessegrosjean/bike-extension-api/tree/main/dom).
 
-### @style: Outline Editor Styles
+### bike/style: Outline Editor Styles
 
 - Used to define custom stylesheets for Bike’s outline editor.
+- Use outline paths to match outline elements and apply styles.
 - Most extensions will not need this; delete the src/style folder if unused.
-- Import @style context API using `import { SYMBOL } from '@style'`.
-- [@style context API documentation](https://github.com/jessegrosjean/bike-extension-api/tree/main/style).
-
-> 🗂 Each context corresponds to an extension subfolder. Delete unused folders.  
-> ☎️ @app and @dom from the same extension can communicate using `postMessage`.
+- Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
+- [See bike/style context API](https://github.com/jessegrosjean/bike-extension-api/tree/main/style).
 
 # Next Steps
 
-Look at the existing extensions that come with this kit. See how they work and
-try to make some simple changes. Read through the `api` folder to see what is
-possible. Then start building your own extensions.
-
-When you have questions please post in the [Support Forum](https://support.hogbaysoftware.com/c/bike/22).
+- [Bike Extensions Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions)
+- [Bike Extensions Support](https://support.hogbaysoftware.com/c/bike/22)

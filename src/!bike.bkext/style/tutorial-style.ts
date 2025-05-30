@@ -1,4 +1,4 @@
-import { Color, Image, SymbolConfiguration, defineOutlineStyle, Insets, Font } from '@style'
+import { Color, Image, SymbolConfiguration, defineOutlineStyle, Insets, Font } from 'bike/style'
 
 let style = defineOutlineStyle('tutorial', 'Tutorial')
 

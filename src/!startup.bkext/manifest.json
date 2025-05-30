@@ -2,10 +2,9 @@
   "id": "startup",
   "name": "startup",
   "version": "0.0.0",
-  "minAppVersion": "0.0.0",
-  "enabled": true,
-  "install": false,
-  "app_context_inspectable": true,
+  "api_version": "0.0.0",
   "permissions": [],
-  "host_permissions": []
+  "host_permissions": [],
+  "enabled": true,
+  "install": false
 }

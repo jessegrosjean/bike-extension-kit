@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window, DOMScriptHandle } from '@app'
+import { AppExtensionContext, Window, DOMScriptHandle } from 'bike/app'
 
 export async function activate(context: AppExtensionContext) {
   bike.observeWindows(async (window: Window) => {

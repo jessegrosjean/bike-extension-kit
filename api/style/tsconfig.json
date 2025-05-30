@@ -2,7 +2,7 @@
   "compilerOptions": {
     "lib": ["esnext"],
     "paths": {
-      "@style": ["./index.d.ts"]
+      "bike/style": ["./index.d.ts"]
     }
   }
 }

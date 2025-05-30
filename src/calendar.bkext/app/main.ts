@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window } from '@app'
+import { AppExtensionContext, Window } from 'bike/app'
 import { todayCommand, monthCommand, yearCommand } from './commands'
 import { getDayRow } from './calendar-rows'
 

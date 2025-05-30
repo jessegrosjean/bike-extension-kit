@@ -24,7 +24,7 @@ const context = await esbuild.context({
     'src/**/dom/*.ts',
     'src/**/dom/*.tsx',
   ],
-  external: ['@app', '@dom', '@style', 'react', 'react-dom'],
+  external: ['bike/app', 'bike/dom', 'bike/style', 'react', 'react-dom'],
   plugins: [
     externalGlobalPlugin.externalGlobalPlugin({
       react: 'window.React',
