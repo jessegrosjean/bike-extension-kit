@@ -66,20 +66,19 @@ installed before they can be used in Bike.
 
 ### Build extensions:
 
-1. **Build**: To build extensions once in an optimized form use `npm run build`.
+1. `npm run build`: To build extensions once in an optimized form.
 
-2. **Watch**: To rebuild extensions after you save use `npm run watch`.
+2. `npm run watch`: To rebuild extensions after each save.
 
 The build extensions are saved to `./out/extensions`.
 
 ### Install extensions:
 
-You must install each built extension before Bike can load it.
+You must copy each built extension to Bike's extension folder.
 
-To install an extension copy it to Bike's Extensions folder. You can do this
-manually, or you can set the `install` flag in the extension's `manifest.json`
-file to `true`. When you do that the build process will copy the extension to
-Bike's Extensions folder after each successful build.
+You can do this manually, or in the extension's `manifest.json` set the
+`install` property to `true`. When you do that the build process will copy the
+extension to Bike's Extensions folder after each successful build.
 
 ### Create extensions:
 
@@ -112,7 +111,8 @@ with this kit for learning, modifying, and using.
 ## Extension Development
 
 Bike extensions may contribute code in three separate contexts, each with its
-own purpose and environment.
+own purpose and environment. For details and tutorials see the [Bike Extensions
+Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
 
 ### bike/app: Application Logic
 
@@ -120,7 +120,7 @@ own purpose and environment.
 - Interact with outlines, clipboard, networking, etc.
 - Some API's require appropriate `manifest.json` permissions.
 - Import app context API using `import { SYMBOL } from 'bike/app'`.
-- [See bike/app context API](https://github.com/jessegrosjean/bike-extension-api/tree/main/app).
+- [See bike/app context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/app).
 
 ### bike/dom: DOM/HTML Views
 
@@ -128,7 +128,7 @@ own purpose and environment.
 - Web views are sandboxed and have no network access.
 - These views are loaded dynamically from bike/app context APIs.
 - Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
-- [See bike/dom context API](https://github.com/jessegrosjean/bike-extension-api/tree/main/dom).
+- [See bike/dom context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/dom).
 
 ### bike/style: Outline Editor Styles
 
@@ -136,9 +136,12 @@ own purpose and environment.
 - Use outline paths to match outline elements and apply styles.
 - Most extensions will not need this; delete the src/style folder if unused.
 - Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
-- [See bike/style context API](https://github.com/jessegrosjean/bike-extension-api/tree/main/style).
+- [See bike/style context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/style).
 
-# Next Steps
+## Next Steps
 
-- [Bike Extensions Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions)
-- [Bike Extensions Support](https://support.hogbaysoftware.com/c/bike/22)
+Look at the existing extensions in the `src` folder to see how they are built.
+Scan through the [Bike Extensions
+Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
+Try some things. Ask questions in the [Bike Extensions Support
+Forum](https://support.hogbaysoftware.com/c/bike/22) when you get stuck. Good luck and enjoy!
