@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window, InspectorItem, DOMScriptHandle } from 'bike/app'
+import { AppExtensionContext, Window } from 'bike/app'
 import { headingsCommand, homeCommand, toggleDoneCommand } from './commands'
 
 export async function activate(context: AppExtensionContext) {

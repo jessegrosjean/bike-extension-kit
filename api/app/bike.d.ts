@@ -160,7 +160,6 @@ export interface Window {
    * Use the name parameter to load the DOMScript `src/dom/<name>` into
    * the WebView. The script should configure the DOM elements for display.
    *
-   * @requires `domScript` permission
    * @param name - The name of the DOMScript (`src/dom/<name>`).
    * @param options - The options for displaying the sheet.
    * @returns A promise that resolves to a DOMScriptHandle.

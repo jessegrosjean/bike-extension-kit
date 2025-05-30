@@ -10,7 +10,7 @@ export interface Permissions {
 }
 
 /** Permissions that can be granted through `manifest.json`. */
-export type Permission = 'fetch' | 'openURL' | 'clipboardRead' | 'clipboardWrite' | 'domScript'
+export type Permission = 'openURL' | 'clipboardRead' | 'clipboardWrite'
 
 /**
  * Interface for disposables.
@@ -84,15 +84,13 @@ declare global {
   /**
    * Fetch a URL.
    *
-   * Goal is to make this fully compatible with the Fetch API. It is not
-   * that now. Let me know if you need something that is not yet
-   * supported.
+   * Goal is to make this fully compatible with the Fetch API. It is not that
+   * now. Let me know if you need something that is not yet supported.
    *
-   * The fetch API requires two keys in the manifest.json file:
+   * The fetch API requires host permissions in the manifest.json file:
    *
-   * - `permissions` with the value `fetch`
-   * - `host_permissions` with a pattern matching the URL you want to
-   *   fetch. Pattern should follow
+   * - `host_permissions` with a pattern matching the URL you want to fetch.
+   *   Pattern should follow
    *   https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Match_patterns
    *
    * Here are some example host patterns:
@@ -102,7 +100,6 @@ declare global {
    *  - `http://example.com/*` - matches all URLs on example.com
    *  - `*://example.com/*` - matches all URLs on example.com
    *
-   * @requires `fetch` permission
    * @requires `host_permissions` match URL
    * @param input - The URL to fetch.
    * @param options - The options for the fetch request.

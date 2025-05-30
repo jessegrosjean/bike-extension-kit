@@ -3,7 +3,7 @@
   "name": "d3",
   "version": "0.0.0",
   "api_version": "0.0.0",
-  "permissions": ["domScript"],
+  "permissions": [],
   "host_permissions": [],
   "enabled": true,
   "install": false

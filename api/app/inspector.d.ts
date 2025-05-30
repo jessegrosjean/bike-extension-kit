@@ -5,7 +5,6 @@ export interface Inspector extends View {
   /**
    * Add an item to the inspector.
    *
-   * @requires `domScript` permission
    * @param item - The item to add to the inspector.
    * @param tab - The tab to add the item to.
    * @returns A promise that resolves to a DOMScriptHandle.

@@ -3,7 +3,7 @@
   "name": "Word Explorer",
   "version": "0.0.0",
   "api_version": "0.0.0",
-  "permissions": ["domScript", "fetch"],
+  "permissions": [],
   "host_permissions": ["https://api.datamuse.com/*", "https://api.dictionaryapi.dev/*"],
   "enabled": true,
   "install": false
