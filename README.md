@@ -95,7 +95,7 @@ guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/crea
 - Most extensions will not add styles; delete the src/style folder if unused.
 - Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
 
-The `api` folder contains API level documentation for each context:
+The `api` folder contains types/documentation for each context:
 
 - [App Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/app).
 - [DOM Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/dom).
