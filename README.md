@@ -80,16 +80,37 @@ You can do this manually, or in the extension's `manifest.json` set the
 `install` property to `true`. When you do that the build process will copy the
 extension to Bike's Extensions folder after each successful build.
 
-### Create extensions:
+## Extension Development
 
-To create a new extension, copy an existing extension folder and rename or use
-this kit's new command to create the right folder structure:
+Bike extensions may contribute code in three separate contexts, each with its
+own purpose and environment. For details and tutorials see the [Bike Extensions
+Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
 
-```sh
-npm run new
-```
+### bike/app: Application Logic
 
-## Updates
+- Code runs in Bike's native app environment.
+- Interact with outlines, clipboard, networking, etc.
+- Some API's require appropriate `manifest.json` permissions.
+- Import app context API using `import { SYMBOL } from 'bike/app'`.
+- [See bike/app context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/app).
+
+### bike/dom: DOM/HTML Views
+
+- Code runs in web views embedded in Bike’s UI.
+- Web views are sandboxed and have no network access.
+- These views are loaded dynamically from bike/app context APIs.
+- Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
+- [See bike/dom context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/dom).
+
+### bike/style: Outline Editor Styles
+
+- Used to define custom stylesheets for Bike’s outline editor.
+- Use outline paths to match outline elements and apply styles.
+- Most extensions will not need this; delete the src/style folder if unused.
+- Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
+- [See bike/style context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/style).
+
+## Updates / Contributing
 
 This kit will change over time:
 
@@ -106,37 +127,7 @@ git pull origin main
 
 If you have a useful extension that you would like to contribute back to this
 kit please open a pull request. My hope is to include many useful extensions
-with this kit for learning, modifying, and using.
-
-## Extension Development
-
-Bike extensions may contribute code in three separate contexts, each with its
-own purpose and environment. For details and tutorials see the [Bike Extensions
-Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
-
-### bike/app: Application Logic
-
-- Code runs in Bike's native app environment.
-- Interact with outlines, clipboard, networking, etc.
-- Some API's require appropriate `manifest.json` permissions.
-- Import app context API using `import { SYMBOL } from 'bike/app'`.
-- [See bike/app context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/app).
-
-### bike/dom: DOM/HTML Views
-
-- Code runs in web views embedded in Bike’s UI.
-- Web views are sandboxed and have no network access.
-- These views are loaded dynamically from bike/app context APIs.
-- Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
-- [See bike/dom context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/dom).
-
-### bike/style: Outline Editor Styles
-
-- Used to define custom stylesheets for Bike’s outline editor.
-- Use outline paths to match outline elements and apply styles.
-- Most extensions will not need this; delete the src/style folder if unused.
-- Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
-- [See bike/style context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/style).
+here for learning, modifying, and using.
 
 ## Next Steps
 
@@ -144,4 +135,5 @@ Look at the existing extensions in the `src` folder to see how they are built.
 Scan through the [Bike Extensions
 Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
 Try some things. Ask questions in the [Bike Extensions Support
-Forum](https://support.hogbaysoftware.com/c/bike/22) when you get stuck. Good luck and enjoy!
+Forum](https://support.hogbaysoftware.com/c/bike/22) when you get stuck. Good
+luck and enjoy!
