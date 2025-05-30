@@ -74,7 +74,7 @@ Bike extensions may contribute code in three separate contexts, each with its
 own purpose and environment. For details and tutorials see the [extensions
 guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
 
-### bike/app: Application Logic
+### Application Logic
 
 - Code runs in Bike's native app environment.
 - Interact with outlines, clipboard, networking, etc.
@@ -82,7 +82,7 @@ guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/crea
 - Import app context API using `import { SYMBOL } from 'bike/app'`.
 - [See bike/app context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/app).
 
-### bike/dom: DOM/HTML Views
+### DOM/HTML Views
 
 - Code runs in web views embedded in Bike’s UI.
 - Web views are sandboxed and have no network access.
@@ -90,7 +90,7 @@ guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/crea
 - Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
 - [See bike/dom context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/dom).
 
-### bike/style: Outline Editor Styles
+### Outline Editor Styles
 
 - Used to define custom stylesheets for Bike’s outline editor.
 - Use outline paths to match outline elements and apply styles.
