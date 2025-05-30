@@ -80,15 +80,13 @@ guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/crea
 - Interact with outlines, clipboard, networking, etc.
 - Some API's require appropriate `manifest.json` permissions.
 - Import app context API using `import { SYMBOL } from 'bike/app'`.
-- [See bike/app context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/app).
 
 ### DOM/HTML Views
 
 - Code runs in web views embedded in Bike’s UI.
 - Web views are sandboxed and have no network access.
-- These views are loaded dynamically from bike/app context APIs.
+- These views are loaded dynamically using bike/app context APIs.
 - Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
-- [See bike/dom context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/dom).
 
 ### Outline Editor Styles
 
@@ -96,7 +94,12 @@ guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/crea
 - Use outline paths to match outline elements and apply styles.
 - Most extensions will not add styles; delete the src/style folder if unused.
 - Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
-- [See bike/style context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/style).
+
+The `api` folder contains API level documentation for each context:
+
+- [App Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/app).
+- [DOM Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/dom).
+- [Style Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/style).
 
 ## Updates / Contributing
 
