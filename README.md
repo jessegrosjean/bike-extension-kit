@@ -83,8 +83,8 @@ extension to Bike's Extensions folder after each successful build.
 ## Extension Development
 
 Bike extensions may contribute code in three separate contexts, each with its
-own purpose and environment. For details and tutorials see the [Bike Extensions
-Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
+own purpose and environment. For details and tutorials see the [extensions
+guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
 
 ### bike/app: Application Logic
 
@@ -132,8 +132,9 @@ here for learning, modifying, and using.
 ## Next Steps
 
 Look at the existing extensions in the `src` folder to see how they are built.
-Scan through the [Bike Extensions
-Guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
-Try some things. Ask questions in the [Bike Extensions Support
-Forum](https://support.hogbaysoftware.com/c/bike/22) when you get stuck. Good
-luck and enjoy!
+Scan through the [extensions
+guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
+Try some things. Ask questions in the [support
+forum](https://support.hogbaysoftware.com/c/bike/22) when you get stuck.
+
+Good luck and enjoy!
