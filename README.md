@@ -64,7 +64,7 @@ The (app, dom, style) subfolders are optional and correspond to different
 contexts where your extension can contribute code. Extensions must be built and
 installed before they can be used in Bike.
 
-### Build extensions:
+### Build Extensions:
 
 1. `npm run build`: To build extensions once in an optimized form.
 
@@ -72,7 +72,7 @@ installed before they can be used in Bike.
 
 The build extensions are saved to `./out/extensions`.
 
-### Install extensions:
+### Install Extensions:
 
 You must copy each built extension to Bike's extension folder.
 
@@ -131,8 +131,8 @@ here for learning, modifying, and using.
 
 ## Next Steps
 
-Look at the existing extensions in the `src` folder to see how they are built.
-Scan through the [extensions
+Look at the existing extensions to see how they are built. Scan through the
+[extensions
 guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
 Try some things. Ask questions in the [support
 forum](https://support.hogbaysoftware.com/c/bike/22) when you get stuck.
