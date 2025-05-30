@@ -28,27 +28,31 @@ with the VS Code editor, but you can use any editor that you like.
    npm install
    ```
 
-3. Create a build:
+3. Build Extensions:
 
    ```sh
    npm run build
    ```
 
-4. Or watch for changes and rebuild automatically:
+4. Or watch for changes and rebuild extensions automatically:
    ```sh
    npm run watch
    ```
 
-You are now ready to start modifying or creating extensions.
+Built extensions are copied to `./out/extensions`.
 
-## How this Kit Works
+To install a build extension copy it to Bike's > Extensions folder. You can do
+this manually, or in the extension's `manifest.json` set the `install` property
+to `true`. When you do that the build process will copy the extension to Bike's
+Extensions folder after each successful build.
 
-Inside the `src` folder there is a subfolder for each extension in the kit.
-Delete a folder to remove an extension. Add a folder to add a new extension.
-Each extension folder should have the following structure:
+## Folder Structure
+
+Inside the `src` folder there is a subfolder for each extension. Add and remove
+extension folders as needed. Each extension should have the following structure:
 
 ```
-extensions-folder.bkext
+extension.bkext
 ├── manifest.json
 ├── app (optional)
 │   └── main.ts
@@ -63,22 +67,6 @@ The `manifest.json` file is required, and is the entry point of each extension.
 The (app, dom, style) subfolders are optional and correspond to different
 contexts where your extension can contribute code. Extensions must be built and
 installed before they can be used in Bike.
-
-### Build Extensions:
-
-1. `npm run build`: To build extensions once in an optimized form.
-
-2. `npm run watch`: To rebuild extensions after each save.
-
-The build extensions are saved to `./out/extensions`.
-
-### Install Extensions:
-
-You must copy each built extension to Bike's extension folder.
-
-You can do this manually, or in the extension's `manifest.json` set the
-`install` property to `true`. When you do that the build process will copy the
-extension to Bike's Extensions folder after each successful build.
 
 ## Extension Development
 
@@ -106,28 +94,27 @@ guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/crea
 
 - Used to define custom stylesheets for Bike’s outline editor.
 - Use outline paths to match outline elements and apply styles.
-- Most extensions will not need this; delete the src/style folder if unused.
+- Most extensions will not add styles; delete the src/style folder if unused.
 - Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
 - [See bike/style context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/style).
 
 ## Updates / Contributing
 
-This kit will change over time:
+This kit will change over time.
 
 - Bike's API will be updated.
 - New extensions will be added.
 - Existing extensions will be updated.
 
-To merge these changes into your local extension development use the following
-git command:
+To merge changes into your local kit use:
 
 ```sh
 git pull origin main
 ```
 
-If you have a useful extension that you would like to contribute back to this
-kit please open a pull request. My hope is to include many useful extensions
-here for learning, modifying, and using.
+If you have an extension that you would like to contribute back to this kit
+please open a pull request. My hope is to include many extensions here for
+learning, modifying, and using.
 
 ## Next Steps
 
