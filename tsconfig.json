@@ -9,7 +9,6 @@
     "lib": ["ESNext"],
     "allowJs": true,
     "checkJs": false,
-    "jsx": "preserve",
     "strict": true,
     "noPropertyAccessFromIndexSignature": true,
     "forceConsistentCasingInFileNames": true,

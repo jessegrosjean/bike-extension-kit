@@ -20,7 +20,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
 })
 
 style.layer('row-formatting', (row, run, caret, viewport, include) => {
-  row(`.@type = task`, (env, row) => {
+  row(`.@type = task`, (editor, row) => {
     row.text.decoration('mark', (mark, layout) => {
       let lineHeight = layout.firstLine.height
       mark.x = layout.leading.offset(-28 / 2)
@@ -36,7 +36,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     })
   })
 
-  row(`.@type = task and @done`, (env, row) => {
+  row(`.@type = task and @done`, (editor, row) => {
     row.text.strikethrough.thick = true
     row.text.decoration('mark', (mark, layout) => {
       mark.contents.image = Image.fromSymbol(
@@ -53,14 +53,15 @@ style.layer('run-formatting', (row, run, caret, viewport, include) => {
 })
 
 style.layer('selection', (row, run, caret, viewport, include) => {
-  run(`.@view-selected-range`, (env, run) => {
+  run(`.@view-selected-range`, (editor, run) => {})
+  run(`.@view-selected-range`, (editor, run) => {
     run.decoration('selection', (selection, layout) => {
       selection.zPosition = 1
       selection.color = Color.textBackgroundSelected().withAlpha(0.5)
     })
   })
 
-  row(`.selection() = block`, (env, row) => {
+  row(`.selection() = block`, (editor, row) => {
     row.text.color = Color.white()
     row.text.decoration('background', (background, layout) => {
       background.color = Color.selectedContentBackground()

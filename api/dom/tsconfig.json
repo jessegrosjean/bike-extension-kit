@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "paths": {
       "bike/dom": ["./index.d.ts"]
