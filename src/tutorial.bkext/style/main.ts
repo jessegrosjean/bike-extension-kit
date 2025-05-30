@@ -48,12 +48,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
   })
 })
 
-style.layer('run-formatting', (row, run, caret, viewport, include) => {
-  include('bike', 'run-formatting')
-})
-
 style.layer('selection', (row, run, caret, viewport, include) => {
-  run(`.@view-selected-range`, (editor, run) => {})
   run(`.@view-selected-range`, (editor, run) => {
     run.decoration('selection', (selection, layout) => {
       selection.zPosition = 1

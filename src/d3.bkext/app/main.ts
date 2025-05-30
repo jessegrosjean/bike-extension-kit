@@ -3,8 +3,14 @@ import { AppExtensionContext, Window, DOMScriptName, Row } from 'bike/app'
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
     commands: {
-      'd3:show-tree-view': () => showD3Sheet('tree-view.js'),
-      'd3:show-radial-view': () => showD3Sheet('radial-view.js'),
+      'd3:show-tree-view': () => {
+        showD3Sheet('tree-view.js')
+        return true
+      },
+      'd3:show-radial-view': () => {
+        showD3Sheet('radial-view.js')
+        return true
+      },
     },
   })
 
@@ -27,30 +33,28 @@ export async function activate(context: AppExtensionContext) {
   })
 }
 
-function showD3Sheet(domScriptName: DOMScriptName): boolean {
+async function showD3Sheet(domScriptName: DOMScriptName) {
   let window = bike.frontmostWindow
   if (window) {
-    window.presentSheet(domScriptName).then((handle) => {
+    let handle = await window.presentSheet(domScriptName)
+    let editor = window.currentOutlineEditor
+    if (editor) {
+      handle.postMessage({
+        type: 'load',
+        data: buildD3Hierarchy(editor.focus),
+      })
+    }
+    handle.onmessage = (message) => {
       let editor = window.currentOutlineEditor
-      if (editor) {
-        handle.postMessage({
-          type: 'load',
-          data: buildD3Hierarchy(editor.focus),
-        })
-      }
-      handle.onmessage = (message) => {
-        let editor = window.currentOutlineEditor
-        if (editor && message.type === 'select') {
-          let row = editor.outline.getRowById(message.id)
-          if (row) {
-            editor.selectRows(row)
-          }
+      if (editor && message.type === 'select') {
+        let row = editor.outline.getRowById(message.id)
+        if (row) {
+          editor.selectRows(row)
         }
-        handle.dispose()
       }
-    })
+      handle.dispose()
+    }
   }
-  return true
 }
 
 function buildD3Hierarchy(row: Row): any {

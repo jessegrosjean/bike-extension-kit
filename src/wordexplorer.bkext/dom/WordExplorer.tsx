@@ -2,7 +2,7 @@ import { DOMExtensionContext } from 'bike/dom'
 import { createRoot } from 'react-dom/client'
 import { useState, useEffect } from 'react'
 
-export function activate(context: DOMExtensionContext) {
+export async function activate(context: DOMExtensionContext) {
   const container = context.element
   const root = createRoot(container)
   root.render(<WordExplorer context={context} />)

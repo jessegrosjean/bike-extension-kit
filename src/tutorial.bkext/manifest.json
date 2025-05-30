@@ -1,0 +1,10 @@
+{
+  "id": "tutorial",
+  "name": "tutorial",
+  "version": "0.0.0",
+  "api_version": "0.0.0",
+  "permissions": [],
+  "host_permissions": [],
+  "enabled": true,
+  "install": false
+}
