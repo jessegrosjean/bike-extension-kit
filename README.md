@@ -20,7 +20,7 @@ also recommended.
 - [`vscode`](https://code.visualstudio.com) (optional)
 - [`git`](https://git-scm.com) (optional)
 
-Once those are installed:
+Once those are installed (Using a Terminal.app):
 
 1. Clone this repository (or download copy).
 
