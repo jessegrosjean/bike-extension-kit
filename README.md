@@ -8,6 +8,8 @@ best practices.
 
 ## Getting Started
 
+🌟 [Screencase Tutorial](https://vimeo.com/1089515696)
+
 This requires that you have node.js installed. Visual Studio Code and Git are
 also recommended.
 
