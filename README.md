@@ -1,4 +1,4 @@
-# Bike Extension Kit (Requires Bike 225 or later)
+# Bike Extension Kit
 
 This is a kit for building [Bike 2](https://support.hogbaysoftware.com/c/bike/releases/24) extensions.
 
@@ -8,16 +8,15 @@ best practices.
 
 ## Getting Started
 
-🌟 [Screencase Tutorial](https://vimeo.com/1089520938)
+🌟 [Watch Tutorial](https://vimeo.com/1089520938)
 
-This requires that you have node.js installed. Visual Studio Code and Git are
-also recommended.
+First, install dependencies:
 
 - [`node.js`](https://nodejs.org) (require version 18 or later)
 - [`vscode`](https://code.visualstudio.com) (optional)
 - [`git`](https://git-scm.com) (optional)
 
-Next:
+Next, setup the kit:
 
 1. Clone this repository (or download copy).
 
