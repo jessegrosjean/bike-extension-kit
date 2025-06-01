@@ -14,10 +14,14 @@ best practices.
 ## Getting Started
 
 This requires that you have [`node.js`](https://nodejs.org) installed.
+
 [`Git`](https://git-scm.com) is also recommended, though not strickly neccessary
-if you just want to try things out. I also recommend the [Visual Studio
-Code](https://code.visualstudio.com) text editor, but you can use any editor
-that you like.
+if you just want to try things out.
+
+I also recommend the [Visual Studio Code](https://code.visualstudio.com) text
+editor, but you can use any editor that you like.
+
+Once those are installed:
 
 1. Clone this repository (or download copy).
 
