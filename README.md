@@ -1,15 +1,10 @@
-# Bike Extension Kit
-
-🚧 **Work in Progress (Requires Bike 225 or later)**
+# Bike Extension Kit (Requires Bike 225 or later)
 
 This is a kit for building **Bike 2** extensions.
 
 Set this kit up once. Then use it to modify existing extensions and to create
 your own. It provides a consistent development environment, build process, and
 best practices.
-
-- TODO: Walkthrough setup
-- TODO: Walkthrough extension development
 
 ## Getting Started
 
