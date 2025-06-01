@@ -2,7 +2,7 @@
 
 This is a kit for building [Bike 2](https://support.hogbaysoftware.com/c/bike/releases/24) extensions.
 
-Set this kit up once. Then use it to modify existing extensions and to create
+Set this kit up once, then use it to modify existing extensions and to create
 your own. It provides a consistent development environment, build process, and
 best practices.
 
@@ -11,11 +11,13 @@ best practices.
 This requires that you have node.js installed. Visual Studio Code and Git are
 also recommended.
 
+### Install
+
 - [`node.js`](https://nodejs.org) (version 18 or later)
 - [`vscode`](https://code.visualstudio.com) (optional)
 - [`git`](https://git-scm.com) (optional)
 
-Once those are installed (Using a Terminal.app):
+### In a Terminal
 
 1. Clone this repository (or download copy).
 
