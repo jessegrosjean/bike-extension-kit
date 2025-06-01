@@ -1,45 +1,38 @@
 # Bike Extension Kit
 
-This is a kit for building [Bike 2](https://support.hogbaysoftware.com/c/bike/releases/24) extensions.
+This is a kit for building [Bike
+2](https://support.hogbaysoftware.com/c/bike/releases/24) extensions.
 
-Set this kit up once, then use it to modify existing extensions and to create
-your own. It provides a consistent development environment, build process, and
-best practices.
+Set this kit up once, then use it to modify and create extensions. It provides a
+consistent development environment and build process.
+
+The job of this extension kit is to transform extension source code into a
+simplified form that Bike can load and run.
 
 ## Getting Started
 
 🌟 [Watch Tutorial](https://vimeo.com/1089520938)
 
-First, install dependencies:
+First, install needed tools:
 
 - [`node.js`](https://nodejs.org) (require version 18 or later)
 - [`vscode`](https://code.visualstudio.com) (optional)
 - [`git`](https://git-scm.com) (optional)
 
-Next, setup the kit:
+Next, use a terminal app to download the extension kit and install dependencies.
 
-1. Clone this repository (or download copy).
+```sh
+git clone https://github.com/jessegrosjean/bike-extension-kit.git
+cd bike-extension-kit
+node --version # confirm node version is 18 or later
+npm install # install npm dependencies (only needed once, and when kit is updated)
+```
 
-   ```sh
-   git clone https://github.com/jessegrosjean/bike-extension-kit.git
-   ```
+Finally, build extensions:
 
-2. Install dependencies:
-
-   ```sh
-   npm install
-   ```
-
-3. Build Extensions:
-
-   ```sh
-   npm run build
-   ```
-
-4. Or watch for changes and rebuild extensions automatically:
-   ```sh
-   npm run watch
-   ```
+```sh
+npm run build
+```
 
 Built extensions are copied to `./out/extensions`.
 
@@ -48,10 +41,10 @@ this manually, or in the extension's `manifest.json` set the `install` property
 to `true`. When you do that the build process will copy the extension to Bike's
 Extensions folder after each successful build.
 
-## Folder Structure
+## Extension Development
 
 Inside the `src` folder there is a subfolder for each extension. Add and remove
-extension folders as needed. Each extension should have the following structure:
+extension folders as needed. Each extension has the following structure:
 
 ```
 extension.bkext
@@ -66,31 +59,27 @@ extension.bkext
 ```
 
 The `manifest.json` file is required, and is the entry point of each extension.
-The (app, dom, style) subfolders are optional and correspond to different
-contexts where your extension can contribute code. Extensions must be built and
-installed before they can be used in Bike.
 
-## Extension Development
-
-Bike extensions may contribute code in three separate contexts, each with its
-own purpose and environment. For details and tutorials see the [extensions
+Bike extensions may contribute code in three separate contexts (app, dom,
+style), each with its own purpose and environment. For details and tutorials see
+the [extensions
 guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
 
-### Application Logic
+### Application Logic (app)
 
 - Code runs in Bike's native app environment.
 - Interact with outlines, clipboard, networking, etc.
 - Some API's require appropriate `manifest.json` permissions.
 - Import app context API using `import { SYMBOL } from 'bike/app'`.
 
-### DOM/HTML Views
+### DOM/HTML Views (dom)
 
 - Code runs in web views embedded in Bike’s UI.
 - Web views are sandboxed and have no network access.
 - These views are loaded dynamically using bike/app context APIs.
 - Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
 
-### Outline Editor Styles
+### Outline Editor Styles (style)
 
 - Used to define custom stylesheets for Bike’s outline editor.
 - Use outline paths to match outline elements and apply styles.
