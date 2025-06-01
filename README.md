@@ -11,11 +11,11 @@ best practices.
 This requires that you have node.js installed. Visual Studio Code and Git are
 also recommended.
 
-- [`node.js`](https://nodejs.org) (version 18 or later)
+- [`node.js`](https://nodejs.org) (require version 18 or later)
 - [`vscode`](https://code.visualstudio.com) (optional)
 - [`git`](https://git-scm.com) (optional)
 
-Once you have those prerequisites installed you can set up this kit with the following steps:
+Next:
 
 1. Clone this repository (or download copy).
 
