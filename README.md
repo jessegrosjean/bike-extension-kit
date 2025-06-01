@@ -13,8 +13,11 @@ best practices.
 
 ## Getting Started
 
-This requires that you have `git` and `node.js` installed. It's also best tested
-with the VS Code editor, but you can use any editor that you like.
+This requires that you have [`node.js`](https://nodejs.org) installed.
+[`Git`](https://git-scm.com) is also recommended, though not strickly neccessary
+if you just want to try things out. I also recommend the [Visual Studio
+Code](https://code.visualstudio.com) text editor, but you can use any editor
+that you like.
 
 1. Clone this repository (or download copy).
 
