@@ -13,13 +13,12 @@ best practices.
 
 ## Getting Started
 
-This requires that you have [`node.js`](https://nodejs.org) installed.
+This requires that you have node.js installed. Visual Studio Code and Git are
+also recommended.
 
-[`Git`](https://git-scm.com) is also recommended, though not strickly neccessary
-if you just want to try things out.
-
-I also recommend the [Visual Studio Code](https://code.visualstudio.com) text
-editor, but you can use any editor that you like.
+- [`node.js`](https://nodejs.org) (version 18 or later)
+- [`vscode`](https://code.visualstudio.com) (optional)
+- [`git`](https://git-scm.com) (optional)
 
 Once those are installed:
 
