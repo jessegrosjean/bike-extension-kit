@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bike Outliner Extension Manifest",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "version",
+    "api_version",
+    "permissions",
+    "host_permissions",
+    "enabled",
+    "install"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "The schema to verify this document against."
+    },
+    "id": {
+      "type": "string",
+      "description": "A unique identifier for the extension (folder name)."
+    },
+    "name": {
+      "type": "string",
+      "description": "The display name of the extension."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "The version of the extension, following semantic versioning (e.g., 1.2.3)."
+    },
+    "api_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "The API version this extension is compatible with."
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of permissions the extension requires."
+    },
+    "host_permissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of host-specific permissions (e.g., URLs or domains)."
+    },
+    "enabled": {
+      "type": "boolean",
+      "description": "Indicates if the extension is currently enabled."
+    },
+    "install": {
+      "type": "boolean",
+      "description": "If true, the extension will be automatically installed when built."
+    }
+  },
+  "additionalProperties": false
+}

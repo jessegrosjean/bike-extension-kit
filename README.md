@@ -1,17 +1,20 @@
 # Bike Extension Kit
 
-This is a kit for building [Bike
+This kit is for building [Bike Outliner
 2](https://support.hogbaysoftware.com/c/bike/releases/24) extensions.
 
-Set this kit up once, then use it to modify and create extensions. It provides a
-consistent development environment and build process.
+Use extensions to customize and enhance the functionality of Bike. Extensions can add
+new commands, keybindings, views, styles, and more. Sensitive features are protected by a permission system.
 
-The job of this extension kit is to transform extension source code into a
-simplified form that Bike can load and run.
+## Screencasts
 
-## Getting Started
+- [Setup & Build](https://vimeo.com/1089520938)
+- [Creating Extensions](https://vimeo.com/1089520938)
+- [App Context Extensions](https://vimeo.com/1089520938)
+- [DOM Context Extensions](https://vimeo.com/1089520938)
+- [Style Context Extensions](https://vimeo.com/1089520938)
 
-🌟 [Watch Tutorial](https://vimeo.com/1089520938)
+## Setup
 
 First, install needed tools:
 
@@ -19,103 +22,50 @@ First, install needed tools:
 - [`vscode`](https://code.visualstudio.com) (optional)
 - [`git`](https://git-scm.com) (optional)
 
-Next, use a terminal app to download the extension kit and install dependencies.
+Next, download kit and install dependencies:
 
 ```sh
 git clone https://github.com/jessegrosjean/bike-extension-kit.git
 cd bike-extension-kit
-node --version # confirm node version is 18 or later
-npm install # install npm dependencies (only needed once, and when kit is updated)
+node --version # 18 or later
+npm install
 ```
 
-Finally, build extensions:
+## Build & Install Extensions
+
+The kit folder structure looks like this:
+
+```
+bike-extension-kit
+├── api
+├── configs
+├── scripts
+├── src
+│ ├── extension1.bkext/
+│ ├── extension2.bkext/
+│ └── ...
+```
+
+Inside `src` there is a subfolder for each extension. These folders are
+independent–add and remove as needed. When you build, the extensions found in
+`src` are built and placed in `out/extensions`.
+
+To build extensions:
 
 ```sh
 npm run build
 ```
 
-Built extensions are copied to `./out/extensions`.
+To install extensions:
 
-To install a build extension copy it to Bike's > Extensions folder. You can do
-this manually, or in the extension's `manifest.json` set the `install` property
-to `true`. When you do that the build process will copy the extension to Bike's
-Extensions folder after each successful build.
+1. Open Bike's extensions folder: Bike > Extensions...
+2. Copy extensions from `out/extensions` to Bike's extensions folder
 
-## Extension Development
-
-Inside the `src` folder there is a subfolder for each extension. Add and remove
-extension folders as needed. Each extension has the following structure:
-
-```
-extension.bkext
-├── manifest.json
-├── app (optional)
-│   └── main.ts
-├── dom (optional)
-│   ├── view1.ts
-│   └── view2.ts
-├── style (optional)
-│   └── main.ts
-```
-
-The `manifest.json` file is required, and is the entry point of each extension.
-
-Bike extensions may contribute code in three separate contexts (app, dom,
-style), each with its own purpose and environment. For details and tutorials see
-the [extensions
-guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
-
-### Application Logic (app)
-
-- Code runs in Bike's native app environment.
-- Interact with outlines, clipboard, networking, etc.
-- Some API's require appropriate `manifest.json` permissions.
-- Import app context API using `import { SYMBOL } from 'bike/app'`.
-
-### DOM/HTML Views (dom)
-
-- Code runs in web views embedded in Bike’s UI.
-- Web views are sandboxed and have no network access.
-- These views are loaded dynamically using bike/app context APIs.
-- Import bike/dom context API using `import { SYMBOL } from 'bike/dom'`.
-
-### Outline Editor Styles (style)
-
-- Used to define custom stylesheets for Bike’s outline editor.
-- Use outline paths to match outline elements and apply styles.
-- Most extensions will not add styles; delete the src/style folder if unused.
-- Import bike/style context API using `import { SYMBOL } from 'bike/style'`.
-
-The `api` folder contains types/documentation for each context:
-
-- [App Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/app).
-- [DOM Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/dom).
-- [Style Context API](https://github.com/jessegrosjean/bike-extension-kit/tree/main/api/style).
-
-## Updates / Contributing
-
-This kit will change over time.
-
-- Bike's API will be updated.
-- New extensions will be added.
-- Existing extensions will be updated.
-
-To merge changes into your local kit use:
-
-```sh
-git pull origin main
-```
-
-If you have an extension that you would like to contribute back to this kit
-please open a pull request. My hope is to include many extensions here for
-learning, modifying, and using.
+For example move `out/extensions/d3.bkext` to Bike's extensions folder. You
+should see new d3 items appear in Bike's sidebar. To avoid this step you can set
+the `install` property in the extension's `manifest.json` to `true`. When you do
+this Bike automatically installs the extension each time you build.
 
 ## Next Steps
 
-Look at the existing extensions to see how they are built. Scan through the
-[extensions
-guide](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions).
-Try some things. Ask questions in the [support
-forum](https://support.hogbaysoftware.com/c/bike/22) when you get stuck.
-
-Good luck and enjoy!
+To learn more see [Creating Extensions](https://bikeguide.hogbaysoftware.com/bike-2-preview/customizing-bike/creating-extensions) in Bike's user guide.

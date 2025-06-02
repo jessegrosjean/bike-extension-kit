@@ -1,4 +1,5 @@
 {
+  "$schema": "../../schemas/manifest.schema.json",
   "id": "d3",
   "name": "d3",
   "version": "0.0.0",

@@ -50,5 +50,10 @@ function archiveDoneCommand(): boolean {
     outline.moveRows(doneRows, archiveRow)
   })
 
+  // Present the archive done sheet with the count of done rows
+  bike.frontmostWindow?.presentSheet('archive-done-sheet.js').then((handle) => {
+    handle.postMessage(doneRows.length)
+  })
+
   return true
 }

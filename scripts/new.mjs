@@ -37,6 +37,7 @@ async function main() {
     path.join(dest, 'manifest.json'),
     JSON.stringify(
       {
+        $schema: '../../schemas/manifest.schema.json',
         id: id,
         name: id,
         version: '0.0.0',
