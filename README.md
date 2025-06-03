@@ -9,9 +9,9 @@ new commands, keybindings, views, styles, and more. Sensitive features are prote
 ## Screencasts
 
 - [Setup & Build](https://vimeo.com/1089520938)
-- [Creating Extensions](https://vimeo.com/1089520938)
-- [App Context Extensions](https://vimeo.com/1089520938)
-- [DOM Context Extensions](https://vimeo.com/1089520938)
+- [Creating Extensions](https://vimeo.com/1089816472)
+- [App Context Extensions](https://vimeo.com/1089829088)
+- [DOM Context Extensions](https://vimeo.com/1089831661)
 - [Style Context Extensions](https://vimeo.com/1089520938)
 
 ## Setup
