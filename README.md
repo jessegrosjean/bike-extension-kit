@@ -12,7 +12,7 @@ new commands, keybindings, views, styles, and more. Sensitive features are prote
 - [Creating Extensions](https://vimeo.com/1089816472)
 - [App Context Extensions](https://vimeo.com/1089829088)
 - [DOM Context Extensions](https://vimeo.com/1089831661)
-- [Style Context Extensions](https://vimeo.com/1089520938)
+- [Style Context Extensions](https://vimeo.com/1090188813)
 
 ## Setup
 
