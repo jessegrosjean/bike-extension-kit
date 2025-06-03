@@ -239,7 +239,7 @@ export class Color {
    * @param blue - The blue component (0-1)
    * @param alpha - The alpha component (0-1)
    */
-  constructor(red: number, green: number, blue: number, alpha: number)
+  constructor(red: number, green: number, blue: number, alpha?: number)
 
   /**
    * @param alpha - The alpha component (0-1)
