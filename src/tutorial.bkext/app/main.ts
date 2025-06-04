@@ -13,14 +13,6 @@ export async function activate(context: AppExtensionContext) {
       a: 'tutorial:archive-done',
     },
   })
-
-  bike.observeWindows(async (window: Window) => {
-    let handle = await window.inspector.addItem({
-      id: 'tutorial:inspector-item',
-      name: 'inspector-item.js',
-    })
-    handle.postMessage('Hello from the app context!')
-  })
 }
 
 function archiveDoneCommand(): boolean {
