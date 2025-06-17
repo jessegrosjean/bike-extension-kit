@@ -31,3 +31,4 @@ type CommandName = string
  * until on returns true or no more commands match.
  */
 type CommandAction = () => boolean
+

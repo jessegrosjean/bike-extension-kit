@@ -342,7 +342,16 @@ style.layer('selection', (row, run, caret, viewport, include) => {
   })
 })
 
+style.layer('highlights', (row, run, caret, viewport, include) => {
+  run(`.@view-find-current or @view-check-current`, (editor, run) => {
+    run.decoration('selection', (highlight, layout) => {
+      highlight.color = Color.systemYellow()
+    })
+  })
+})
+
 style.layer('outline-focus', (row, run, caret, viewport, include) => {
+  // Modifies row decorations, so needs to be after layers that add decorations
   row(`.focused-branch() = false`, (editor, row) => {
     let values = computeValues(editor)
     row.opacity = values.outlineFocusAlpha

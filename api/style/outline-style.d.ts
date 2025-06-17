@@ -146,6 +146,7 @@ type RulesLayerName =
   | 'outline-focus' // Focus row formatting
   | 'text-focus' // Text focus formatting (word/sentence/paragraph)
   | 'filter-match' // Filter match formatting
+  | 'highlights' // Highlight formatting
   | string
 
 /**
@@ -409,7 +410,7 @@ interface Decoration {
   /**
    * The transition to use when modifying a specific decoration property.
    */
-  transitions: {
+  readonly transitions: {
     color: boolean
   }
 }

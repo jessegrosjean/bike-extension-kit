@@ -5,7 +5,7 @@
  * to Bike-specific APIs, but cannot use HTML/DOM. To display custom UI your
  * extension installs a DOMScript into a WebView that's hosted by Bike.
  *
- * If you’ve used Web Workers, the architecture will feel familiar: both run in
+ * If you've used Web Workers, the architecture will feel familiar: both run in
  * isolated script contexts and communicate with the originating context using
  * `postMessage` and `onmessage`.
  *
