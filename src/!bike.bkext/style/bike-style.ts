@@ -44,12 +44,12 @@ style.layer('base', (row, run, caret, viewport, include) => {
     })
 
     row.decoration('handle', (handle, layout) => {
+      let size = layout.firstLine.height.min(values.indent)
       handle.opacity = values.secondaryControlAlpha
       handle.contents.gravity = 'center'
       handle.contents.image = values.handleImage
-      handle.x = layout.leading.offset(values.indent / 2)
+      handle.x = layout.leadingContent.offset(-values.indent / 2)
       handle.y = layout.firstLine.centerY
-      let size = layout.firstLine.height.min(values.indent)
       handle.width = size
       handle.height = size
       if (editor.isTyping && values.hideControlsWhenTyping) {
@@ -60,7 +60,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
     if (values.showGuideLines) {
       row.decoration('guide', (guide, layout) => {
         guide.color = values.guideColor
-        guide.x = layout.leading.offset(values.indent / 2)
+        guide.x = layout.leadingContent.offset(-values.indent / 2)
         guide.y = layout.firstLine.bottom
         guide.anchor.y = 0
         guide.width = layout.fixed(Math.ceil(1 * values.uiScale))
@@ -95,7 +95,8 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
 
   row(`.blockquote`, (editor, row) => {
     let values = computeValues(editor)
-    row.text.margin.left = values.indent * 2
+    let indent = values.indent
+    row.text.margin.left = Math.floor(indent * 2)
     row.text.font = row.text.font.withItalics()
     row.text.decoration('mark', (mark, layout) => {
       mark.x = layout.leading.offset(-values.indent / 2)
@@ -116,15 +117,15 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
   row(`.unordered`, (editor, row) => {
     let values = computeValues(editor)
     let indent = values.indent
-    row.text.margin.left = indent * 2
-    row.decoration('mark', (mark, layout) => {
+    row.text.margin.left = Math.floor(indent * 2)
+    row.text.decoration('mark', (mark, layout) => {
+      mark.x = layout.leading.offset(-values.indent / 2)
+      mark.y = layout.firstLine.centerY
       let size = layout.firstLine.height
       mark.width = size
       mark.height = size
       mark.contents.gravity = 'center'
       mark.contents.image = Image.fromText(new Text('•', row.text.font, row.text.color))
-      mark.y = layout.firstLine.centerY
-      mark.x = layout.leading.offset(indent * 1.5)
     })
   })
 
@@ -132,9 +133,9 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     let values = computeValues(editor)
     let indent = values.indent
     let index = editor.orderedIndex ?? 0
-    row.text.margin.left = indent * 2
-    row.decoration('mark', (mark, layout) => {
-      mark.x = layout.leading.offset(indent * 1.5)
+    row.text.margin.left = Math.floor(indent * 2)
+    row.text.decoration('mark', (mark, layout) => {
+      mark.x = layout.leading.offset(-values.indent / 2)
       mark.y = layout.firstLine.centerY
       let size = layout.firstLine.height
       mark.width = size
@@ -147,9 +148,9 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
   row(`.task`, (editor, row) => {
     let values = computeValues(editor)
     let indent = values.indent
-    row.text.margin.left = indent * 2
-    row.decoration('mark', (mark, layout) => {
-      mark.x = layout.leading.offset(indent * 1.5)
+    row.text.margin.left = Math.floor(indent * 2)
+    row.text.decoration('mark', (mark, layout) => {
+      mark.x = layout.leading.offset(-values.indent / 2)
       mark.y = layout.firstLine.centerY
       let size = layout.firstLine.height
       mark.width = size
@@ -164,7 +165,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
   })
 
   row(`.task @done`, (editor, row) => {
-    row.decoration('mark', (mark, _) => {
+    row.text.decoration('mark', (mark, _) => {
       mark.contents.image = symbolImage('checkmark.square', row.text.color, row.text.font)
     })
   })
@@ -205,6 +206,8 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
       highlight.height = layout.height.offset(-2 * uiScale)
       highlight.corners.radius = 3 * uiScale
       highlight.color = Color.systemYellow().withAlpha(0.6)
+      highlight.transitions.position = false
+      highlight.transitions.size = false
     })
   })
 
@@ -358,21 +361,9 @@ style.layer('outline-focus', (row, run, caret, viewport, include) => {
     row.decorations((each, _) => {
       each.opacity = 0
     })
-    /*
-    row.text.color = row.text.color.withAlpha(values.outlineFocusAlpha)
-    row.decorations((each, _) => {
-      each.opacity *= values.outlineFocusAlpha
-    })
     row.text.decorations((each, _) => {
       each.opacity *= values.outlineFocusAlpha
-    })*/
-  })
-
-  run(`.*/parent::focused-branch() = false`, (editor, text) => {
-    /*let values = computeValues(editor)
-    text.decorations((each, _) => {
-      each.opacity *= values.outlineFocusAlpha
-    })*/
+    })
   })
 })
 
@@ -450,27 +441,13 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
 })
 
 style.layer('filter-match', (row, run, caret, viewport, include) => {
-  row(`.filter-match() = false`, (editor, row) => {
+  row(`.filter-match() = false and selection() = null`, (editor, row) => {
     if (editor.isFiltering) {
       row.text.scale = 0.25
-      row.text.color = Color.systemGray()
-
+      row.text.margin.left *= 0.5
       row.decorations((each, _) => {
         each.opacity = 0
       })
-      row.text.decorations((each, _) => {
-        each.opacity = 0
-      })
     }
-  })
-
-  row(`.filter-match() = false and selection() != null`, (editor, row) => {
-    if (editor.isFiltering) {
-      row.text.scale = 1.0
-    }
-  })
-
-  row(`.filter-match() = true`, (editor, row) => {
-    row.text.decoration('background', (background, layout) => {})
   })
 })
