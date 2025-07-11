@@ -437,6 +437,7 @@ type Action = 'toggle-fold' | 'toggle-done' | 'toggle-focus'
  * `layout.bottom` would give the layout value for the bottom of the row.
  */
 interface Layout {
+  text: Layout
   firstLine: Layout
   lastLine: Layout
   width: LayoutValue
@@ -446,6 +447,7 @@ interface Layout {
   baseline: LayoutValue
   centerY: LayoutValue
   leading: LayoutValue
+  leadingContent: LayoutValue
   trailing: LayoutValue
   centerX: LayoutValue
   fixed(value: number): LayoutValue
