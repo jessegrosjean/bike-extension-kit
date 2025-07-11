@@ -1,5 +1,5 @@
 import { OutlinePath, OutlinePathValue } from '../core/outline-path'
-import { Disposable } from './system'
+import { Disposable, URL } from './system'
 
 /** Outline is a tree of rows. */
 export class Outline {
@@ -194,6 +194,8 @@ export interface Row {
   readonly outline: Outline
   /** Unique and persistent id within outline */
   readonly id: RowId
+  /** URL link for this row combining outline and row ids */
+  readonly url: URL
 
   /** Row's type, defaults to body */
   type: RowType
