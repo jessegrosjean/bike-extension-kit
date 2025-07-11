@@ -408,10 +408,14 @@ interface Decoration {
   /** The height value (default fill container) */
   height: LayoutValue
   /**
-   * The transition to use when modifying a specific decoration property.
+   * The properties to animate when using updating decoration. (default all)
    */
   readonly transitions: {
     color: boolean
+    opacity: boolean
+    rotation: boolean
+    position: boolean
+    size: boolean
   }
 }
 
