@@ -25,7 +25,7 @@ export function headingsCommand(context: CommandContext): boolean {
 
 export function toggleFocusCommand(context: CommandContext): boolean {
   let editor = context.editor
-  let row = context.selection.row
+  let row = context.selection?.row
   if (!editor || !row) return false
   if (editor.focus.id == row.id) {
     editor.focus = editor.outline.root
@@ -37,7 +37,7 @@ export function toggleFocusCommand(context: CommandContext): boolean {
 
 export function toggleFoldCommand(context: CommandContext): boolean {
   let editor = context.editor
-  let row = context.selection.row
+  let row = context.selection?.row
   if (!editor || !row) return false
   if (editor.isCollapsed(row)) {
     editor.expand([row])
@@ -77,7 +77,7 @@ export function openLinkCommand(context: CommandContext): boolean {
 }
 
 function findURLs(editor: OutlineEditor, selection: Selection): URL[] {
-  let row = editor.selection.row
+  let row = selection.row
   if (selection.type == 'caret') {
     const link = row.text.attributeAt('link', selection.detail.char)
     if (link) {
