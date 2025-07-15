@@ -1,4 +1,4 @@
-import { AppExtensionContext, Row, Window } from 'bike/app'
+import { AppExtensionContext, Row, CommandContext } from 'bike/app'
 
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
@@ -15,9 +15,8 @@ export async function activate(context: AppExtensionContext) {
   })
 }
 
-function archiveDoneCommand(): boolean {
-  // Get frontmost editor
-  let editor = bike.frontmostOutlineEditor
+function archiveDoneCommand(context: CommandContext): boolean {
+  let editor = context.editor
   if (!editor) return false
 
   // Get the outline, done rows, and archive row

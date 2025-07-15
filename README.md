@@ -14,6 +14,10 @@ new commands, keybindings, views, styles, and more. Sensitive features are prote
 - [DOM Context Extensions](https://vimeo.com/1089831661)
 - [Style Context Extensions](https://vimeo.com/1090188813)
 
+_Note_: These screencasts were recorded with an earlier version of the extension
+kit, a few details may have changed. For example, commands now take a
+CommandContext parameter.
+
 ## Setup
 
 First, install needed tools:
