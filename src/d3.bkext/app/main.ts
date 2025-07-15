@@ -1,13 +1,13 @@
-import { AppExtensionContext, Window, DOMScriptName, Row } from 'bike/app'
+import { AppExtensionContext, Window, DOMScriptName, Row, CommandContext } from 'bike/app'
 
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
     commands: {
-      'd3:show-tree-view': () => {
+      'd3:show-tree-view': (context: CommandContext) => {
         showD3Sheet('tree-view.js')
         return true
       },
-      'd3:show-radial-view': () => {
+      'd3:show-radial-view': (context: CommandContext) => {
         showD3Sheet('radial-view.js')
         return true
       },
