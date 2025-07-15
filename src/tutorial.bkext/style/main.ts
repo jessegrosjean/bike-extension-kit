@@ -9,12 +9,14 @@ style.layer('base', (row, run, caret, viewport, include) => {
     row.decoration('background', (background, layout) => {
       background.border.width = 1
       background.border.color = Color.systemBlue()
+      background.zPosition = -1
     })
 
     row.text.padding = new Insets(5, 5, 5, 5)
     row.text.decoration('background', (background, layout) => {
       background.border.width = 1
       background.border.color = Color.systemGreen()
+      background.zPosition = -2
     })
   })
 })
@@ -23,6 +25,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
   row(`.@type = task`, (editor, row) => {
     row.text.decoration('mark', (mark, layout) => {
       let lineHeight = layout.firstLine.height
+      mark.commandName = 'bike:toggle-done'
       mark.x = layout.leading.offset(-28 / 2)
       mark.y = layout.firstLine.centerY
       mark.width = lineHeight
