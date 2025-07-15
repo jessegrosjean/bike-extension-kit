@@ -1,3 +1,5 @@
+import { Range, Row } from './outline'
+import { OutlineEditor, Selection } from './outline-editor'
 import { Disposable } from './system'
 
 /** Interface for managing commands. */
@@ -26,9 +28,21 @@ interface Commands {
 type CommandName = string
 
 /**
+ * Context passed to command action.
+ *
+ * Generally the frontmost outline editor and that editor's selection are
+ * passed. In some cases (such as when clicking text run decoration with
+ * associated command) the selection is created from the decoration's run range,
+ * not the editor selection.
+ */
+export type CommandContext = {
+  editor?: OutlineEditor
+  selection?: Selection
+}
+
+/**
  * The closure to perform when a command is triggered. When false is
  * returned lower priority commands with same CommandName are triggered
  * until on returns true or no more commands match.
  */
-type CommandAction = () => boolean
-
+type CommandAction = (context: CommandContext) => boolean

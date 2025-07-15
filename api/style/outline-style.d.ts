@@ -379,8 +379,6 @@ interface DecorationContainer {
  * for more information on possiblilities.
  */
 interface Decoration {
-  /** Optional action triggered when clicked */
-  action?: Action
   /** Hidden (default false) */
   hidden: boolean
   /** Opacity (0-1) */
@@ -407,6 +405,8 @@ interface Decoration {
   width: LayoutValue
   /** The height value (default fill container) */
   height: LayoutValue
+  /** Optional command name to perform when activated (clicked) */
+  commandName?: string
   /**
    * The properties to animate when using updating decoration. (default all)
    */
@@ -420,9 +420,6 @@ interface Decoration {
 }
 
 type DecorationPropertyTransition = {}
-
-// Action - NOT WORKING YET!
-type Action = 'toggle-fold' | 'toggle-done' | 'toggle-focus'
 
 /**
  * Layout - Decorations are positioned relative to a layout.
