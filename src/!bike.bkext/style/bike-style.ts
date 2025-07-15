@@ -44,6 +44,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
     })
 
     row.decoration('handle', (handle, layout) => {
+      handle.commandName = 'bike:toggle-fold'
       let size = layout.firstLine.height.min(values.indent)
       handle.opacity = values.secondaryControlAlpha
       handle.contents.gravity = 'center'
@@ -150,6 +151,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     let indent = values.indent
     row.text.margin.left = Math.floor(indent * 2)
     row.text.decoration('mark', (mark, layout) => {
+      mark.commandName = 'bike:toggle-done'
       mark.x = layout.leading.offset(-values.indent / 2)
       mark.y = layout.firstLine.centerY
       let size = layout.firstLine.height
@@ -236,6 +238,7 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
     let imageWidth = image.resolve(editor).width * 1.1
     text.padding.right = imageWidth
     text.decoration('button', (button, layout) => {
+      button.commandName = 'bike:open-link'
       button.x = layout.trailing
       button.anchor.x = 0
       button.width = layout.fixed(imageWidth)
@@ -266,6 +269,7 @@ style.layer('controls', (row, run, caret, viewport, include) => {
     let values = computeValues(editor)
     row.text.decoration('focus', (focus, layout) => {
       let size = layout.lastLine.height
+      focus.commandName = 'bike:toggle-focus'
       focus.contents.gravity = 'center'
       focus.contents.image = symbolImage(
         'arrow.down.forward',

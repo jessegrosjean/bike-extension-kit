@@ -1,12 +1,22 @@
 import { AppExtensionContext, Window } from 'bike/app'
-import { headingsCommand, homeCommand, toggleDoneCommand } from './commands'
+import {
+  headingsCommand,
+  homeCommand,
+  openLinkCommand,
+  toggleDoneCommand,
+  toggleFocusCommand,
+  toggleFoldCommand,
+} from './commands'
 
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
     commands: {
       'bike:home': homeCommand,
       'bike:headings': headingsCommand,
+      'bike:toggle-focus': toggleFocusCommand,
+      'bike:toggle-fold': toggleFoldCommand,
       'bike:toggle-done': toggleDoneCommand,
+      'bike:open-link': openLinkCommand,
     },
   })
 
