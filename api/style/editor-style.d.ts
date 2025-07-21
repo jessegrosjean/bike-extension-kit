@@ -3,7 +3,7 @@ import { Image, Font, Color, Cache as GraphicsCache } from './graphics'
 import { Insets, Rect, Point, Size } from './geometry'
 
 /**
- * Defines OutlineStyle – Ordered list of style rules.
+ * Defines EditorStyle – Ordered list of style rules.
  *
  * Each rule is a function. The rule is called when its outline path matches the
  * current element being styled. The rule function modifies the passed in style
@@ -19,12 +19,12 @@ import { Insets, Rect, Point, Size } from './geometry'
  * logic or you will get unexpected results. Unlike CSS, you can read the
  * incomming rule state, and make decisions based on that state.
  *
- * Rules are organized into layers. Use `defineOutlineStyleModifier` to inject
- * new rules into existing outline style layers.
+ * Rules are organized into layers. Use `defineEditorStyleModifier` to inject
+ * new rules into existing editor style layers.
  *
- * Example (new outline style):
+ * Example (new editor style):
  * ```ts
- * let style = defineOutlineStyle("my-style", "My Style")
+ * let style = defineEditorStyle("my-style", "My Style")
  *
  * style.layer("base", (row, run, caret, viewport) => {
  *   row(`.*`, (editor, row) => {
@@ -35,33 +35,33 @@ import { Insets, Rect, Point, Size } from './geometry'
  *   })
  * })
  * ```
- * @param id - Outline style id
- * @param displayName - User visible outline style name
+ * @param id - Editor style id
+ * @param displayName - User visible editor style name
  */
-declare function defineOutlineStyle(id: string, displayName: string): OutlineStyle
+declare function defineEditorStyle(id: string, displayName: string): EditorStyle
 
 /**
- * OutlineStyleModifier – Insert rules into existing OutlineStyles.
+ * EditorStyleModifier – Insert rules into existing EditorStyles.
  *
  * Rules defined here are merged into existing styles whose `id` matches
- * `matchingOutlineStyleIds`. If that matcher is not set then these rules are
- * merged into all outline styles. outline styles that are modified.
+ * `matchingEditorStyleIds`. If that matcher is not set then these rules are
+ * merged into all editor styles. editor styles that are modified.
  *
- * @param id - Outline style modifier id
- * @param displayName - User visible outline style modifier name
- * @param matchingOutlineStyleIds - Regular expression to match outline style
+ * @param id - Editor style modifier id
+ * @param displayName - User visible editor style modifier name
+ * @param matchingEditorStyleIds - Regular expression to match editor style
  *   ids that this modifier should be applied to. If not set then this modifier
- *   is applied to all outline styles.
+ *   is applied to all editor styles.
  */
-declare function defineOutlineStyleModifier(
-  id: OutlineStyleId,
+declare function defineEditorStyleModifier(
+  id: EditorStyleId,
   name: string,
-  matchingOutlineStyleIds?: RegExp
-): OutlineStyle
+  matchingEditorStyleIds?: RegExp
+): EditorStyle
 
-export interface OutlineStyle {
+export interface EditorStyle {
   /**
-   * Add/Modify an outline style rules layer.
+   * Add/Modify an editor style rules layer.
    *
    * Layers are ordered by when they are first named. The rules within a layer
    * are ordered by definition order. If `layer` is called multiple times with
@@ -72,7 +72,7 @@ export interface OutlineStyle {
    *
    * Example:
    * ```ts
-   * outlineStyle.layer("base", (row, run, caret, viewport) => {
+   * editorStyle.layer("base", (row, run, caret, viewport) => {
    *   row(`.*`, (editor, row) => {
    *     row.padding = new Insets(10, 10, 10, 28)
    *   })
@@ -98,18 +98,18 @@ export interface OutlineStyle {
       run: (match: RelativeOutlinePath, apply: (editor: Editor, run: TextRunStyle) => void) => void,
       /**
        * Define a caret rule. Generally this only needs to be used once per
-       * outline style, by convention it is defined in the base layer.
+       * editor style, by convention it is defined in the base layer.
        * @param apply - Function to modify the caret style.
        */
       caret: (apply: (editor: Editor, caret: CaretStyle) => void) => void,
       /**
        * Define a viewport rule. Generally this only needs to be used once per
-       * outline style, by convention it is defined in the base layer.
+       * editor style, by convention it is defined in the base layer.
        * @param apply - Function to modify the viewport style.
        */
       viewport: (apply: (editor: Editor, viewport: ViewportStyle) => void) => void,
       /**
-       * Include rules from another outline style layer.
+       * Include rules from another editor style layer.
        *
        * For example, you might want to `include('bike', 'run-formatting')` to
        * add the standard run formatting rules. This saves typing and means
@@ -118,18 +118,18 @@ export interface OutlineStyle {
        *
        * The includes added immediately and won't contain any rules added later
        * by modifiers. Expectation is you will only include rules from the
-       * standard `bike` outline style, or some future standard style that also
+       * standard `bike` editor style, or some future standard style that also
        * ships with Bike.
        *
-       * @param fromId Outline style id to import from
+       * @param fromId Editor style id to import from
        * @param fromLayer The rules layer to import
        */
-      include: (fromId: OutlineStyleId, fromLayer: RulesLayerName) => void
+      include: (fromId: EditorStyleId, fromLayer: RulesLayerName) => void
     ) => void
   ): void
 }
 
-type OutlineStyleId = string
+type EditorStyleId = string
 
 /**
  * RulesLayerName - The name of a rules layer.
@@ -148,6 +148,9 @@ type RulesLayerName =
   | 'filter-match' // Filter match formatting
   | 'highlights' // Highlight formatting
   | string
+
+// TODO: Rename Editor to Context or StyleContext.
+// Move isKey, isTyping, etc, to editor: EditorState property
 
 /**
  * Editor – Editor state passed to stylesheet `apply` functions.
@@ -266,6 +269,12 @@ interface RowStyle extends DecorationContainer {
 interface TextStyle extends TextContainer {
   /** Text scale */
   scale: number
+  /*
+  NOT IMPLEMENTED: CTParagraphStyle
+  headIndent: number
+  tailIndent: number
+  alignment: 'left' | 'right' | 'center' | 'justified' | 'natural'
+  */
   /** The line height multiple */
   lineHeightMultiple: number
 }
@@ -407,9 +416,7 @@ interface Decoration {
   height: LayoutValue
   /** Optional command name to perform when activated (clicked) */
   commandName?: string
-  /**
-   * The properties to animate when using updating decoration. (default all)
-   */
+  /** The properties to animate when using updating decoration. (default all) */
   readonly transitions: {
     color: boolean
     opacity: boolean
@@ -417,6 +424,19 @@ interface Decoration {
     position: boolean
     size: boolean
   }
+  /**
+   * Merge similar decorations into a single shape.
+   *
+   * Similar decorations must be in the same container (row, text, run). They
+   * must have equal style properties. They must be in the same or consecutive
+   * containers. (ie consecutive text runs) Finally, the decoration frame edges
+   * must be within the `mergeDistance` of each other.
+   *
+   * The merged shape is a path created by combining the individual decoration
+   * frames. The primary use of this is feature is to create border selections
+   * and text run backgrounds such as @highlight.
+   */
+  mergeDistance?: number
 }
 
 type DecorationPropertyTransition = {}

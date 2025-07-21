@@ -26,11 +26,11 @@ import {
  *
  * This function also caches derived values for performance and ease of use. For
  * example there is no user setting for `guideColor`, but that value is needed
- * by this outline style. Instead of hard coding a value, this function creates
+ * by this editor style. Instead of hard coding a value, this function creates
  * the guide color by combining various values from the editor state.
  *
- * This function is not a required part of an outline style, but I think it's a
- * useful pattern, especially for more complex outline styles that try to work
+ * This function is not a required part of an editor style, but I think it's a
+ * useful pattern, especially for more complex editor styles that try to work
  * under a variety of conditions.
  *
  * @param editor
@@ -139,8 +139,9 @@ export function computeValues(editor: Editor): {
   let selectionColor = editor.isKey
     ? Color.textBackgroundSelected()
     : textColor.withFraction(0.8, backgroundColor)
+
   let blockSelectionColor = editor.isKey
-    ? Color.systemGreen().withFraction(0.5, backgroundColor)
+    ? Color.selectedContentBackground().withFraction(0.5, backgroundColor) //Color.systemGreen().withFraction(0.5, backgroundColor)
     : textColor.withFraction(0.8, backgroundColor)
 
   let handleWidth = Math.max(1, 6 * uiScale)
