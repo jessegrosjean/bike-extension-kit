@@ -212,7 +212,7 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
       highlight.border.color = Color.systemYellow().withAlpha(0.5)
       highlight.transitions.position = false
       highlight.transitions.size = false
-      highlight.mergeDistance = 1 * uiScale
+      highlight.mergeDistance = 1
     })
   })
 
