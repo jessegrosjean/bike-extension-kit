@@ -1,7 +1,7 @@
-import { Color, Text, Image, SymbolConfiguration, defineOutlineStyle } from 'bike/style'
+import { Color, Text, Image, SymbolConfiguration, defineEditorStyle } from 'bike/style'
 import { computeValues, symbolImage } from './util'
 
-let style = defineOutlineStyle('bike', 'Bike (default)')
+let style = defineEditorStyle('bike', 'Bike (default)')
 
 style.layer('base', (row, run, caret, viewport, include) => {
   viewport((editor, viewport) => {
@@ -203,13 +203,16 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
       highlight.anchor.x = 0
       highlight.anchor.y = 0
       highlight.x = layout.leading.offset(-2 * uiScale)
-      highlight.y = layout.top.offset(1 * uiScale)
+      highlight.y = layout.top
       highlight.width = layout.width.offset(4 * uiScale)
-      highlight.height = layout.height.offset(-2 * uiScale)
+      highlight.height = layout.height
       highlight.corners.radius = 3 * uiScale
-      highlight.color = Color.systemYellow().withAlpha(0.6)
+      highlight.color = Color.systemYellow().withAlpha(0.25)
+      highlight.border.width = 1 * uiScale
+      highlight.border.color = Color.systemYellow().withAlpha(0.5)
       highlight.transitions.position = false
       highlight.transitions.size = false
+      highlight.mergeDistance = 1 * uiScale
     })
   })
 
@@ -326,13 +329,17 @@ style.layer('selection', (row, run, caret, viewport, include) => {
 
   run(`.@view-selected-range and not @view-marked-range`, (editor, text) => {
     let values = computeValues(editor)
-    text.decoration('selection', (background, layout) => {
-      background.zPosition = -2
-      background.anchor.x = 0
-      background.anchor.y = 0
-      background.x = layout.leading
-      background.y = layout.top
-      background.color = values.selectionColor
+    text.decoration('selection', (selection, layout) => {
+      selection.zPosition = -2
+      selection.anchor.x = 0
+      selection.anchor.y = 0
+      selection.x = layout.leading
+      selection.y = layout.top
+      selection.color = values.selectionColor.withAlpha(0.5)
+      selection.border.width = 1 * values.uiScale
+      selection.border.color = values.selectionColor
+      selection.corners.radius = 2 * values.uiScale
+      selection.mergeDistance = 1
     })
   })
 
