@@ -338,7 +338,7 @@ style.layer('selection', (row, run, caret, viewport, include) => {
       selection.color = values.selectionColor.withAlpha(0.5)
       selection.border.width = 1 * values.uiScale
       selection.border.color = values.selectionColor
-      selection.corners.radius = 2 * values.uiScale
+      selection.corners.radius = 3 * values.uiScale
       selection.mergeDistance = 1
     })
   })
@@ -358,8 +358,17 @@ style.layer('selection', (row, run, caret, viewport, include) => {
 
 style.layer('highlights', (row, run, caret, viewport, include) => {
   run(`.@view-find-current or @view-check-current`, (editor, run) => {
+    let values = computeValues(editor)
+    let uiScale = values.uiScale
+
     run.decoration('selection', (highlight, layout) => {
-      highlight.color = Color.systemYellow()
+      highlight.color = Color.findHighlight() //.withAlpha(0.8)
+      highlight.border.width = 0
+      highlight.shadow.opacity = 0.4
+      highlight.shadow.radius = 2
+      highlight.shadow.offset.height = 0
+      highlight.x = highlight.x.offset(-1 * uiScale)
+      highlight.width = highlight.width.offset(2 * uiScale)
     })
   })
 })
