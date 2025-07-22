@@ -61,13 +61,9 @@ function buildD3Hierarchy(row: Row): any {
   return {
     id: row.id,
     name: trimString(row.text.string, 32),
-    children: row.children.flatMap((child) => {
-      if (child.firstChild || child.text.string.length > 0) {
-        return [buildD3Hierarchy(child)]
-      } else {
-        return []
-      }
-    }),
+    children: row.children
+      .filter((child) => child.firstChild || child.text.string.length > 0)
+      .map(buildD3Hierarchy),
   }
 }
 
