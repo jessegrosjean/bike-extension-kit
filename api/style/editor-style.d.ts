@@ -396,6 +396,8 @@ interface Decoration {
   border: DecorationBorder
   /** Corners */
   corners: DecorationCorners
+  /** Optional shadow */
+  shadow: DecorationShadow
   /** Optional layer contents */
   contents: DecorationContents
   /** Background color */
@@ -494,6 +496,23 @@ interface DecorationBorder {
   color: Color
   /** Line width */
   width: number
+}
+
+/** DecorationShadow - Wraps CALayer shadow */
+interface DecorationShadow {
+  /** Shadow opacity */
+  opacity: number
+  /** Shadow blur radius */
+  radius: number
+  /** Shadow offset */
+  offset: {
+    /** Shadow offset width */
+    width: number
+    /** Shadow offset height */
+    height: number
+  }
+  /** Shadow color */
+  color: Color
 }
 
 /** DecorationCorners - Wraps CALayer corner */
