@@ -35,14 +35,6 @@ style.layer('base', (row, run, caret, viewport, include) => {
 
     row.padding = values.rowPadding
 
-    row.decoration('background', (background, layout) => {
-      background.anchor.x = 0
-      background.anchor.y = 0
-      background.x = layout.leading
-      background.y = layout.top
-      background.zPosition = -1
-    })
-
     row.decoration('handle', (handle, layout) => {
       handle.commandName = 'bike:toggle-fold'
       let size = layout.firstLine.height.min(values.indent)
@@ -77,15 +69,6 @@ style.layer('base', (row, run, caret, viewport, include) => {
     row.text.lineHeightMultiple = values.lineHeightMultiple
     row.text.margin = values.rowTextMargin
     row.text.padding = values.rowTextPadding
-
-    row.text.decoration('background', (background, layout) => {
-      background.anchor.x = 0
-      background.anchor.y = 0
-      background.x = layout.leading
-      background.y = layout.top
-      background.zPosition = -2
-      background.transitions.color = false
-    })
   })
 })
 
