@@ -1,5 +1,5 @@
 import { RelativeOutlinePath } from '../core/outline-path'
-import { Image, Font, Color, Cache as GraphicsCache } from './graphics'
+import { Image, Font, Color } from './graphics'
 import { Insets, Rect, Point, Size } from './geometry'
 
 /**
@@ -379,13 +379,34 @@ interface DecorationContainer {
 /**
  * Decoration - Add visual decorations to outline.
  *
- * Decorations are used to add visual attachements to a row, row text, or row
- * text run. They can have a background color, border, and corner radius. They
- * can also have image content. Decorations do not effect layout, you need to
- * make space for them using row and text padding and margins.
+ * Decorations are attached to rows, row texts, or row text runs. They can have
+ * a background color, border, and corner radius. They can also have image
+ * content. Decorations do not effect layout, you need to make space for them
+ * using row and text padding and margins.
  *
- * Decorations closely wrap a `CALayer`. Look into the `CALayer` documentation
- * for more information on possiblilities.
+ * Decorations can be marked `mergable`. Similar mergable decorations may be
+ * combined into a single shape. The exact merging behavior depends on where the
+ * decoration is attached:
+ *
+ * - Text run decorations are merged when they appear in consecutive text runs,
+ *   have equal styling, and touching/close frames.
+ *
+ *   The frames of the merged decorations are combined into a single shape that
+ *   is the union of all the individual run decoration frames. This shapes
+ *   corners will be rounded via the `corners.radius` property. See text
+ *   selection for intented use/behavior.
+ *
+ * - Row and text decorations are merged when they appear in consecutive rows,
+ *   have equal styling, and touching/close frames.
+ *
+ *   Row and text decorations are not merged into a single shape. Instead their
+ *   corners are modified to match the preceding and following decoration
+ *   corners to create a larger rounded shape. This will only have a visible
+ *   effect when `border.radius` is applied. See block selection for intended
+ *   use/behavior.
+ *
+ * Decorations closely wrap a `CAShapeLayer`. Look into the `CAShapeLayer`
+ * documentation for more information on the possibilities.
  */
 interface Decoration {
   /** Hidden (default false) */
@@ -416,6 +437,8 @@ interface Decoration {
   width: LayoutValue
   /** The height value (default fill container) */
   height: LayoutValue
+  /** Whether the decoration can be merged with similar (see interface docs) */
+  mergable: boolean
   /** Optional command name to perform when activated (clicked) */
   commandName?: string
   /** The properties to animate when using updating decoration. (default all) */
@@ -426,19 +449,6 @@ interface Decoration {
     position: boolean
     size: boolean
   }
-  /**
-   * Merge similar decorations into a single shape.
-   *
-   * Similar decorations must be in the same container (row, text, run). They
-   * must have equal style properties. They must be in the same or consecutive
-   * containers. (ie consecutive text runs) Finally, the decoration frame edges
-   * must be within the `mergeDistance` of each other.
-   *
-   * The merged shape is a path created by combining the individual decoration
-   * frames. The primary use of this is feature is to create border selections
-   * and text run backgrounds such as @highlight.
-   */
-  mergeDistance?: number
 }
 
 type DecorationPropertyTransition = {}
