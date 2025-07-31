@@ -305,8 +305,20 @@ style.layer('controls', (row, run, caret, viewport, include) => {
 style.layer('selection', (row, run, caret, viewport, include) => {
   row(`.selection() = block`, (editor, row) => {
     let values = computeValues(editor)
-    row.text.decoration('background', (background, _) => {
-      background.color = values.blockSelectionColor
+    row.decoration('selection', (background, layout) => {
+      background.anchor.x = 0
+      background.anchor.y = 0
+      background.x = layout.leadingContent
+      background.y = layout.top
+      background.width = layout.width.offset(layout.leadingContent.scale(-1))
+      background.height = layout.text.bottom.minus(layout.top).offset(row.text.margin.bottom)
+      background.color = values.selectionColor.withAlpha(0.5)
+      background.border.width = 1 * values.uiScale
+      background.border.color = values.selectionColor
+      background.corners.radius = 3 * values.uiScale
+      background.mergable = true
+      background.transitions.color = false
+      background.zPosition = -2
     })
   })
 
@@ -322,7 +334,7 @@ style.layer('selection', (row, run, caret, viewport, include) => {
       selection.border.width = 1 * values.uiScale
       selection.border.color = values.selectionColor
       selection.corners.radius = 3 * values.uiScale
-      selection.mergeDistance = 1
+      selection.mergable = true
     })
   })
 
