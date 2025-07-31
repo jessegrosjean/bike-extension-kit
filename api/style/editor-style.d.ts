@@ -444,6 +444,8 @@ interface Decoration {
   /** The properties to animate when using updating decoration. (default all) */
   readonly transitions: {
     color: boolean
+    borderColor: boolean
+    borderWidth: boolean
     opacity: boolean
     rotation: boolean
     position: boolean
