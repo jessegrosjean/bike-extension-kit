@@ -193,9 +193,7 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
       highlight.color = Color.systemYellow().withAlpha(0.25)
       highlight.border.width = 1 * uiScale
       highlight.border.color = Color.systemYellow().withAlpha(0.5)
-      highlight.transitions.position = false
-      highlight.transitions.size = false
-      highlight.mergeDistance = 1
+      highlight.mergable = true
     })
   })
 
@@ -266,6 +264,7 @@ style.layer('controls', (row, run, caret, viewport, include) => {
       focus.y = layout.lastLine.centerY
       focus.width = size
       focus.height = size
+      focus.transitions.position = false
       if (editor.isTyping && values.hideControlsWhenTyping) {
         focus.opacity = 0
       }
@@ -357,7 +356,7 @@ style.layer('highlights', (row, run, caret, viewport, include) => {
     let uiScale = values.uiScale
 
     run.decoration('selection', (highlight, layout) => {
-      highlight.color = Color.findHighlight() //.withAlpha(0.8)
+      highlight.color = Color.findHighlight()
       highlight.border.width = 0
       highlight.shadow.opacity = 0.4
       highlight.shadow.radius = 2
