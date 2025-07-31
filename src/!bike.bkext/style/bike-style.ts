@@ -85,8 +85,28 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     row.text.decoration('mark', (mark, layout) => {
       mark.x = layout.leading.offset(-values.indent / 2)
       mark.height = layout.height.offset(row.text.margin.top + row.text.margin.bottom)
-      mark.width = layout.fixed(Math.ceil(1 * values.uiScale))
+      mark.width = layout.fixed(Math.ceil(4 * values.uiScale))
       mark.color = values.textColor
+      mark.corners.radius = 3 * values.uiScale
+      mark.mergable = true
+      mark.zPosition = -2
+    })
+
+    row.text.decoration('blockquote', (block, layout) => {
+      block.anchor.x = 0
+      block.anchor.y = 0
+      let adjust = layout
+        .fixed(0)
+        .offset(-values.indent / 2)
+        .offset(-3 * values.uiScale)
+      block.x = layout.leading.offset(adjust)
+      block.y = layout.top
+      block.height = layout.height.offset(row.text.margin.top + row.text.margin.bottom)
+      block.width = layout.text.width.offset(adjust.scale(-1))
+      block.color = values.textColor.withAlpha(0.02)
+      block.corners.radius = 3 * values.uiScale
+      block.mergable = true
+      block.zPosition = -3
     })
   })
 
