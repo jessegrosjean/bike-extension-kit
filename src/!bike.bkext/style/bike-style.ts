@@ -56,7 +56,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
         guide.x = layout.leadingContent.offset(-values.indent / 2)
         guide.y = layout.firstLine.bottom
         guide.anchor.y = 0
-        guide.width = layout.fixed(Math.ceil(1 * values.uiScale))
+        guide.width = layout.fixed(Math.max(1 * values.uiScale, 0.5))
         guide.height = layout.fixed(0)
         if (editor.isTyping && values.hideControlsWhenTyping) {
           guide.opacity = 0
@@ -83,11 +83,15 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     row.text.margin.left = Math.floor(indent * 2)
     row.text.font = row.text.font.withItalics()
     row.text.decoration('mark', (mark, layout) => {
+      mark.anchor.y = 0
+      mark.y = layout.top
       mark.x = layout.leading.offset(-values.indent / 2)
       mark.height = layout.height.offset(row.text.margin.top + row.text.margin.bottom)
-      mark.width = layout.fixed(Math.ceil(4 * values.uiScale))
-      mark.color = values.textColor
+      mark.width = layout.fixed(Math.max(4 * values.uiScale, 0.5))
+      mark.color = values.textColor.withAlpha(0.7)
       mark.corners.radius = 3 * values.uiScale
+      mark.corners.maxXMinYCorner = false
+      mark.corners.maxXMaxYCorner = false
       mark.mergable = true
       mark.zPosition = -2
     })
@@ -98,13 +102,15 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
       let adjust = layout
         .fixed(0)
         .offset(-values.indent / 2)
-        .offset(-3 * values.uiScale)
+        .offset(-1 * values.uiScale)
       block.x = layout.leading.offset(adjust)
       block.y = layout.top
       block.height = layout.height.offset(row.text.margin.top + row.text.margin.bottom)
       block.width = layout.text.width.offset(adjust.scale(-1))
       block.color = values.textColor.withAlpha(0.02)
       block.corners.radius = 3 * values.uiScale
+      block.border.width = 0.5 * values.uiScale
+      block.border.color = values.textColor.withAlpha(0.05)
       block.mergable = true
       block.zPosition = -3
     })
@@ -178,7 +184,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
   row(`.hr`, (editor, row) => {
     let values = computeValues(editor)
     row.text.decoration('ruler', (ruler, layout) => {
-      ruler.height = layout.fixed(Math.ceil(1 * values.uiScale))
+      ruler.height = layout.fixed(Math.max(1 * values.uiScale, 0.5))
       ruler.width = layout.width.minus(row.text.padding.width)
       ruler.color = values.separatorColor
     })
