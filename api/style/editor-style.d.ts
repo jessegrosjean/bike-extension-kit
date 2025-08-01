@@ -5,19 +5,20 @@ import { Insets, Rect, Point, Size } from './geometry'
 /**
  * Defines EditorStyle – Ordered list of style rules.
  *
- * Each rule is a function. The rule is called when its outline path matches the
- * current element being styled. The rule function modifies the passed in style
- * object, and then that object is passed on to the next matching rule.
+ * Each rule is a function with an associated outline path. The rule's function
+ * is called when the outline path matches the element being styled. The rule's
+ * function is passed a style object that it may modify. That style object is
+ * then passed on to the next matching rule.
  *
  * Rules should be ordered from least specific to most specific. The first rule
- * sets the general style, following rules can modify that style for specific
+ * sets the general style, following rules modify that style for specific
  * situations. Unlike CSS there is no specificity calculation, rules are always
- * processed in defined order.
+ * processed in the order they are defined.
  *
- * Rule functions are cached. The same set of inputs to a rule should always
- * generate the same output style object. Never use global mutable state in rule
- * logic or you will get unexpected results. Unlike CSS, you can read the
- * incomming rule state, and make decisions based on that state.
+ * Style objects are cached. The same set of inputs to a rule's function should
+ * always generate the same style object modifications. Never use global mutable
+ * state in rule logic or you will get unexpected results. Unlike CSS, you can
+ * read the incoming rule state, and make decisions based on that state.
  *
  * Rules are organized into layers. Use `defineEditorStyleModifier` to inject
  * new rules into existing editor style layers.

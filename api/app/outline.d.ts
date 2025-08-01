@@ -403,7 +403,7 @@ export type RowType =
   | 'unordered'
   | 'ordered'
   | 'task'
-  //| "page" TODO
+  //| "page" TODO?
   | 'hr'
 
 /**
