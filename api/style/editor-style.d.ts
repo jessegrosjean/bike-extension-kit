@@ -196,20 +196,20 @@ interface EditorTheme {
   lineHeightMultiple: number
   /** Theme row spacing multiple  */
   rowSpacingMultiple: number
-  /** Show caret line setting  */
+  /** Show caret line  */
   showCaretLine: boolean
-  /** Show guide lines setting  */
+  /** Show guide lines  */
   showGuideLines: boolean
 }
 
 interface EditorSettings {
-  /** Focus mode setting  */
+  /** Focus mode  */
   focusMode?: FocusMode
-  /** Typewriter mode setting (0-1)  */
+  /** Typewriter mode (0-1)  */
   typewriterMode?: number
-  /** Wrap to column setting  */
+  /** Wrap to column  */
   wrapToColumn?: number
-  /** Hide controls when typing setting  */
+  /** Hide controls when typing  */
   hideControlsWhenTyping: boolean
 }
 
@@ -255,7 +255,6 @@ interface ViewportStyle {
 interface RowStyle extends DecorationContainer {
   /** Opacity (0-1) */
   opacity: number
-
   /** The row padding. Generally used to create outline indentation */
   padding: Insets
   /** The row's text style, effects only the matched rows text, not contained rows */
@@ -286,7 +285,6 @@ interface TextStyle extends TextContainer {
 interface TextRunStyle extends TextContainer {
   /** Enclosing text's scale */
   readonly scale: number
-
   /**
    * Attachment size.
    *
@@ -457,16 +455,17 @@ interface Decoration {
 type DecorationPropertyTransition = {}
 
 /**
- * Layout - Decorations are positioned relative to a layout.
+ * Layout - Decorations are positioned with layouts.
  *
  * The layout provides access to layout values which are assigned to the
  * decorations x, y, width, and height. Layout values can be used on own, or
  * combined with each other in various ways.
  *
- * Layouts also provide access to two child layouts: `firstLine` and `lastLine`.
- * For example to get the layout value for the bottom of the first line of a
- * row you could use `layout.firstLine.bottom`. While in the same context
- * `layout.bottom` would give the layout value for the bottom of the row.
+ * Layouts also provide access to child layouts such as `text`, `firstLine` and
+ * `lastLine`. For example to get the layout value for the bottom of the first
+ * line of a row you could use `layout.firstLine.bottom`. While in the same
+ * context `layout.bottom` would give the layout value for the bottom of the
+ * row.
  */
 interface Layout {
   text: Layout
@@ -513,6 +512,8 @@ interface DecorationBorder {
 
 /** DecorationShadow - Wraps CALayer shadow */
 interface DecorationShadow {
+  /** Shadow color */
+  color: Color
   /** Shadow opacity */
   opacity: number
   /** Shadow blur radius */
@@ -524,8 +525,6 @@ interface DecorationShadow {
     /** Shadow offset height */
     height: number
   }
-  /** Shadow color */
-  color: Color
 }
 
 /** DecorationCorners - Wraps CALayer corner */
