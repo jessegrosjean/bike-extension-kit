@@ -24,7 +24,11 @@ interface Commands {
   toString(): string
 }
 
-/** The name of the command in the form `catagory:name-of-command` */
+/**
+ * The name of the command in the form `catagory:name-of-command`. If don't want
+ * the command to show in the command palette then use a name that starts with
+ * a period, such as `bike:.click-handle` for the full command name.
+ */
 type CommandName = string
 
 /**
