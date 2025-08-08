@@ -4,6 +4,14 @@ import { Disposable } from './system'
 /** Interface to manage outline editor Keybindings. */
 interface Keybindings {
   /**
+   * Current active modifier keys.
+   *
+   * Result contains modifiers such as `Command`, `Control`, `Option`, and
+   * `Shift` in addition to the key that trigged the modifier such as
+   * `LeftCommand`, `RightControl`, etc.
+   */
+  activeModifiers: String[]
+  /**
    * Adds keybindings to a named outline editor keymap.
    *
    * Keybindings are only used when the outline editor has focus. They
