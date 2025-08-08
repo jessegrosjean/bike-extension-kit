@@ -36,7 +36,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
     row.padding = values.rowPadding
 
     row.decoration('handle', (handle, layout) => {
-      handle.commandName = 'bike:toggle-fold'
+      handle.commandName = 'bike:.click-handle'
       let size = layout.firstLine.height.min(values.indent)
       handle.opacity = values.secondaryControlAlpha
       handle.contents.gravity = 'center'
@@ -248,7 +248,7 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
     let imageWidth = image.resolve(editor).width * 1.1
     text.padding.right = imageWidth
     text.decoration('button', (button, layout) => {
-      button.commandName = 'bike:open-link'
+      button.commandName = 'bike:.click-link'
       button.x = layout.trailing
       button.anchor.x = 0
       button.width = layout.fixed(imageWidth)

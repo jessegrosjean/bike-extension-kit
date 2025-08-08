@@ -1,4 +1,12 @@
-import { AttributedString, CommandContext, OutlineEditor, Range, Selection, URL } from 'bike/app'
+import {
+  AttributedString,
+  CommandContext,
+  FoldOptions,
+  OutlineEditor,
+  Range,
+  Selection,
+  URL,
+} from 'bike/app'
 
 export function homeCommand(context: CommandContext): boolean {
   let editor = context.editor
@@ -72,6 +80,35 @@ export function openLinkCommand(context: CommandContext): boolean {
   if (urls.length == 0) return false
   for (let url of urls) {
     url.open({})
+  }
+  return true
+}
+
+export function clickHandleCommand(context: CommandContext): boolean {
+  let isOption = bike.keybindings.activeModifiers.indexOf('Option') !== -1
+  let options: FoldOptions = isOption ? 'completely' : 'row'
+  let editor = context.editor
+  let row = context.selection?.row
+  if (!editor || !row) return false
+  if (editor.isCollapsed(row)) {
+    editor.expand([row], options)
+  } else {
+    editor.collapse([row], options)
+  }
+  return true
+}
+
+export function clickLinkCommand(context: CommandContext): boolean {
+  let isOption = bike.keybindings.activeModifiers.indexOf('Option') !== -1
+  let editor = context.editor
+  let selection = context.selection
+  if (!editor || !selection) return false
+  let urls = findURLs(editor, selection)
+  if (urls.length == 0) return false
+  for (let url of urls) {
+    url.open({
+      activates: !isOption,
+    })
   }
   return true
 }

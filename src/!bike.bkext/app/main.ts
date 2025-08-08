@@ -1,5 +1,7 @@
 import { AppExtensionContext, Window } from 'bike/app'
 import {
+  clickHandleCommand,
+  clickLinkCommand,
   headingsCommand,
   homeCommand,
   openLinkCommand,
@@ -17,6 +19,8 @@ export async function activate(context: AppExtensionContext) {
       'bike:toggle-fold': toggleFoldCommand,
       'bike:toggle-done': toggleDoneCommand,
       'bike:open-link': openLinkCommand,
+      'bike:.click-handle': clickHandleCommand,
+      'bike:.click-link': clickLinkCommand,
     },
   })
 
