@@ -90,25 +90,31 @@ export interface EditorStyle {
        * @param match - The outline path to match rows.
        * @param apply - Function to modify the matched row style.
        */
-      row: (match: RelativeOutlinePath, apply: (editor: Editor, row: RowStyle) => void) => void,
+      row: (
+        match: RelativeOutlinePath,
+        apply: (context: StyleContext, row: RowStyle) => void
+      ) => void,
       /**
        * Define a text run rule.
        * @param match - The outline path to match runs.
        * @param apply - Function to modify the matched run style.
        */
-      run: (match: RelativeOutlinePath, apply: (editor: Editor, run: TextRunStyle) => void) => void,
+      run: (
+        match: RelativeOutlinePath,
+        apply: (context: StyleContext, run: TextRunStyle) => void
+      ) => void,
       /**
        * Define a caret rule. Generally this only needs to be used once per
        * editor style, by convention it is defined in the base layer.
        * @param apply - Function to modify the caret style.
        */
-      caret: (apply: (editor: Editor, caret: CaretStyle) => void) => void,
+      caret: (apply: (context: StyleContext, caret: CaretStyle) => void) => void,
       /**
        * Define a viewport rule. Generally this only needs to be used once per
        * editor style, by convention it is defined in the base layer.
        * @param apply - Function to modify the viewport style.
        */
-      viewport: (apply: (editor: Editor, viewport: ViewportStyle) => void) => void,
+      viewport: (apply: (context: StyleContext, viewport: ViewportStyle) => void) => void,
       /**
        * Include rules from another editor style layer.
        *
@@ -150,19 +156,14 @@ type RulesLayerName =
   | 'highlights' // Highlight formatting
   | string
 
-// TODO: Rename Editor to Context or StyleContext.
-// Move isKey, isTyping, etc, to editor: EditorState property
-
 /**
- * Editor – Editor state passed to stylesheet `apply` functions.
+ * StyleContext – Context passed to stylesheet `apply` functions.
  *
- * Use this state in rule definitions to determine the applied style values.
- * Cache values derived from this state in `userCache` to avoid recomputing
- * them. Anytime editor state changes the `userCache` is also invalidated.
+ * Use this in rule definitions to determine the applied style values. Cache
+ * values derived from this context in `userCache` to avoid recomputing them.
+ * Anytime this context changes the `userCache` is also invalidated.
  */
-interface Editor {
-  /** Ordered row index being styled  */
-  orderedIndex?: number
+interface StyleContext {
   /** True when editor has keyboard focus  */
   isKey: boolean
   /** True when editor is typing (mouse hidden)  */
@@ -181,6 +182,20 @@ interface Editor {
   settings: EditorSettings
   /** Cache for values derived from this editor state */
   userCache: Map<string, any>
+
+  /** Ordered row index being styled  */
+  orderedIndex?: number
+
+  /** Get counter value */
+  //getCounter(name: string): number
+  /** Get nested counter values */
+  //getCounters(name: string): number[]
+  /** Create a new counter (default initialValue is 0) */
+  //createCounter(name: string, initialValue?: number): void
+  /** Increment existing counter (default byValue is 1) */
+  //incrementCounter(name: string, byValue?: number): void
+  /** Set the value of existing counter, create if doesn't */
+  //setCounter(name: string, value: number): void
 }
 
 interface EditorTheme {

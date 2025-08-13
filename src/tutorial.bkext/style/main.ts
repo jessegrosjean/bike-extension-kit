@@ -3,7 +3,7 @@ import { Color, Image, SymbolConfiguration, defineEditorStyle, Insets, Font } fr
 let style = defineEditorStyle('tutorial', 'Tutorial')
 
 style.layer('base', (row, run, caret, viewport, include) => {
-  row(`.*`, (editor, row) => {
+  row(`.*`, (context, row) => {
     row.padding = new Insets(10, 10, 10, 28)
 
     row.decoration('background', (background, layout) => {
@@ -22,7 +22,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
 })
 
 style.layer('row-formatting', (row, run, caret, viewport, include) => {
-  row(`.@type = task`, (editor, row) => {
+  row(`.@type = task`, (context, row) => {
     row.text.decoration('mark', (mark, layout) => {
       let lineHeight = layout.firstLine.height
       mark.commandName = 'bike:toggle-done'
@@ -39,7 +39,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     })
   })
 
-  row(`.@type = task and @done`, (editor, row) => {
+  row(`.@type = task and @done`, (context, row) => {
     row.text.strikethrough.thick = true
     row.text.decoration('mark', (mark, layout) => {
       mark.contents.image = Image.fromSymbol(
@@ -52,14 +52,14 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
 })
 
 style.layer('selection', (row, run, caret, viewport, include) => {
-  run(`.@view-selected-range`, (editor, run) => {
+  run(`.@view-selected-range`, (context, run) => {
     run.decoration('selection', (selection, layout) => {
       selection.zPosition = -1
       selection.color = Color.textBackgroundSelected().withAlpha(0.5)
     })
   })
 
-  row(`.selection() = block`, (editor, row) => {
+  row(`.selection() = block`, (context, row) => {
     row.text.color = Color.white()
     row.text.decoration('background', (background, layout) => {
       background.color = Color.selectedContentBackground()

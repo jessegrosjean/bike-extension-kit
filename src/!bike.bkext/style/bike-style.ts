@@ -4,15 +4,15 @@ import { computeValues, symbolImage } from './util'
 let style = defineEditorStyle('bike', 'Bike (default)')
 
 style.layer('base', (row, run, caret, viewport, include) => {
-  viewport((editor, viewport) => {
-    let values = computeValues(editor)
+  viewport((context, viewport) => {
+    let values = computeValues(context)
     viewport.padding = values.viewportPadding
     viewport.backgroundColor = values.backgroundColor
   })
 
-  caret((editor, caret) => {
-    let values = computeValues(editor)
-    if (editor.isKey) {
+  caret((context, caret) => {
+    let values = computeValues(context)
+    if (context.isKey) {
       let accentColor = values.accentColor
       let pointSize = values.fontAttributes.pointSize
       caret.color = accentColor
@@ -30,8 +30,8 @@ style.layer('base', (row, run, caret, viewport, include) => {
     }
   })
 
-  row(`.*`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.*`, (context, row) => {
+    let values = computeValues(context)
 
     row.padding = values.rowPadding
 
@@ -45,7 +45,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
       handle.y = layout.firstLine.centerY
       handle.width = size
       handle.height = size
-      if (editor.isTyping && values.hideControlsWhenTyping) {
+      if (context.isTyping && values.hideControlsWhenTyping) {
         handle.opacity = 0
       }
     })
@@ -58,7 +58,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
         guide.anchor.y = 0
         guide.width = layout.fixed(Math.max(1 * values.uiScale, 0.5))
         guide.height = layout.fixed(0)
-        if (editor.isTyping && values.hideControlsWhenTyping) {
+        if (context.isTyping && values.hideControlsWhenTyping) {
           guide.opacity = 0
         }
       })
@@ -73,12 +73,12 @@ style.layer('base', (row, run, caret, viewport, include) => {
 })
 
 style.layer('row-formatting', (row, run, caret, viewport, include) => {
-  row(`.heading`, (editor, row) => {
+  row(`.heading`, (context, row) => {
     row.text.font = row.text.font.withBold()
   })
 
-  row(`.blockquote`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.blockquote`, (context, row) => {
+    let values = computeValues(context)
     let indent = values.indent
     row.text.margin.left = Math.floor(indent * 2)
     row.text.font = row.text.font.withItalics()
@@ -116,16 +116,34 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     })
   })
 
-  row(`.codeblock`, (editor, row) => {
+  /*
+  row(`.start-of-matches(.blockquote) = true`, (context, row) => {
+    // Good start, but has problem with multilevel blockquotes.
+    // Want to use same look for codeblocks. But they are expected to be multilevel.
+    // Add a copy button/decoration to end of first row?
+    // Do same for codeblock?
+    let values = computeValues(context)
+    let pointSize = values.font.resolve(context).pointSize
+    row.text.margin.top = pointSize * values.uiScale
+  })
+
+  row(`.end-of-matches(.blockquote) = true`, (context, row) => {
+    let values = computeValues(context)
+    let pointSize = values.font.resolve(context).pointSize
+    row.text.margin.bottom = pointSize * values.uiScale
+  })
+  */
+
+  row(`.codeblock`, (context, row) => {
     row.text.font = row.text.font.withMonospace()
   })
 
-  row(`.note`, (editor, row) => {
+  row(`.note`, (context, row) => {
     row.text.font = row.text.font.withItalics()
   })
 
-  row(`.unordered`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.unordered`, (context, row) => {
+    let values = computeValues(context)
     let indent = values.indent
     row.text.margin.left = Math.floor(indent * 2)
     row.text.decoration('mark', (mark, layout) => {
@@ -139,10 +157,10 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     })
   })
 
-  row(`.ordered`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.ordered`, (context, row) => {
+    let values = computeValues(context)
     let indent = values.indent
-    let index = editor.orderedIndex ?? 0
+    let index = context.orderedIndex ?? 0
     row.text.margin.left = Math.floor(indent * 2)
     row.text.decoration('mark', (mark, layout) => {
       mark.x = layout.leading.offset(-values.indent / 2)
@@ -155,8 +173,8 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     })
   })
 
-  row(`.task`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.task`, (context, row) => {
+    let values = computeValues(context)
     let indent = values.indent
     row.text.margin.left = Math.floor(indent * 2)
     row.text.decoration('mark', (mark, layout) => {
@@ -171,18 +189,18 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     })
   })
 
-  row(`.@done`, (editor, row) => {
+  row(`.@done`, (context, row) => {
     row.text.strikethrough.thick = true
   })
 
-  row(`.task @done`, (editor, row) => {
+  row(`.task @done`, (context, row) => {
     row.text.decoration('mark', (mark, _) => {
       mark.contents.image = symbolImage('checkmark.square', row.text.color, row.text.font)
     })
   })
 
-  row(`.hr`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.hr`, (context, row) => {
+    let values = computeValues(context)
     row.text.decoration('ruler', (ruler, layout) => {
       ruler.height = layout.fixed(Math.max(1 * values.uiScale, 0.5))
       ruler.width = layout.width.minus(row.text.padding.width)
@@ -192,20 +210,20 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
 })
 
 style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
-  run('.@emphasized', (editor, text) => {
+  run('.@emphasized', (context, text) => {
     text.font = text.font.withItalics()
   })
 
-  run(`.@strong`, (editor, text) => {
+  run(`.@strong`, (context, text) => {
     text.font = text.font.withBold()
   })
 
-  run(`.@code`, (editor, text) => {
+  run(`.@code`, (context, text) => {
     text.font = text.font.withMonospace()
   })
 
-  run(`.@highlight`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.@highlight`, (context, text) => {
+    let values = computeValues(context)
     let uiScale = values.uiScale
     text.decoration('highlight', (highlight, layout) => {
       highlight.zPosition = -1
@@ -223,29 +241,29 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
     })
   })
 
-  run(`.start-of-matches(.@highlight) = true`, (editor, text) => {
-    text.margin.left = 2.5 * computeValues(editor).uiScale
+  run(`.start-of-matches(.@highlight) = true`, (context, text) => {
+    text.margin.left = 2.5 * computeValues(context).uiScale
   })
 
-  run(`.end-of-matches(.@highlight) = true`, (editor, text) => {
-    text.margin.right = 2.5 * computeValues(editor).uiScale
+  run(`.end-of-matches(.@highlight) = true`, (context, text) => {
+    text.margin.right = 2.5 * computeValues(context).uiScale
   })
 
-  run(`.@strikethrough`, (editor, text) => {
+  run(`.@strikethrough`, (context, text) => {
     text.strikethrough.thick = true
   })
 
-  run(`.@link`, (editor, text) => {
-    text.color = Color.link().withAlpha(text.color.resolve(editor).alpha)
+  run(`.@link`, (context, text) => {
+    text.color = Color.link().withAlpha(text.color.resolve(context).alpha)
   })
 
-  run(`.end-of-matches(.@link) = true`, (editor, text) => {
+  run(`.end-of-matches(.@link) = true`, (context, text) => {
     let symbol = new SymbolConfiguration('arrow.up.forward.app')
       .withSymbolScale('medium')
       .withFont(text.font.withWeight('semibold'))
       .withHierarchicalColor(text.color.withAlpha(1))
     let image = Image.fromSymbol(symbol)
-    let imageWidth = image.resolve(editor).width * 1.1
+    let imageWidth = image.resolve(context).width * 1.1
     text.padding.right = imageWidth
     text.decoration('button', (button, layout) => {
       button.commandName = 'bike:.click-link'
@@ -257,26 +275,26 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
     })
   })
 
-  run(`.@baseline = subscript`, (editor, text) => {
-    let baseSize = text.font.resolve(editor).pointSize
+  run(`.@baseline = subscript`, (context, text) => {
+    let baseSize = text.font.resolve(context).pointSize
     text.font = text.font.withPointSize(0.75 * baseSize)
     text.baselineOffset = baseSize * -0.25
   })
 
-  run(`.@baseline = superscript`, (editor, text) => {
-    let baseSize = text.font.resolve(editor).pointSize
+  run(`.@baseline = superscript`, (context, text) => {
+    let baseSize = text.font.resolve(context).pointSize
     text.font = text.font.withPointSize(0.75 * baseSize)
     text.baselineOffset = baseSize * 0.25
   })
 
-  run(`.@attachment/parent::hr`, (editor, text) => {
+  run(`.@attachment/parent::hr`, (context, text) => {
     text.attachmentSize.width = 1
   })
 })
 
 style.layer('controls', (row, run, caret, viewport, include) => {
-  row(`.parent() = true`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.parent() = true`, (context, row) => {
+    let values = computeValues(context)
     row.text.decoration('focus', (focus, layout) => {
       let size = layout.lastLine.height
       focus.commandName = 'bike:toggle-focus'
@@ -291,36 +309,36 @@ style.layer('controls', (row, run, caret, viewport, include) => {
       focus.width = size
       focus.height = size
       focus.transitions.position = false
-      if (editor.isTyping && values.hideControlsWhenTyping) {
+      if (context.isTyping && values.hideControlsWhenTyping) {
         focus.opacity = 0
       }
     })
   })
 
-  row(`.parent() = true and focused-root() = true`, (editor, row) => {
+  row(`.parent() = true and focused-root() = true`, (context, row) => {
     row.text.decoration('focus', (focus, _) => {
       focus.rotation = 3.14
     })
   })
 
-  row(`.parent() = true and collapsed() = true`, (editor, row) => {
+  row(`.parent() = true and collapsed() = true`, (context, row) => {
     row.decoration('handle', (handle, _) => {
       handle.opacity = 1.0
     })
   })
 
-  row(`.expanded() = true`, (editor, row) => {
+  row(`.expanded() = true`, (context, row) => {
     row.decoration('handle', (handle, _) => {
       handle.rotation = 1.57
     })
-    if (computeValues(editor).showGuideLines) {
+    if (computeValues(context).showGuideLines) {
       row.decoration('guide', (guide, layout) => {
         guide.height = layout.bottom.minus(layout.firstLine.bottom)
       })
     }
   })
 
-  row(`.body @text = "" and parent() = false and selection() = null`, (editor, row) => {
+  row(`.body @text = "" and parent() = false and selection() = null`, (context, row) => {
     row.decoration('handle', (handle, _) => {
       handle.opacity = 0.0
     })
@@ -328,8 +346,8 @@ style.layer('controls', (row, run, caret, viewport, include) => {
 })
 
 style.layer('selection', (row, run, caret, viewport, include) => {
-  row(`.selection() = block`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.selection() = block`, (context, row) => {
+    let values = computeValues(context)
     row.decoration('selection', (background, layout) => {
       background.anchor.x = 0
       background.anchor.y = 0
@@ -339,7 +357,7 @@ style.layer('selection', (row, run, caret, viewport, include) => {
       background.height = layout.text.bottom.minus(layout.top).offset(row.text.margin.bottom)
       background.color = values.selectionColor.withAlpha(0.5)
       background.border.width = 1 * values.uiScale
-      background.border.color = values.selectionColor
+      background.border.color = values.selectionColor //values.selectionColor.withAlpha(0.25)
       background.corners.radius = 3 * values.uiScale
       background.mergable = true
       background.transitions.color = false
@@ -347,8 +365,8 @@ style.layer('selection', (row, run, caret, viewport, include) => {
     })
   })
 
-  run(`.@view-selected-range and not @view-marked-range`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.@view-selected-range and not @view-marked-range`, (context, text) => {
+    let values = computeValues(context)
     text.decoration('selection', (selection, layout) => {
       selection.zPosition = -2
       selection.anchor.x = 0
@@ -363,22 +381,22 @@ style.layer('selection', (row, run, caret, viewport, include) => {
     })
   })
 
-  run(`.@view-selected-range and @view-marked-range`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.@view-selected-range and @view-marked-range`, (context, text) => {
+    let values = computeValues(context)
     text.underline.thick = true
     text.underline.color = values.accentColor
   })
 
-  run(`.@view-marked-range`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.@view-marked-range`, (context, text) => {
+    let values = computeValues(context)
     text.underline.thick = true
     text.underline.color = values.selectionColor
   })
 })
 
 style.layer('highlights', (row, run, caret, viewport, include) => {
-  run(`.@view-find-current or @view-check-current`, (editor, run) => {
-    let values = computeValues(editor)
+  run(`.@view-find-current or @view-check-current`, (context, run) => {
+    let values = computeValues(context)
     let uiScale = values.uiScale
 
     run.decoration('selection', (highlight, layout) => {
@@ -395,8 +413,8 @@ style.layer('highlights', (row, run, caret, viewport, include) => {
 
 style.layer('outline-focus', (row, run, caret, viewport, include) => {
   // Modifies row decorations, so needs to be after layers that add decorations
-  row(`.focused-branch() = false`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.focused-branch() = false`, (context, row) => {
+    let values = computeValues(context)
     row.opacity = values.outlineFocusAlpha
     row.decorations((each, _) => {
       each.opacity = 0
@@ -408,8 +426,8 @@ style.layer('outline-focus', (row, run, caret, viewport, include) => {
 })
 
 style.layer('text-focus', (row, run, caret, viewport, include) => {
-  row(`.*`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.*`, (context, row) => {
+    let values = computeValues(context)
     if (values.focusMode) {
       let textFocusAlpha = values.textFocusAlpha
       row.text.color = row.text.color.withAlpha(textFocusAlpha)
@@ -422,8 +440,8 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  run(`.*`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.*`, (context, text) => {
+    let values = computeValues(context)
     if (values.focusMode) {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(textFocusAlpha)
@@ -433,8 +451,8 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  row(`.selection() = block`, (editor, row) => {
-    let values = computeValues(editor)
+  row(`.selection() = block`, (context, row) => {
+    let values = computeValues(context)
     if (values.focusMode) {
       let textFocusAlpha = values.textFocusAlpha
       row.decorations((each, _) => {
@@ -446,8 +464,8 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  run(`.@view-word-focus`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.@view-word-focus`, (context, text) => {
+    let values = computeValues(context)
     if (values.focusMode == 'word') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
@@ -457,8 +475,8 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  run(`.@view-sentence-focus`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.@view-sentence-focus`, (context, text) => {
+    let values = computeValues(context)
     if (values.focusMode == 'sentence') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
@@ -468,8 +486,8 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  run(`.@view-paragraph-focus`, (editor, text) => {
-    let values = computeValues(editor)
+  run(`.@view-paragraph-focus`, (context, text) => {
+    let values = computeValues(context)
     if (values.focusMode == 'paragraph') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
@@ -481,8 +499,8 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
 })
 
 style.layer('filter-match', (row, run, caret, viewport, include) => {
-  row(`.filter-match() = false and selection() = null`, (editor, row) => {
-    if (editor.isFiltering) {
+  row(`.filter-match() = false and selection() = null`, (context, row) => {
+    if (context.isFiltering) {
       row.text.scale = 0.25
       row.text.margin.left *= 0.5
       row.decorations((each, _) => {

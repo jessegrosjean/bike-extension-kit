@@ -1,6 +1,6 @@
 import {
   Color,
-  Editor,
+  StyleContext,
   FocusMode,
   Font,
   FontAttributes,
@@ -36,7 +36,7 @@ import {
  * @param editor
  * @returns The computed values derived from the editor
  */
-export function computeValues(editor: Editor): {
+export function computeValues(context: StyleContext): {
   font: Font
   wrapToColumn: number | undefined
   lineHeightMultiple: number
@@ -69,15 +69,15 @@ export function computeValues(editor: Editor): {
   outlineFocusAlpha: number
   textFocusAlpha: number
 } {
-  if (editor.userCache.has('values')) {
-    return editor.userCache.get('values')
+  if (context.userCache.has('values')) {
+    return context.userCache.get('values')
   }
 
-  let font = editor.theme.font
-  let viewportSize = editor.viewportSize
-  let typewriterMode = editor.settings.typewriterMode
-  let wrapToColumn = editor.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
-  let geometry = computeGeometryForFont(font, editor)
+  let font = context.theme.font
+  let viewportSize = context.viewportSize
+  let typewriterMode = context.settings.typewriterMode
+  let wrapToColumn = context.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let geometry = computeGeometryForFont(font, context)
 
   if (wrapToColumn == 0 || wrapToColumn == Number.MAX_SAFE_INTEGER) {
     if (typewriterMode) {
@@ -96,12 +96,12 @@ export function computeValues(editor: Editor): {
 
     if (rowToViewRatio > 2) {
       font = font.withPointSize(geometry.fontAttributes.pointSize - 1)
-      geometry = computeGeometryForFont(font, editor)
+      geometry = computeGeometryForFont(font, context)
     } else if (rowToViewRatio < inverseGolden) {
       let desiredRowWidth = viewportSize.width * inverseGolden
       let neededScale = 1.0 + (desiredRowWidth - rowWidth) / desiredRowWidth
       font = font.withPointSize(geometry.fontAttributes.pointSize * neededScale)
-      geometry = computeGeometryForFont(font, editor)
+      geometry = computeGeometryForFont(font, context)
     }
 
     let rowWrapWidth = geometry.rowWrapWidth
@@ -116,7 +116,7 @@ export function computeValues(editor: Editor): {
     if (typewriterMode) {
       geometry.viewportPadding.top = viewportSize.height * typewriterMode
     } else {
-      let lineHeight = geometry.fontAttributes.pointSize * editor.theme.lineHeightMultiple
+      let lineHeight = geometry.fontAttributes.pointSize * context.theme.lineHeightMultiple
       if (rowWrapWidth + lineHeight * 64 < viewportSize.width) {
         geometry.viewportPadding.top = lineHeight * 8
       } else if (rowWrapWidth + lineHeight * 32 < viewportSize.width) {
@@ -130,17 +130,17 @@ export function computeValues(editor: Editor): {
   }
 
   let uiScale = geometry.uiScale
-  let textColor = editor.theme.textColor
+  let textColor = context.theme.textColor
   let handleColor = textColor
-  let backgroundColor = editor.theme.backgroundColor
-  let secondaryControlAlpha = editor.isDarkMode ? 0.175 : 0.075
+  let backgroundColor = context.theme.backgroundColor
+  let secondaryControlAlpha = context.isDarkMode ? 0.175 : 0.075
   let secondaryControlColor = textColor.withAlpha(secondaryControlAlpha)
   let guideColor = textColor.withAlpha(secondaryControlAlpha / 2)
-  let selectionColor = editor.isKey
+  let selectionColor = context.isKey
     ? Color.textBackgroundSelected()
     : textColor.withFraction(0.8, backgroundColor)
 
-  let blockSelectionColor = editor.isKey
+  let blockSelectionColor = context.isKey
     ? Color.selectedContentBackground().withFraction(0.5, backgroundColor) //Color.systemGreen().withFraction(0.5, backgroundColor)
     : textColor.withFraction(0.8, backgroundColor)
 
@@ -158,19 +158,19 @@ export function computeValues(editor: Editor): {
 
   let values = {
     font: font,
-    wrapToColumn: editor.settings.wrapToColumn,
-    lineHeightMultiple: editor.theme.lineHeightMultiple,
-    rowSpacingMultiple: editor.theme.rowSpacingMultiple,
-    isFullScreen: editor.isFullScreen,
-    isDarkMode: editor.isDarkMode,
+    wrapToColumn: context.settings.wrapToColumn,
+    lineHeightMultiple: context.theme.lineHeightMultiple,
+    rowSpacingMultiple: context.theme.rowSpacingMultiple,
+    isFullScreen: context.isFullScreen,
+    isDarkMode: context.isDarkMode,
     textColor: textColor,
-    accentColor: editor.theme.accentColor,
-    backgroundColor: editor.theme.backgroundColor,
-    focusMode: editor.settings.focusMode,
-    typewriterMode: editor.settings.typewriterMode,
-    showCaretLine: editor.theme.showCaretLine,
-    showGuideLines: editor.theme.showGuideLines,
-    hideControlsWhenTyping: editor.settings.hideControlsWhenTyping,
+    accentColor: context.theme.accentColor,
+    backgroundColor: context.theme.backgroundColor,
+    focusMode: context.settings.focusMode,
+    typewriterMode: context.settings.typewriterMode,
+    showCaretLine: context.theme.showCaretLine,
+    showGuideLines: context.theme.showGuideLines,
+    hideControlsWhenTyping: context.settings.hideControlsWhenTyping,
     fontAttributes: geometry.fontAttributes,
     indent: geometry.indent,
     uiScale: uiScale,
@@ -190,14 +190,14 @@ export function computeValues(editor: Editor): {
     textFocusAlpha: 0.15,
   }
 
-  editor.userCache.set('values', values)
+  context.userCache.set('values', values)
 
   return values
 }
 
 function computeGeometryForFont(
   font: Font,
-  editor: Editor
+  context: StyleContext
 ): {
   uiScale: number
   indent: number
@@ -208,12 +208,12 @@ function computeGeometryForFont(
   viewportPadding: Insets
   fontAttributes: FontAttributes
 } {
-  let viewportSize = editor.viewportSize
-  let fontAttributes = font.resolve(editor)
+  let viewportSize = context.viewportSize
+  let fontAttributes = font.resolve(context)
   let pointSize = fontAttributes.pointSize
   let uiScale = pointSize / 14
   let indent = 22 * uiScale
-  let rowPaddingBase = editor.theme.rowSpacingMultiple * pointSize * uiScale
+  let rowPaddingBase = context.theme.rowSpacingMultiple * pointSize * uiScale
   let rowTextPaddingBase = 5 * uiScale
   let rowTextMarginBase = rowPaddingBase / 2
   let rowPadding = new Insets(rowPaddingBase, rowPaddingBase, rowPaddingBase, indent)
@@ -227,7 +227,7 @@ function computeGeometryForFont(
     10 * uiScale
   )
 
-  let wrapToColumn = editor.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let wrapToColumn = context.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
   let rowWrapWidth = Number.MAX_SAFE_INTEGER
 
   if (wrapToColumn > 0 && wrapToColumn < Number.MAX_SAFE_INTEGER) {
