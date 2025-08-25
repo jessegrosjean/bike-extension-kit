@@ -176,10 +176,10 @@ interface StyleContext {
   isFullScreen: boolean
   /** Size of the editor's viewport  */
   viewportSize: Size
-  /** Editor Theme  */
-  theme: EditorTheme
   /** Editor Settings  */
   settings: EditorSettings
+  /** Editor Theme  */
+  theme: EditorTheme
   /** Cache for values derived from this editor state */
   userCache: Map<string, any>
 
@@ -198,34 +198,38 @@ interface StyleContext {
   //setCounter(name: string, value: number): void
 }
 
-interface EditorTheme {
-  /** Theme font  */
-  font: Font
-  /** Theme text color  */
-  textColor: Color
-  /** Theme accent color  */
-  accentColor: Color
-  /** Theme background color  */
-  backgroundColor: Color
-  /** Theme line height multiple  */
-  lineHeightMultiple: number
-  /** Theme row spacing multiple  */
-  rowSpacingMultiple: number
+interface EditorSettings {
   /** Show caret line  */
   showCaretLine: boolean
   /** Show guide lines  */
   showGuideLines: boolean
-}
-
-interface EditorSettings {
+  /** Show focus arrows  */
+  showFocusArrows: boolean
+  /** Allow font scaling to better fit viewport  */
+  allowFontScaling: boolean
+  /** Hide controls when typing  */
+  hideControlsWhenTyping: boolean
   /** Focus mode  */
   focusMode?: FocusMode
   /** Typewriter mode (0-1)  */
   typewriterMode?: number
   /** Wrap to column  */
   wrapToColumn?: number
-  /** Hide controls when typing  */
-  hideControlsWhenTyping: boolean
+  /** Body font  */
+  font: Font
+  /** Line height multiple  */
+  lineHeightMultiple: number
+  /** Row spacing multiple  */
+  rowSpacingMultiple: number
+}
+
+interface EditorTheme {
+  /** Theme text color  */
+  textColor: Color
+  /** Theme accent color  */
+  accentColor: Color
+  /** Theme background color  */
+  backgroundColor: Color
 }
 
 type FocusMode = 'paragraph' | 'sentence' | 'word'

@@ -295,30 +295,35 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
 style.layer('controls', (row, run, caret, viewport, include) => {
   row(`.parent() = true`, (context, row) => {
     let values = computeValues(context)
-    row.text.decoration('focus', (focus, layout) => {
-      let size = layout.lastLine.height
-      focus.commandName = 'bike:toggle-focus'
-      focus.contents.gravity = 'center'
-      focus.contents.image = symbolImage(
-        'arrow.down.forward',
-        values.secondaryControlColor,
-        values.font
-      )
-      focus.x = layout.lastLine.trailing.offset(size.scale(0.5)).offset(row.text.padding.right)
-      focus.y = layout.lastLine.centerY
-      focus.width = size
-      focus.height = size
-      focus.transitions.position = false
-      if (context.isTyping && values.hideControlsWhenTyping) {
-        focus.opacity = 0
-      }
-    })
+    if (values.showFocusArrows) {
+      row.text.decoration('focus', (focus, layout) => {
+        let size = layout.lastLine.height
+        focus.commandName = 'bike:toggle-focus'
+        focus.contents.gravity = 'center'
+        focus.contents.image = symbolImage(
+          'arrow.down.forward',
+          values.secondaryControlColor,
+          values.font
+        )
+        focus.x = layout.lastLine.trailing.offset(size.scale(0.5)).offset(row.text.padding.right)
+        focus.y = layout.lastLine.centerY
+        focus.width = size
+        focus.height = size
+        focus.transitions.position = false
+        if (context.isTyping && values.hideControlsWhenTyping) {
+          focus.opacity = 0
+        }
+      })
+    }
   })
 
   row(`.parent() = true and focused-root() = true`, (context, row) => {
-    row.text.decoration('focus', (focus, _) => {
-      focus.rotation = 3.14
-    })
+    let values = computeValues(context)
+    if (values.showFocusArrows) {
+      row.text.decoration('focus', (focus, _) => {
+        focus.rotation = 3.14
+      })
+    }
   })
 
   row(`.parent() = true and collapsed() = true`, (context, row) => {

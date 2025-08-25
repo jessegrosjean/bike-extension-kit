@@ -50,6 +50,7 @@ export function computeValues(context: StyleContext): {
   typewriterMode: number | undefined
   showCaretLine: boolean
   showGuideLines: boolean
+  showFocusArrows: boolean
   hideControlsWhenTyping: boolean
   fontAttributes: FontAttributes
   indent: number
@@ -73,7 +74,7 @@ export function computeValues(context: StyleContext): {
     return context.userCache.get('values')
   }
 
-  let font = context.theme.font
+  let font = context.settings.font
   let viewportSize = context.viewportSize
   let typewriterMode = context.settings.typewriterMode
   let wrapToColumn = context.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
@@ -94,14 +95,16 @@ export function computeValues(context: StyleContext): {
       Math.max(geometry.rowTextMargin.width, geometry.rowTextPadding.width)
     let rowToViewRatio = rowWidth / viewportSize.width
 
-    if (rowToViewRatio > 2) {
-      font = font.withPointSize(geometry.fontAttributes.pointSize - 1)
-      geometry = computeGeometryForFont(font, context)
-    } else if (rowToViewRatio < inverseGolden) {
-      let desiredRowWidth = viewportSize.width * inverseGolden
-      let neededScale = 1.0 + (desiredRowWidth - rowWidth) / desiredRowWidth
-      font = font.withPointSize(geometry.fontAttributes.pointSize * neededScale)
-      geometry = computeGeometryForFont(font, context)
+    if (context.settings.allowFontScaling == true) {
+      if (rowToViewRatio > 2) {
+        font = font.withPointSize(geometry.fontAttributes.pointSize - 1)
+        geometry = computeGeometryForFont(font, context)
+      } else if (rowToViewRatio < inverseGolden) {
+        let desiredRowWidth = viewportSize.width * inverseGolden
+        let neededScale = 1.0 + (desiredRowWidth - rowWidth) / desiredRowWidth
+        font = font.withPointSize(geometry.fontAttributes.pointSize * neededScale)
+        geometry = computeGeometryForFont(font, context)
+      }
     }
 
     let rowWrapWidth = geometry.rowWrapWidth
@@ -116,7 +119,7 @@ export function computeValues(context: StyleContext): {
     if (typewriterMode) {
       geometry.viewportPadding.top = viewportSize.height * typewriterMode
     } else {
-      let lineHeight = geometry.fontAttributes.pointSize * context.theme.lineHeightMultiple
+      let lineHeight = geometry.fontAttributes.pointSize * context.settings.lineHeightMultiple
       if (rowWrapWidth + lineHeight * 64 < viewportSize.width) {
         geometry.viewportPadding.top = lineHeight * 8
       } else if (rowWrapWidth + lineHeight * 32 < viewportSize.width) {
@@ -159,8 +162,8 @@ export function computeValues(context: StyleContext): {
   let values = {
     font: font,
     wrapToColumn: context.settings.wrapToColumn,
-    lineHeightMultiple: context.theme.lineHeightMultiple,
-    rowSpacingMultiple: context.theme.rowSpacingMultiple,
+    lineHeightMultiple: context.settings.lineHeightMultiple,
+    rowSpacingMultiple: context.settings.rowSpacingMultiple,
     isFullScreen: context.isFullScreen,
     isDarkMode: context.isDarkMode,
     textColor: textColor,
@@ -168,8 +171,9 @@ export function computeValues(context: StyleContext): {
     backgroundColor: context.theme.backgroundColor,
     focusMode: context.settings.focusMode,
     typewriterMode: context.settings.typewriterMode,
-    showCaretLine: context.theme.showCaretLine,
-    showGuideLines: context.theme.showGuideLines,
+    showCaretLine: context.settings.showCaretLine,
+    showGuideLines: context.settings.showGuideLines,
+    showFocusArrows: context.settings.showFocusArrows,
     hideControlsWhenTyping: context.settings.hideControlsWhenTyping,
     fontAttributes: geometry.fontAttributes,
     indent: geometry.indent,
@@ -213,7 +217,7 @@ function computeGeometryForFont(
   let pointSize = fontAttributes.pointSize
   let uiScale = pointSize / 14
   let indent = 22 * uiScale
-  let rowPaddingBase = context.theme.rowSpacingMultiple * pointSize * uiScale
+  let rowPaddingBase = context.settings.rowSpacingMultiple * pointSize * uiScale
   let rowTextPaddingBase = 5 * uiScale
   let rowTextMarginBase = rowPaddingBase / 2
   let rowPadding = new Insets(rowPaddingBase, rowPaddingBase, rowPaddingBase, indent)
