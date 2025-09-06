@@ -414,6 +414,22 @@ style.layer('highlights', (row, run, caret, viewport, include) => {
       highlight.width = highlight.width.offset(2 * uiScale)
     })
   })
+
+  run(`.@view-active-replacement`, (context, text) => {
+    let values = computeValues(context)
+
+    text.decoration('replacement', (replacement, layout) => {
+      replacement.anchor.x = 0
+      replacement.anchor.y = 0
+      replacement.y = layout.baseline.offset(2 * values.uiScale)
+      replacement.x = layout.leading
+      replacement.height = layout.fixed(2 * values.uiScale)
+      replacement.width = layout.width
+      replacement.color = values.replacementColor
+      replacement.corners.radius = 1 * values.uiScale
+      replacement.zPosition = -2
+    })
+  })
 })
 
 style.layer('outline-focus', (row, run, caret, viewport, include) => {

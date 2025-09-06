@@ -459,15 +459,15 @@ interface Decoration {
   mergable: boolean
   /** Optional command name to perform when activated (clicked) */
   commandName?: string
-  /** The properties to animate when using updating decoration. (default all) */
+  /** The properties to animate when using updating decoration */
   readonly transitions: {
-    color: boolean
-    borderColor: boolean
-    borderWidth: boolean
-    opacity: boolean
-    rotation: boolean
-    position: boolean
-    size: boolean
+    color: boolean // (default true)
+    borderColor: boolean // (default true)
+    borderWidth: boolean // (default true)
+    opacity: boolean // (default true)
+    rotation: boolean // (default true)
+    position: boolean // (default true)
+    size: boolean // (default true)
   }
 }
 

@@ -69,6 +69,7 @@ export function computeValues(context: StyleContext): {
   handleImage: Image
   outlineFocusAlpha: number
   textFocusAlpha: number
+  replacementColor: Color
 } {
   if (context.userCache.has('values')) {
     return context.userCache.get('values')
@@ -192,6 +193,7 @@ export function computeValues(context: StyleContext): {
     handleImage: handleImage,
     outlineFocusAlpha: 0.0,
     textFocusAlpha: 0.15,
+    replacementColor: context.theme.accentColor.withAlpha(0.5),
   }
 
   context.userCache.set('values', values)
