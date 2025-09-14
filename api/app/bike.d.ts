@@ -5,6 +5,8 @@ import { Keybindings } from './keybindings'
 import { OutlineEditor } from './outline-editor'
 import { DOMScriptName, DOMScriptHandle } from './dom-script'
 import { URL, Disposable, Permissions } from './system'
+import { Outline, Row } from './outline'
+import { OutlinePath } from '../core/outline-path'
 
 declare global {
   /** The bike global API. */
@@ -139,7 +141,7 @@ export interface Document {
   readonly fileURL?: URL
   readonly fileType: string
   readonly displayName: string
-  readonly windows: Window[]
+  readonly windows: Window[] // ordered front to back
   readonly frontmostWindow?: Window
 }
 
@@ -165,6 +167,18 @@ export interface Window {
    * @returns A promise that resolves to a DOMScriptHandle.
    */
   presentSheet(name: DOMScriptName, options?: SheetOptions): Promise<DOMScriptHandle>
+
+  /*
+  presentRowPicker(
+    outline: Outline,
+    options?: {
+      title?: string
+      path: OutlinePath
+      allowsMultipleSelection?: boolean
+      initialSelection?: string[]
+    }
+  ): Promise<Row[] | null>
+  */
 }
 
 /** Interface for a view in the UI. */

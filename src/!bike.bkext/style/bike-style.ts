@@ -400,25 +400,46 @@ style.layer('selection', (row, run, caret, viewport, include) => {
 })
 
 style.layer('highlights', (row, run, caret, viewport, include) => {
-  run(`.@view-find-current or @view-check-current`, (context, run) => {
+  run(`.@view-find-highlight`, (context, run) => {
+    run.backgroundColor = Color.systemYellow().withAlpha(0.25)
+  })
+
+  run(`.@view-check-spelling`, (context, run) => {
     let values = computeValues(context)
     let uiScale = values.uiScale
-
-    run.decoration('selection', (highlight, layout) => {
-      highlight.color = Color.findHighlight()
-      highlight.border.width = 0
-      highlight.shadow.opacity = 0.4
-      highlight.shadow.radius = 2
-      highlight.shadow.offset.height = 0
-      highlight.x = highlight.x.offset(-1 * uiScale)
-      highlight.width = highlight.width.offset(2 * uiScale)
+    run.decoration('check-spelling', (highlight, layout) => {
+      highlight.anchor.x = 0
+      highlight.anchor.y = 0
+      highlight.y = layout.baseline.offset(2 * values.uiScale)
+      highlight.x = layout.leading
+      highlight.height = layout.fixed(2 * values.uiScale)
+      highlight.width = layout.width
+      highlight.color = Color.systemRed().withAlpha(0.5)
+      highlight.corners.radius = 1 * values.uiScale
+      highlight.zPosition = -2
     })
   })
 
-  run(`.@view-active-replacement`, (context, text) => {
+  run(`.@view-check-grammar`, (context, run) => {
+    let values = computeValues(context)
+    let uiScale = values.uiScale
+    run.decoration('check-grammar', (highlight, layout) => {
+      highlight.anchor.x = 0
+      highlight.anchor.y = 0
+      highlight.y = layout.baseline.offset(2 * values.uiScale)
+      highlight.x = layout.leading
+      highlight.height = layout.fixed(2 * values.uiScale)
+      highlight.width = layout.width
+      highlight.color = Color.systemGreen().withAlpha(0.5)
+      highlight.corners.radius = 1 * values.uiScale
+      highlight.zPosition = -2
+    })
+  })
+
+  run(`.@view-active-replacement`, (context, run) => {
     let values = computeValues(context)
 
-    text.decoration('replacement', (replacement, layout) => {
+    run.decoration('check-replacement', (replacement, layout) => {
       replacement.anchor.x = 0
       replacement.anchor.y = 0
       replacement.y = layout.baseline.offset(2 * values.uiScale)
@@ -428,6 +449,26 @@ style.layer('highlights', (row, run, caret, viewport, include) => {
       replacement.color = values.replacementColor
       replacement.corners.radius = 1 * values.uiScale
       replacement.zPosition = -2
+    })
+  })
+
+  run(`.@view-find-current or @view-check-current`, (context, run) => {
+    let values = computeValues(context)
+    let uiScale = values.uiScale
+
+    if (context.isDarkMode) {
+      run.color = Color.black()
+    }
+
+    run.backgroundColor = Color.clear()
+
+    run.decoration('selection', (selection, layout) => {
+      selection.color = Color.findHighlight()
+      selection.corners.radius = 2 * uiScale
+      selection.border.width = 0
+      selection.shadow.opacity = 0.4
+      selection.shadow.radius = 2
+      selection.shadow.offset.height = 0
     })
   })
 })
