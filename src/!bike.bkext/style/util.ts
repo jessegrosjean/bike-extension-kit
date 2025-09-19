@@ -18,11 +18,11 @@ import {
  * useful to adjust those values in some cases.
  *
  * For example, consider the case where the editor is wrapping text to a
- * specific column (`wrapToColumn`) while displaying in a large viewport. In
+ * specific column (`lineWidth`) while displaying in a large viewport. In
  * that case we can end up with a tiny column of text in the center of a large
  * viewport. This function detects that case and dynamically scales the user's
  * choosen font to better fill the viewport, while maintaining the user's
- * `wrapToColumn` setting.
+ * `lineWidth` setting.
  *
  * This function also caches derived values for performance and ease of use. For
  * example there is no user setting for `guideColor`, but that value is needed
@@ -38,7 +38,7 @@ import {
  */
 export function computeValues(context: StyleContext): {
   font: Font
-  wrapToColumn: number | undefined
+  lineWidth: number | undefined
   lineHeightMultiple: number
   rowSpacingMultiple: number
   isFullScreen: boolean
@@ -78,10 +78,10 @@ export function computeValues(context: StyleContext): {
   let font = context.settings.font
   let viewportSize = context.viewportSize
   let typewriterMode = context.settings.typewriterMode
-  let wrapToColumn = context.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let lineWidth = context.settings.lineWidth ?? Number.MAX_SAFE_INTEGER
   let geometry = computeGeometryForFont(font, context)
 
-  if (wrapToColumn == 0 || wrapToColumn == Number.MAX_SAFE_INTEGER) {
+  if (lineWidth == 0 || lineWidth == Number.MAX_SAFE_INTEGER) {
     if (typewriterMode) {
       geometry.viewportPadding.top = viewportSize.height * typewriterMode
     }
@@ -89,7 +89,7 @@ export function computeValues(context: StyleContext): {
     let golden = 1.618
     let inverseGolden = 1 / golden
     let xWidth = geometry.fontAttributes.xWidth
-    let textWidth = Math.ceil(xWidth * wrapToColumn)
+    let textWidth = Math.ceil(xWidth * lineWidth)
     let rowWidth =
       textWidth +
       geometry.rowPadding.width +
@@ -145,7 +145,7 @@ export function computeValues(context: StyleContext): {
     : textColor.withFraction(0.8, backgroundColor)
 
   let blockSelectionColor = context.isKey
-    ? Color.selectedContentBackground().withFraction(0.5, backgroundColor) //Color.systemGreen().withFraction(0.5, backgroundColor)
+    ? Color.contentBackgroundSelected().withFraction(0.5, backgroundColor) //Color.systemGreen().withFraction(0.5, backgroundColor)
     : textColor.withFraction(0.8, backgroundColor)
 
   let handleWidth = Math.max(1, 6 * uiScale)
@@ -162,7 +162,7 @@ export function computeValues(context: StyleContext): {
 
   let values = {
     font: font,
-    wrapToColumn: context.settings.wrapToColumn,
+    lineWidth: context.settings.lineWidth,
     lineHeightMultiple: context.settings.lineHeightMultiple,
     rowSpacingMultiple: context.settings.rowSpacingMultiple,
     isFullScreen: context.isFullScreen,
@@ -233,11 +233,11 @@ function computeGeometryForFont(
     10 * uiScale
   )
 
-  let wrapToColumn = context.settings.wrapToColumn ?? Number.MAX_SAFE_INTEGER
+  let lineWidth = context.settings.lineWidth ?? Number.MAX_SAFE_INTEGER
   let rowWrapWidth = Number.MAX_SAFE_INTEGER
 
-  if (wrapToColumn > 0 && wrapToColumn < Number.MAX_SAFE_INTEGER) {
-    let textWidth = Math.ceil(fontAttributes.xWidth * wrapToColumn)
+  if (lineWidth > 0 && lineWidth < Number.MAX_SAFE_INTEGER) {
+    let textWidth = Math.ceil(fontAttributes.xWidth * lineWidth)
     rowWrapWidth =
       textWidth + rowPadding.width + Math.max(rowTextMargin.width, rowTextPadding.width)
   }

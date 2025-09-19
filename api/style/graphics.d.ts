@@ -187,27 +187,27 @@ export class Color {
   static black(): Color
   static white(): Color
   static clear(): Color
-  static controlAccent(): Color
 
   static text(): Color
   static textHeader(): Color
   static textBackground(): Color
   static textBackgroundSelected(): Color
-  static textInsertionPoint(): Color
-  static selectedContentBackground(): Color
-  static unemphasizedSelectedContentBackground(): Color
+  static contentBackgroundSelected(): Color
+  static contentBackgroundSelectedUnemphasized(): Color
 
   static label(): Color
-  static secondaryLabel(): Color
-  static tertiaryLabel(): Color
-  static quaternaryLabel(): Color
-  static quinaryLabel(): Color
+  static labelSecondary(): Color
+  static labelTertiary(): Color
+  static labelQuaternary(): Color
+  static labelQuinary(): Color
 
   static link(): Color
+  static accent(): Color
   static shadow(): Color
   static separator(): Color
   static highlight(): Color
   static findHighlight(): Color
+  static insertionPoint(): Color
 
   static systemBlue(): Color
   static systemBrown(): Color

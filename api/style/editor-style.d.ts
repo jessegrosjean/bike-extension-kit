@@ -1,6 +1,7 @@
 import { RelativeOutlinePath } from '../core/outline-path'
 import { Image, Font, Color } from './graphics'
 import { Insets, Rect, Point, Size } from './geometry'
+import { EditorTheme } from './editor-theme'
 
 /**
  * Defines EditorStyle – Ordered list of style rules.
@@ -213,23 +214,14 @@ interface EditorSettings {
   focusMode?: FocusMode
   /** Typewriter mode (0-1)  */
   typewriterMode?: number
-  /** Wrap to column  */
-  wrapToColumn?: number
   /** Body font  */
   font: Font
+  /** Line width (characters)  */
+  lineWidth?: number
   /** Line height multiple  */
   lineHeightMultiple: number
   /** Row spacing multiple  */
   rowSpacingMultiple: number
-}
-
-interface EditorTheme {
-  /** Theme text color  */
-  textColor: Color
-  /** Theme accent color  */
-  accentColor: Color
-  /** Theme background color  */
-  backgroundColor: Color
 }
 
 type FocusMode = 'paragraph' | 'sentence' | 'word'

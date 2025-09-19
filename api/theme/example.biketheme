@@ -1,0 +1,13 @@
+{
+  "$schema": "./theme-schema.json",
+  "metadata": {
+    "name": "Example Theme",
+    "version": "1.0.0",
+    "author": "Mr Example",
+  },
+  "colors": {
+    "text": "#000000",
+    "accent": accent,
+    "background": "#FFFFFF"
+  }
+}

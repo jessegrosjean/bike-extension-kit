@@ -33,6 +33,7 @@ const context = await esbuild.context({
       'react/jsx-runtime': 'window.ReactJSXRuntime',
     }),
     copyManifestPlugin(outdir),
+    copyThemePlugin(outdir),
     typecheckTSConfigPlugin(),
     installExtensionPlugin(),
   ],
@@ -60,6 +61,23 @@ function copyManifestPlugin(outdir) {
   let pattern = 'src/**/manifest.json'
   return {
     name: 'copy-manifest.json',
+    setup(build) {
+      build.onEnd(async () => {
+        const files = await fastGlob(pattern)
+        for (const file of files) {
+          const dest = path.join(outdir, path.relative('src', file))
+          fs.mkdirSync(path.dirname(dest), { recursive: true })
+          fs.copyFileSync(file, dest)
+        }
+      })
+    },
+  }
+}
+
+function copyThemePlugin(outdir) {
+  let pattern = 'src/**/theme/*.bktheme'
+  return {
+    name: 'copy-theme',
     setup(build) {
       build.onEnd(async () => {
         const files = await fastGlob(pattern)

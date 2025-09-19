@@ -1,0 +1,169 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hogbaysoftware.com/schemas/bike-theme.json",
+  "title": "Bike Outliner Theme",
+  "description": "JSON schema for Bike Outliner theme files",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "description": "Optional metadata about the theme",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Theme name"
+        },
+        "version": {
+          "type": "string",
+          "description": "Theme version"
+        },
+        "author": {
+          "type": "string",
+          "description": "Theme author"
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "description": "Color definitions used throughout the theme",
+      "properties": {
+        "text": {
+          "$ref": "#/$defs/color",
+          "default": "text"
+        },
+        "accent": {
+          "$ref": "#/$defs/color",
+          "default": "accent"
+        },
+        "background": {
+          "$ref": "#/$defs/color",
+          "default": "textBackground"
+        }
+      },
+      "additionalProperties": false
+    }
+    /*
+    "rows": {
+      "type": "object",
+      "description": "Styling for different row types",
+      "properties": {
+        "body": { "$ref": "#/$defs/textStyle" },
+        "heading": { "$ref": "#/$defs/textStyle" },
+        "ordered": { "$ref": "#/$defs/textStyle" },
+        "unordered": { "$ref": "#/$defs/textStyle" },
+        "task": { "$ref": "#/$defs/textStyle" }
+      },
+      "additionalProperties": false
+    },
+    "runs": {
+      "type": "object",
+      "description": "Styling for text runs and inline formatting",
+      "properties": {
+        "strong": { "$ref": "#/$defs/textStyle" },
+        "emphasis": { "$ref": "#/$defs/textStyle" },
+        "strikethrough": { "$ref": "#/$defs/textStyle" },
+        "code": { "$ref": "#/$defs/textStyle" },
+        "link": { "$ref": "#/$defs/textStyle" }
+      },
+      "additionalProperties": false
+    }
+  */
+  },
+  "$defs": {
+    "color": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "description": "Hex color code (6 or 8 digits)"
+        },
+        {
+          "type": "string",
+          "enum": [
+            "black",
+            "white",
+
+            "text",
+            "textHeader",
+            "textBackground",
+            "textBackgroundSelected",
+            "contentBackgroundSelected",
+            "contentBackgroundSelectedUnemphasized",
+
+            "label",
+            "labelSecondary",
+            "labelTertiary",
+            "labelQuaternary",
+            "labelQuinary",
+
+            "link",
+            "accent",
+            "shadow",
+            "separator",
+            "highlight",
+            "findHighlight",
+            "insertionPoint",
+
+            "systemBlue",
+            "systemBrown",
+            "systemGray",
+            "systemGreen",
+            "systemIndigo",
+            "systemOrange",
+            "systemPink",
+            "systemPurple",
+            "systemRed",
+            "systemTeal",
+            "systemYellow"
+          ],
+          "description": "macOS system color"
+        }
+      ]
+    }
+
+    /*"textStyle": {
+      "type": "object",
+      "description": "Theme properties for text",
+      "properties": {
+        "color": {
+          "$ref": "#/$defs/color",
+          "default": "text"
+        },
+        "fontFamily": {
+          "type": "string",
+          "default": "SF Pro"
+        },
+        "fontAdjust": {
+          "type": "number",
+          "description": "Font size +- adjust relative to base font size",
+          "default": 0
+        },
+        "fontWeight": {
+          "type": "string",
+          "enum": [
+            "ultraLight",
+            "thin",
+            "light",
+            "regular",
+            "medium",
+            "semibold",
+            "bold",
+            "heavy",
+            "black"
+          ],
+          "default": "regular"
+        },
+        "fontTraits": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["italic", "bold", "expanded", "condensed", "monospace"]
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false
+    }*/
+  }
+}
