@@ -7,7 +7,7 @@
   },
   "colors": {
     "text": "#000000",
-    "accent": accent,
+    "accent": "accent",
     "background": "#FFFFFF"
   }
 }
