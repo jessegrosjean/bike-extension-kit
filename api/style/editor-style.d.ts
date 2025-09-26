@@ -175,6 +175,8 @@ interface StyleContext {
   isDarkMode: boolean
   /** True when in full screen mode  */
   isFullScreen: boolean
+  /** True when dragging selection  */
+  isDragSource: boolean
   /** Size of the editor's viewport  */
   viewportSize: Size
   /** Editor Settings  */
@@ -451,15 +453,20 @@ interface Decoration {
   mergable: boolean
   /** Optional command name to perform when activated (clicked) */
   commandName?: string
+  /** Optional interaction capabilities */
+  capabilities?: ('drag-row' | 'accept-drop')[]
+
   /** The properties to animate when using updating decoration */
   readonly transitions: {
     color: boolean // (default true)
     borderColor: boolean // (default true)
     borderWidth: boolean // (default true)
+    corners: boolean // (default true)
     opacity: boolean // (default true)
     rotation: boolean // (default true)
     position: boolean // (default true)
     size: boolean // (default true)
+    clear(): void // set all to false
   }
 }
 

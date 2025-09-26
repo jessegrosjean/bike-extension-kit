@@ -37,6 +37,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
 
     row.decoration('handle', (handle, layout) => {
       handle.commandName = 'bike:.click-handle'
+      handle.capabilities = ['drag-row', 'accept-drop']
       let size = layout.firstLine.height.min(values.indent)
       handle.opacity = values.secondaryControlAlpha
       handle.contents.gravity = 'center'
@@ -483,6 +484,63 @@ style.layer('outline-focus', (row, run, caret, viewport, include) => {
     })
     row.text.decorations((each, _) => {
       each.opacity *= values.outlineFocusAlpha
+    })
+  })
+})
+
+style.layer('drag-and-drop', (row, run, caret, viewport, include) => {
+  row(`.selection-covered() = true`, (context, row) => {
+    if (context.isDragSource) {
+      row.opacity *= 0.15
+      row.decorations((each, _) => {
+        each.opacity *= 0.15
+      })
+    }
+  })
+
+  row(`.drop-indicator() = on`, (context, row) => {
+    let values = computeValues(context)
+    row.decoration('dropIndicator', (dropIndicator, layout) => {
+      dropIndicator.anchor.x = 0
+      dropIndicator.anchor.y = 0
+      dropIndicator.x = layout.leading
+      dropIndicator.y = layout.text.top
+      dropIndicator.border.color = values.accentColor
+      dropIndicator.border.width = 3 * values.uiScale
+      dropIndicator.corners.radius = 3 * values.uiScale
+      dropIndicator.height = layout.text.height
+      dropIndicator.transitions.clear()
+      dropIndicator.zPosition = -1
+    })
+  })
+
+  row(`.drop-indicator() = above`, (context, row) => {
+    let values = computeValues(context)
+    row.decoration('dropIndicator', (dropIndicator, layout) => {
+      dropIndicator.anchor.x = 0
+      dropIndicator.x = layout.leadingContent
+      dropIndicator.width = layout.width.offset(layout.leadingContent.scale(-1))
+      dropIndicator.y = layout.top
+      dropIndicator.height = layout.fixed(Math.max(3 * values.uiScale, 2))
+      dropIndicator.color = values.accentColor
+      dropIndicator.corners.radius = 1.5 * values.uiScale
+      dropIndicator.transitions.clear()
+      dropIndicator.zPosition = -1
+    })
+  })
+
+  row(`.drop-indicator() = below`, (context, row) => {
+    let values = computeValues(context)
+    row.decoration('dropIndicator', (dropIndicator, layout) => {
+      dropIndicator.anchor.x = 0
+      dropIndicator.x = layout.leadingContent
+      dropIndicator.width = layout.width.offset(layout.leadingContent.scale(-1))
+      dropIndicator.y = layout.bottom
+      dropIndicator.height = layout.fixed(Math.max(3 * values.uiScale, 2))
+      dropIndicator.color = values.accentColor
+      dropIndicator.corners.radius = 1.5 * values.uiScale
+      dropIndicator.transitions.clear()
+      dropIndicator.zPosition = -1
     })
   })
 })
