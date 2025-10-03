@@ -85,8 +85,7 @@ export function openLinkCommand(context: CommandContext): boolean {
 }
 
 export function clickHandleCommand(context: CommandContext): boolean {
-  let isOption = bike.keybindings.activeModifiers.indexOf('Option') !== -1
-  let options: FoldOptions = isOption ? 'completely' : 'row'
+  let options: FoldOptions = bike.keybindings.isOptionPressed ? 'completely' : 'row'
   let editor = context.editor
   let row = context.selection?.row
   if (!editor || !row) return false
@@ -99,16 +98,30 @@ export function clickHandleCommand(context: CommandContext): boolean {
 }
 
 export function clickLinkCommand(context: CommandContext): boolean {
-  let isOption = bike.keybindings.activeModifiers.indexOf('Option') !== -1
   let editor = context.editor
   let selection = context.selection
   if (!editor || !selection) return false
   let urls = findURLs(editor, selection)
   if (urls.length == 0) return false
   for (let url of urls) {
-    url.open({
-      activates: !isOption,
-    })
+    let queryParameters = url.queryParameters || {}
+
+    if (bike.keybindings.isCommandPressed) {
+      queryParameters.target = 'tab'
+    } else if (bike.keybindings.isOptionPressed) {
+      queryParameters.target = 'window'
+    }
+
+    if (queryParameters.target) {
+      if (bike.keybindings.isShiftPressed) {
+        queryParameters.activate = 'true'
+      } else {
+        queryParameters.activate = 'false'
+      }
+    }
+
+    url.queryParameters = queryParameters
+    url.open({})
   }
   return true
 }

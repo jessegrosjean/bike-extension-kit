@@ -35,20 +35,17 @@ export class URL {
   /** Create a new URL object. */
   constructor(url: string)
 
-  readonly scheme?: string
-  readonly port?: number
-  readonly pathComponents: string[]
-  readonly lastPathComponent: string
-  readonly pathExtension: string
-  readonly queryParameters?: Record<string, string>
-  readonly absoluteString: string
+  scheme?: string
+  user?: string
+  password?: string
+  host?: string
+  port?: number
+  path?: string
+  query?: string
+  queryParameters?: Record<string, string>
+  fragment?: string
 
-  user(percentEncoded?: boolean): string | undefined
-  password(percentEncoded?: boolean): string | undefined
-  host(percentEncoded?: boolean): string | undefined
-  path(percentEncoded?: boolean): string
-  query(percentEncoded?: boolean): string | undefined
-  fragment(percentEncoded?: boolean): string | undefined
+  readonly absoluteString: string
 
   /**
    * Open this URL in the system's default application.

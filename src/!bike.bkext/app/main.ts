@@ -27,7 +27,7 @@ export async function activate(context: AppExtensionContext) {
   bike.keybindings.addKeybindings({
     keymap: 'block-mode',
     keybindings: {
-      'm d': 'bike:toggle-done',
+      space: 'bike:toggle-done',
     },
   })
 

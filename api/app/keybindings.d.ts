@@ -3,14 +3,27 @@ import { Disposable } from './system'
 
 /** Interface to manage outline editor Keybindings. */
 interface Keybindings {
+  /** True when activeModifiers contains 'Command'. */
+  isCommandPressed: boolean
+
+  /** True when activeModifiers contains 'Control'. */
+  isControlPressed: boolean
+
+  /** True when activeModifiers contains 'Option'. */
+  isOptionPressed: boolean
+
+  /** True when activeModifiers contains 'Shift'. */
+  isShiftPressed: boolean
+
   /**
    * Current active modifier keys.
    *
-   * Result contains modifiers such as `Command`, `Control`, `Option`, and
-   * `Shift` in addition to the key that trigged the modifier such as
-   * `LeftCommand`, `RightControl`, etc.
+   * When a modifier such as "Command" is held down this array will contain
+   * that modifier, and it will also contain the "LeftCommand" or "RightCommand"
+   * key that triggered the modifier.
    */
-  activeModifiers: String[]
+  activeModifiers: Modifiers[]
+
   /**
    * Adds keybindings to a named outline editor keymap.
    *
@@ -36,6 +49,23 @@ interface Keybindings {
  * the selection is of type block.
  */
 type KeymapName = 'text-mode' | 'block-mode'
+
+/**
+ * Set of possible modifiers.
+ */
+type Modifiers =
+  | 'Command'
+  | 'LeftCommand'
+  | 'RightCommand'
+  | 'Control'
+  | 'LeftControl'
+  | 'RightControl'
+  | 'Option'
+  | 'LeftOption'
+  | 'RightOption'
+  | 'Shift'
+  | 'LeftShift'
+  | 'RightShift'
 
 /**
  * Keysequence to trigger an action.

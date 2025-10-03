@@ -192,6 +192,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
 
   row(`.@done`, (context, row) => {
     row.text.strikethrough.thick = true
+    row.text.strikethrough.color = row.text.color
   })
 
   row(`.task @done`, (context, row) => {
