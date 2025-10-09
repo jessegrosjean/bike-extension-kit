@@ -344,6 +344,12 @@ export interface AttributedString {
   delete(range: Range): void
 
   /**
+   * Convert this attributed string to Markdown.
+   * @returns Markdown representation of the attributed string.
+   */
+  toMarkdown(): string
+
+  /**
    * Convert this attributed string to HTML.
    * @returns HTML representation of the attributed string.
    */
@@ -432,6 +438,7 @@ export type RowTemplate = {
   type?: RowType
   attributes?: Record<RowAttributeName, string>
   text?: string | AttributedString
+  format?: 'plain' | 'markdown'
 }
 
 /**
