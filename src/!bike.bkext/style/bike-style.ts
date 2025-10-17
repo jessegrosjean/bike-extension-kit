@@ -212,7 +212,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
 })
 
 style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
-  run('.@emphasized', (context, text) => {
+  run('.@em', (context, text) => {
     text.font = text.font.withItalics()
   })
 
@@ -224,42 +224,42 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
     text.font = text.font.withMonospace()
   })
 
-  run(`.@highlight`, (context, text) => {
+  run(`.@mark`, (context, text) => {
     let values = computeValues(context)
     let uiScale = values.uiScale
-    text.decoration('highlight', (highlight, layout) => {
-      highlight.zPosition = -1
-      highlight.anchor.x = 0
-      highlight.anchor.y = 0
-      highlight.x = layout.leading.offset(-2 * uiScale)
-      highlight.y = layout.top
-      highlight.width = layout.width.offset(4 * uiScale)
-      highlight.height = layout.height
-      highlight.corners.radius = 3 * uiScale
-      highlight.color = Color.systemYellow().withAlpha(0.25)
-      highlight.border.width = 1 * uiScale
-      highlight.border.color = Color.systemYellow().withAlpha(0.5)
-      highlight.mergable = true
+    text.decoration('mark', (mark, layout) => {
+      mark.zPosition = -1
+      mark.anchor.x = 0
+      mark.anchor.y = 0
+      mark.x = layout.leading.offset(-2 * uiScale)
+      mark.y = layout.top
+      mark.width = layout.width.offset(4 * uiScale)
+      mark.height = layout.height
+      mark.corners.radius = 3 * uiScale
+      mark.color = Color.systemYellow().withAlpha(0.25)
+      mark.border.width = 1 * uiScale
+      mark.border.color = Color.systemYellow().withAlpha(0.5)
+      mark.mergable = true
     })
   })
 
-  run(`.start-of-matches(.@highlight) = true`, (context, text) => {
+  run(`.start-of-matches(.@mark) = true`, (context, text) => {
     text.margin.left = 2.5 * computeValues(context).uiScale
   })
 
-  run(`.end-of-matches(.@highlight) = true`, (context, text) => {
+  run(`.end-of-matches(.@mark) = true`, (context, text) => {
     text.margin.right = 2.5 * computeValues(context).uiScale
   })
 
-  run(`.@strikethrough`, (context, text) => {
+  run(`.@s`, (context, text) => {
     text.strikethrough.thick = true
   })
 
-  run(`.@link`, (context, text) => {
+  run(`.@a`, (context, text) => {
     text.color = Color.link().withAlpha(text.color.resolve(context).alpha)
   })
 
-  run(`.end-of-matches(.@link) = true`, (context, text) => {
+  run(`.end-of-matches(.@a) = true`, (context, text) => {
     let symbol = new SymbolConfiguration('arrow.up.forward.app')
       .withSymbolScale('medium')
       .withFont(text.font.withWeight('semibold'))
@@ -277,20 +277,20 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
     })
   })
 
-  run(`.@baseline = subscript`, (context, text) => {
+  run(`.@base = sub`, (context, text) => {
     let baseSize = text.font.resolve(context).pointSize
     text.font = text.font.withPointSize(0.75 * baseSize)
     text.baselineOffset = baseSize * -0.25
   })
 
-  run(`.@baseline = superscript`, (context, text) => {
+  run(`.@base = sup`, (context, text) => {
     let baseSize = text.font.resolve(context).pointSize
     text.font = text.font.withPointSize(0.75 * baseSize)
     text.baselineOffset = baseSize * 0.25
   })
 
-  run(`.@attachment/parent::hr`, (context, text) => {
-    text.attachmentSize.width = 1
+  run(`.@embed/parent::hr`, (context, text) => {
+    text.embedSize.width = 1
   })
 })
 

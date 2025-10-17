@@ -299,16 +299,16 @@ interface TextRunStyle extends TextContainer {
   /** Enclosing text's scale */
   readonly scale: number
   /**
-   * Attachment size.
+   * Embed size.
    *
-   * Ignored unless text run contains a single attatchment character. Currently
-   * only used when implementing hr's. The size values are interpreted based on
-   * the range of the value (default 1):
+   * Ignored unless text run contains a single embed/attachment character.
+   * Currently only used when implementing hr's. The size values are interpreted
+   * based on the range of the value (default 1):
    *
    * 1. 0-1: Interpreted as a percentage of line width/height.
    * 2. > 1: Interpreted as a fixed point size.
    */
-  attachmentSize: Size
+  embedSize: Size
 }
 
 /** Ligature - Text ligature style */

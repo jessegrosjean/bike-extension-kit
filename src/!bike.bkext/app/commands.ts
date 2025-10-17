@@ -129,7 +129,7 @@ export function clickLinkCommand(context: CommandContext): boolean {
 function findURLs(editor: OutlineEditor, selection: Selection): URL[] {
   let row = selection.row
   if (selection.type == 'caret') {
-    const link = row.text.attributeAt('link', selection.detail.char)
+    const link = row.text.attributeAt('a', selection.detail.char)
     if (link) {
       return [new URL(link)]
     }
@@ -151,7 +151,7 @@ function findURLsInText(text: AttributedString): URL[] {
   const urls: URL[] = []
   const range: Range = [0, 0]
   while (range[0] < text.string.length) {
-    const link = text.attributeAt('link', range[0], 'downstream', range)
+    const link = text.attributeAt('a', range[0], 'downstream', range)
     if (link) {
       urls.push(new URL(link))
     }

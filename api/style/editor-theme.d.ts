@@ -44,7 +44,7 @@ interface EditorTheme {
 
 /*
 interface ThemeElement {
-  font: Font
+  font: FontAdjustment
   color: Color
 }
 */
