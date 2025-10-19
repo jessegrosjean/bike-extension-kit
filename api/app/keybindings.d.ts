@@ -71,7 +71,7 @@ type Modifiers =
  * Keysequence to trigger an action.
  *
  * A key is a single case-insensitive typed "key" combined with zero or more
- * modifiers. For example `a`, `ctrl+a`, `ctrl+shift+a`, and `ctrl+alt+a`
+ * modifiers. For example `a`, `ctrl-a`, `ctrl-shift-a`, and `ctrl-alt-a`
  * are all valid keys. Keys are combined with a space to create a
  * keysequence.
  *
