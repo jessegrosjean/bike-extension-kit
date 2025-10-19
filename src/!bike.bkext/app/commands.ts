@@ -59,13 +59,13 @@ export function toggleDoneCommand(context: CommandContext) {
   let editor = context.editor
   let rows = context.selection?.rows
   if (!editor || !rows || rows.length == 0) return false
-  let nextDoneDate = rows[0].attributes['data-done'] ? null : new Date()
+  let nextDoneDate = rows[0].attributes['done'] ? null : new Date()
   editor.transaction({ animate: 'default' }, () => {
     rows.forEach((row) => {
       if (nextDoneDate) {
-        row.setAttribute('data-done', nextDoneDate)
+        row.setAttribute('done', nextDoneDate)
       } else {
-        row.removeAttribute('data-done')
+        row.removeAttribute('done')
       }
     })
   })

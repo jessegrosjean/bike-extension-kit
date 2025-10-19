@@ -7,19 +7,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is the Bike Extension Kit for building extensions for Bike Outliner 2. Extensions enhance Bike's functionality by adding commands, keybindings, views, styles, and more through three different contexts:
 
 - **App Context** (`app/main.ts`): Main application logic, commands, keybindings, sidebar items
-- **DOM Context** (`dom/*.ts|tsx`): Custom UI components using React (window.React/ReactDOM available globally)  
+- **DOM Context** (`dom/*.ts|tsx`): Custom UI components using React (window.React/ReactDOM available globally)
 - **Style Context** (`style/main.ts`): Custom styling and visual enhancements
 
 ## Essential Commands
 
 ### Building Extensions
+
 - `npm run build` - Build all extensions for production
 - `npm run watch` - Build and watch for changes during development
 - `npm run build-internals` - Build internal API components
 - `npm run new` - Create a new extension from template
 
 ### Development Workflow
+
 The build system automatically:
+
 - Typechecks all TypeScript configurations
 - Copies manifest.json files
 - Auto-installs extensions when `manifest.json` has `"install": true`
@@ -28,7 +31,9 @@ The build system automatically:
 ## Architecture
 
 ### Extension Structure
+
 Extensions live in `src/` with each `.bkext` folder containing:
+
 ```
 extension.bkext/
 ├── manifest.json    # Extension metadata, permissions, install config
@@ -39,12 +44,14 @@ extension.bkext/
 ```
 
 ### Build System (esbuild)
+
 - Entry points: `src/**/app/main.ts`, `src/**/style/main.ts`, `src/**/dom/*.{ts,tsx}`
 - External modules: `bike/app`, `bike/dom`, `bike/style`, `react`, `react-dom`
 - Output: `out/extensions/` with IIFE format, global name `extensionExports`
 - Automatic manifest copying and extension installation
 
 ### TypeScript Configuration
+
 - Root `tsconfig.json` references three configs: `app`, `dom`, `style`
 - Each context has separate TypeScript compilation
 - Strict mode enabled with comprehensive type checking
@@ -53,6 +60,7 @@ extension.bkext/
 ### Extension Contexts
 
 **App Context**: Access to `bike` global object, can:
+
 - Add commands via `bike.commands.addCommands()`
 - Add keybindings via `bike.keybindings.addKeybindings()`
 - Add sidebar items via `window.sidebar.addItem()`
@@ -60,6 +68,7 @@ extension.bkext/
 - Access outline editor APIs
 
 **DOM Context**: React components with access to:
+
 - Global `window.React`, `window.ReactDOM`, `window.ReactDOMClient`
 - Custom UI sheets presented via `bike.frontmostWindow?.presentSheet()`
 - Message passing with `handle.postMessage()`
@@ -67,8 +76,9 @@ extension.bkext/
 **Style Context**: Custom styling and visual modifications
 
 ### Key APIs
+
 - Commands take `CommandContext` parameter with editor access
-- Outline queries use XPath-like syntax (e.g., `//@data-done`, `//heading`)
+- Outline queries use XPath-like syntax (e.g., `//@done`, `//heading`)
 - Transactions for atomic outline changes: `outline.transaction()`
 - Sidebar items support sections, ordering, symbols, and nested children
 

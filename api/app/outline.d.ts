@@ -357,11 +357,10 @@ export interface AttributedString {
 }
 
 /**
- * Row attributes names can be any string, but generally they should start
- * with "data-" because they will be represented as HTML data attributes
- * when the outline is stored as HTML.
+ * Row attributes names can be any valid HTML attribute string. When encoded to
+ * HTML they will be prefixed with `data-`.
  */
-export type RowAttributeName = 'data-done' | string
+export type RowAttributeName = string
 
 /**
  * Text attribute names can be any string. Common built in text attributes
