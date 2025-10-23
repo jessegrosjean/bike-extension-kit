@@ -21,7 +21,7 @@ function archiveDoneCommand(context: CommandContext): boolean {
 
   // Get the outline, done rows, and archive row
   let outline = editor.outline
-  let donePath = '//@data-done except //@id = archive//*'
+  let donePath = '//@done except //@id = archive//*'
   let doneRows = outline.query(donePath).value as Row[]
   let archiveRow = (outline.query('//@id = archive').value as Row[])[0]
 

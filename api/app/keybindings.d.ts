@@ -1,4 +1,4 @@
-import { CommandName } from './commands'
+import { CommandName, CommandContext } from './commands'
 import { Disposable } from './system'
 
 /** Interface to manage outline editor Keybindings. */
@@ -143,10 +143,17 @@ type Modifiers =
 type KeySequence = string
 
 /**
- * The command or closure to perform. If returns false then matching
- * keybindings with lower priority will be tried.
+ * Represents the action triggered by a keybinding.
+ *
+ * This can be either:
+ * 1. A named command, or
+ * 2. A closure that returns a boolean.
+ *
+ * If the action returns `true`, keybinding processing stops and no
+ * lower-priority keybindings are tried. If it returns `false`, processing
+ * continues to keybindings with lower priority.
  */
-type KeybindingAction = CommandName | (() => boolean)
+type KeybindingAction = CommandName | ((context: CommandContext) => boolean)
 
 /** Typed key such as `a` or `;`. */
 type Key = string

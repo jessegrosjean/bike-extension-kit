@@ -552,6 +552,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     if (values.focusMode) {
       let textFocusAlpha = values.textFocusAlpha
       row.text.color = row.text.color.withAlpha(textFocusAlpha)
+      row.text.underline.color = row.text.underline.color.withAlpha(textFocusAlpha)
+      row.text.strikethrough.color = row.text.strikethrough.color.withAlpha(textFocusAlpha)
+      row.text.backgroundColor = row.text.backgroundColor.withAlpha(textFocusAlpha)
       row.decorations((each, _) => {
         each.opacity *= textFocusAlpha
       })
@@ -566,6 +569,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     if (values.focusMode) {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(textFocusAlpha)
+      text.underline.color = text.underline.color.withAlpha(textFocusAlpha)
+      text.strikethrough.color = text.strikethrough.color.withAlpha(textFocusAlpha)
+      text.backgroundColor = text.backgroundColor.withAlpha(textFocusAlpha)
       text.decorations((each, _) => {
         each.opacity *= textFocusAlpha
       })
@@ -590,6 +596,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     if (values.focusMode == 'word') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
+      text.underline.color = text.underline.color.withAlpha(1.0)
+      text.strikethrough.color = text.strikethrough.color.withAlpha(1.0)
+      text.backgroundColor = text.backgroundColor.withAlpha(1.0)
       text.decorations((each, _) => {
         each.opacity /= textFocusAlpha
       })
@@ -601,6 +610,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     if (values.focusMode == 'sentence') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
+      text.underline.color = text.underline.color.withAlpha(1.0)
+      text.strikethrough.color = text.strikethrough.color.withAlpha(1.0)
+      text.backgroundColor = text.backgroundColor.withAlpha(1.0)
       text.decorations((each, _) => {
         each.opacity /= textFocusAlpha
       })
@@ -612,6 +624,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     if (values.focusMode == 'paragraph') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
+      text.underline.color = text.underline.color.withAlpha(1.0)
+      text.strikethrough.color = text.strikethrough.color.withAlpha(1.0)
+      text.backgroundColor = text.backgroundColor.withAlpha(1.0)
       text.decorations((each, _) => {
         each.opacity /= textFocusAlpha
       })

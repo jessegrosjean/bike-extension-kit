@@ -23,27 +23,12 @@ export class Outline {
    */
   constructor(rows?: RowSource)
 
-  /**
-   * Get outline metas.
-   * @param name - The name of the meta to get.
-   * @returns The metad value or undefined if not set.
-   */
+  /*
+  Will add more flexible metadata API soon
   getMeta(name: string): string | undefined
-
-  /**
-   * Get outline meta names.
-   * @returns Array of meta names.
-   */
   getMetaNames(): string[]
-
-  /**
-   * Set outline metas. Stored in .bike and .opml outline formats. Not stored in
-   * the plaintext format.
-   * @param name - The name of the metad to get.
-   * @param value - The value of the meta to set. If value is undefined the meta
-   * will be removed.
-   */
   setMeta(name: string, value?: string): void
+  */
 
   /**
    * Archive this outline.
@@ -64,10 +49,10 @@ export class Outline {
    * Insert rows into the outline.
    *
    * @param rows - The source of the rows to insert. (Always copied)
-   * @param parent - The parent row to insert the rows into.
+   * @param parent - The parent row to insert the rows into. (Default Root)
    * @param before - The optional child row to insert before.
    */
-  insertRows(rows: RowSource, parent: Row, before?: Row): Row[]
+  insertRows(rows: RowSource, parent?: Row, before?: Row): Row[]
 
   /**
    * Move rows within the outline. These rows must allready be in the
@@ -425,7 +410,13 @@ export type Affinity = 'upstream' | 'downstream'
  * source IDs already exist in the outline new IDs will be generated and any
  * links imported will be updated to point to the new IDs.
  */
-export type RowSource = RowTemplate[] | Row[] | Outline | OutlineArchive | OutlinePathValue
+export type RowSource =
+  | string[]
+  | RowTemplate[]
+  | Row[]
+  | Outline
+  | OutlineArchive
+  | OutlinePathValue
 
 /**
  * Rows can't be created directly. Use a RowTemplate when you need to create
