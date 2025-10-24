@@ -1,5 +1,5 @@
 import { RelativeOrdering, View } from './bike'
-import { DOMScriptName, DOMScriptHandle } from './dom-script'
+import { DOMScript, DOMScriptHandle } from './dom-script'
 
 export interface Inspector extends View {
   /**
@@ -17,7 +17,7 @@ export interface Inspector extends View {
 
 export type InspectorItem = {
   id: string
-  name: DOMScriptName
+  script: DOMScript
   ordering?: RelativeOrdering<string, string> // ignored
 }
 

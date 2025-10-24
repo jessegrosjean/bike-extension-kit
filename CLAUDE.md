@@ -62,11 +62,13 @@ extension.bkext/
 
 **App Context**: Access to `bike` global object, can:
 
+- Access outline editor APIs `bike.frontmostOutlineEditor`
 - Add commands via `bike.commands.addCommands()`
 - Add keybindings via `bike.keybindings.addKeybindings()`
 - Add sidebar items via `window.sidebar.addItem()`
+- Add inspector items via `window.inspector.addItem()`
+- Show DOM sheets with `window.presentSheet()`
 - Observe windows via `bike.observeWindows()`
-- Access outline editor APIs
 
 **DOM Context**: React components with access to:
 
@@ -86,13 +88,12 @@ extension.bkext/
 
 ## Debugging Extensions at Runtime
 
-Extensions only run inside Bike.app's internal JSContexts. The best way for
-Claude Code to test extension code and APIs is to use Bike's AppleScript
-`evaluate` command.
+Extension code only runs inside Bike.app's internal JSContexts. Normally a
+separate app context is created for each extension, but there is also a special
+app context setup to evaluate code sent by AppleScript's `evaluate` command.
 
-With this command you can pass in a string of JavaScript code to be evaluated,
-and the command will return the result as a string. This allows Claude Code to
-inspect runtime state, verify extension behavior, and debug issues.
+Claude Code should use Bike's AppleScript `evaluate` command to learn and test
+the app context APIs.
 
 ### Using `evaluate` for Debugging
 
@@ -126,6 +127,17 @@ Application("Bike").evaluate({
   script: "bike.commands.toString()"
 })
 '
+
+# Using classes that need importing (Outline, URL, etc.)
+osascript -l JavaScript -e '
+Application("Bike").evaluate({
+  script: `
+    const { Outline } = require("bike/app");
+    const outline = new Outline(["Item 1", "Item 2"]);
+    JSON.stringify({ count: outline.root.children.length });
+  `
+})
+'
 ```
 
 **Key Points:**
@@ -133,17 +145,158 @@ Application("Bike").evaluate({
 - Simple expressions: Pass JavaScript code as a string
 - Functions with parameters: Use arrow functions and pass input parameter as string
 - Input/output are **strings only**: For complex objects, use `JSON.stringify()` to pass in and `JSON.parse()` to read
+- **Classes like `Outline` need `require()`** when using AppleScript `evaluate()` command - Extension code uses TypeScript `import` which the build system handles automatically
+
+**Critical Patterns for `evaluate`:**
+
+1. **Use `var` for persistence across calls** - `const`/`let` do NOT persist between evaluate calls
+
+   ```javascript
+   var handle = ...  // Persists across calls
+   const handle = ... // Does NOT persist
+   ```
+
+2. **Promises DO resolve between evaluate calls** - Store promise results in `var` variables
+
+   ```javascript
+   // Call 1:
+   var p = bike.frontmostWindow.presentSheet(...);
+   p.then(function(h) { myHandle = h; });
+
+   // Call 2 (later):
+   myHandle.postMessage("works!");
+   ```
+
+3. **DOM scripts use `extensionExports` pattern** (not ES6 `export` keyword)
+
+   ```javascript
+   var domCode =
+     "var extensionExports = { activate: async function(context) { context.element.textContent = 'Hello'; } };"
+   bike.frontmostWindow.presentSheet(domCode, { width: 400, height: 300 })
+   ```
+
+4. **String escaping** - Use unicode escapes to avoid nested quote issues: `\u0027` for `'`, `\u0022` for `"`
+
+5. **Bidirectional messaging between app and DOM contexts**
+
+   ```javascript
+   // App → DOM
+   handle.postMessage(data);
+
+   // DOM → App
+   context.postMessage(data);
+   handle.onmessage = function(msg) { ... };
+   ```
 
 **Important Notes:**
 
 - **Always consult TypeScript API definitions** in `api/` directory when something doesn't work - don't guess at property names
 - **Report when API documentation seems incorrect** - if the TypeScript definitions don't match runtime behavior, inform the user
 
-This allows Claude Code to programmatically inspect runtime state, verify extension behavior, and debug issues without manual user intervention.
+This allows Claude Code to programmatically inspect runtime state, verify extension behavior, debug DOM context code, and test messaging flows without manual user intervention.
 
 ## Bike API Quick Reference
 
 This section summarizes the most important patterns from the TypeScript API definitions in `api/`. Always consult the full API definitions when in doubt.
+
+### Outline Query Syntax
+
+**IMPORTANT**: Bike's query syntax has a **similar model** to XPath but uses **completely different syntax**. Do not use XPath syntax - it will not work.
+
+**Common Query Patterns:**
+
+```javascript
+// Get all rows
+outline.query('//*')
+
+// Get rows by type
+outline.query('//task') // All task rows
+outline.query('//heading') // All heading rows
+outline.query('//body') // All body rows
+
+// Filter by attributes
+outline.query('//@done') // All rows with done attribute
+outline.query('//@priority=high') // Rows where priority equals "high"
+
+// Combine type and attribute (space optional)
+outline.query('//task @done') // Task rows with done attribute
+outline.query('//task@done') // Same - space is optional, but prefer using a space
+
+// Combine multiple predicates
+outline.query('//task @done and @priority=high')
+
+// Negation
+outline.query('//task not @done') // Tasks without done attribute
+
+// Text matching (case-insensitive by default)
+outline.query('//@text contains "hello"') // Case-insensitive
+outline.query('//@text contains[s] "hello"') // Case-sensitive
+outline.query('//@text beginswith "Task"')
+outline.query('//@text endswith "ing"')
+
+// Slicing (1-based indexing, like XPath)
+outline.query('//task[1]') // First task
+outline.query('//task[2]') // Second task
+outline.query('//task[-1]') // Last task
+outline.query('//task[2:4]') // Tasks 2 through 4
+
+// Set operations
+outline.query('//task union //heading') // Tasks or headings
+outline.query('//task except //@done') // Tasks without @done
+outline.query('//task intersect //@done') // Tasks with @done
+```
+
+**Query Result Structure:**
+
+All queries return an object with `{type, value}` structure:
+
+```javascript
+var result = outline.query('//task')
+// result = { type: 'elements', value: [Row, Row, ...] }
+
+// Access the rows via .value
+var tasks = result.value
+tasks.forEach((row) => console.log(row.text.string))
+```
+
+**Key Syntax Rules:**
+
+- **Queries return objects** - Always access results via `.value`
+- **Case-insensitive by default** - Use `[s]` modifier for case-sensitive, `[i]` for case-insensitive (default)
+- **1-based indexing** - `[1]` is first item, `[0]` returns nothing
+- **No XPath brackets for predicates** - Use `//task @done` NOT `//task[@done]`
+- **Space is optional** - Both `//task @done` and `//task@done` work (preferer using a space for readability)
+- **Combine predicates with and/or** - `//task @done and @priority=high`
+- **Type tests**: `*`, `task`, `heading`, `body`, `unordered`, `ordered`, `quote`, `code`, `note`, `hr`
+- **Axes**: `//` (descendant), `/` (child), `..` (parent), `.` (self)
+- **Relations**: `=`, `!=`, `<`, `>`, `<=`, `>=`, `contains`, `beginswith`, `endswith`, `matches`
+- **Modifiers**: `[i]` (case-insensitive, default), `[s]` (case-sensitive), `[n]` (numeric), `[d]` (date)
+
+**Debugging Queries:**
+
+Use `outline.explainQuery(path)` to understand how a query is parsed and see detailed error messages:
+
+```javascript
+// See the parse tree and trace
+console.log(outline.explainQuery('//task @done'))
+
+// Debug syntax errors
+console.log(outline.explainQuery('//task[@done]'))
+// Shows: "error: unexpected input at position 1:7, expected end of input"
+```
+
+The output includes:
+- **Parse Tree** - Hierarchical structure of the query
+- **Parse Trace** - Step-by-step parsing with position indicator
+- **Parse Errors** - Detailed error messages with line/column numbers
+
+**For complex filtering**, query all rows then use JavaScript:
+
+```javascript
+var allRows = outline.query('//*')
+var tasks = allRows.value.filter((r) => r.type === 'task')
+var doneTasks = tasks.filter((r) => r.getAttribute('done'))
+```
 
 ### Core Objects and Properties
 
@@ -208,6 +361,24 @@ outline.insertRows(
   ],
   parent
 )
+```
+
+**Creating Temporary Outlines:**
+
+Use the `Outline` constructor for processing tasks like copying filtered rows:
+
+```javascript
+import { Outline } from 'bike/app'
+
+// Query rows from existing outline
+const result = editor.outline.query('//heading')
+
+// Create temporary outline from query results
+const temp = new Outline(result)
+
+// Export to clipboard
+const text = temp.archive('plaintext')
+bike.clipboard.writeText(text.data)
 ```
 
 ### Commands and Keybindings

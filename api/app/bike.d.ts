@@ -3,7 +3,7 @@ import { Inspector } from './inspector'
 import { Commands } from './commands'
 import { Keybindings } from './keybindings'
 import { OutlineEditor } from './outline-editor'
-import { DOMScriptName, DOMScriptHandle } from './dom-script'
+import { DOMScript, DOMScriptHandle } from './dom-script'
 import { URL, Disposable, Permissions } from './system'
 import { Outline, Row } from './outline'
 import { OutlinePath } from '../core/outline-path'
@@ -162,11 +162,11 @@ export interface Window {
    * Use the name parameter to load the DOMScript `src/dom/<name>` into
    * the WebView. The script should configure the DOM elements for display.
    *
-   * @param name - The name of the DOMScript (`src/dom/<name>`).
+   * @param script - The script to run.
    * @param options - The options for displaying the sheet.
    * @returns A promise that resolves to a DOMScriptHandle.
    */
-  presentSheet(name: DOMScriptName, options?: SheetOptions): Promise<DOMScriptHandle>
+  presentSheet(script: DOMScript, options?: SheetOptions): Promise<DOMScriptHandle>
 
   /*
   presentRowPicker(

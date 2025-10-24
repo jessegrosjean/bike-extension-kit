@@ -99,6 +99,18 @@ export class Outline {
   streamQuery(path: OutlinePath, handler: (value: OutlinePathValue) => void): Disposable
 
   /**
+   * Explain how an outline path will be evaluated.
+   *
+   * Returns detailed information about the path's abstract syntax tree,
+   * parse sequence, and any parsing errors. Useful for debugging and
+   * understanding complex queries.
+   *
+   * @param path - The outline path to explain.
+   * @returns A string describing the AST, parse sequence, and errors.
+   */
+  explainQuery(path: OutlinePath): string
+
+  /**
    * Group outline changes into a single view update.
    * @param options Options that determine how the view updates.
    * @param update Perform changes to the outline in this closure.

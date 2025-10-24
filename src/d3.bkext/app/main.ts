@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window, DOMScriptName, Row, CommandContext } from 'bike/app'
+import { AppExtensionContext, Window, DOMScript, Row, CommandContext } from 'bike/app'
 
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
@@ -33,7 +33,7 @@ export async function activate(context: AppExtensionContext) {
   })
 }
 
-async function showD3Sheet(domScriptName: DOMScriptName) {
+async function showD3Sheet(domScriptName: DOMScript) {
   let window = bike.frontmostWindow
   if (window) {
     let handle = await window.presentSheet(domScriptName)

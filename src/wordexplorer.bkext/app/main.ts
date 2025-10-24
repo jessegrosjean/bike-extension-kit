@@ -4,7 +4,7 @@ export async function activate(context: AppExtensionContext) {
   bike.observeWindows(async (window: Window) => {
     const synonymsHandle = await window.inspector.addItem({
       id: 'word-explorer',
-      name: 'WordExplorer.js',
+      script: 'WordExplorer.js',
     })
 
     synonymsHandle.onmessage = (message: string) => {

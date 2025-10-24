@@ -26,8 +26,13 @@
 import { Disposable, URL } from './system'
 import { Json } from '../core/json'
 
-/** Name of a script located in extension's src/dom folder. */
-export type DOMScriptName = string
+/**
+ * Name of a script located in extension's src/dom folder or Javascript code
+ * that can be executed. Will first look for a file in src/dom with this name.
+ * If that is not found then the passed string is used as Javascript code
+ * directly.
+ */
+export type DOMScript = string
 
 /** A handle to send and receive messages with a DOMScript. */
 export interface DOMScriptHandle extends Disposable {

@@ -22,7 +22,7 @@ export async function activate(context: AppExtensionContext) {
 
     const calendarHandle = await window.inspector.addItem({
       id: 'calendar:calendar',
-      name: 'Calendar.js',
+      script: 'Calendar.js',
     })
 
     calendarHandle.onmessage = (message) => {
