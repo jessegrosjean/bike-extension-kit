@@ -381,6 +381,58 @@ const text = temp.archive('plaintext')
 bike.clipboard.writeText(text.data)
 ```
 
+### Outline Metadata
+
+Outlines have two types of metadata storage:
+
+- **`runtimeMetadata`** - Temporary metadata, not saved to disk
+- **`persistentMetadata`** - Saved to file format (BikeML frontmatter)
+
+Both implement the same `Metadata` interface with `get()`, `set()`, and `delete()` methods:
+
+```javascript
+// Runtime metadata (not saved)
+outline.runtimeMetadata.set('tempState', { foo: 'bar' })
+const value = outline.runtimeMetadata.get('tempState')
+
+// Persistent metadata (saved to file)
+outline.persistentMetadata.set('author', 'Claude')
+outline.persistentMetadata.set('version', 1)
+outline.persistentMetadata.set('tags', ['test', 'metadata'])
+
+// All JSON types supported
+meta.set('string', 'hello')
+meta.set('number', 42)
+meta.set('boolean', true)
+meta.set('object', { nested: { value: 123 } })
+meta.set('array', [1, 2, 3])
+
+// Three equivalent ways to delete a key
+meta.delete('key')
+meta.set('key', undefined)
+meta.set('key', null)
+
+// Check if key exists
+const value = meta.get('key') // undefined if not set
+
+// Verify persistent metadata in archive
+const archive = outline.archive('bike')
+// Persistent metadata appears in <script id="outline-metadata" type="text/json">
+```
+
+**Key Points:**
+
+- **All JSON types supported**: string, number, boolean, object, array
+- **Keys are not enumerable**: `Object.keys(metadata)` returns `[]` - use application logic to track keys
+- **Persistent metadata** saves to file in BikeML format (`<script id="outline-metadata">` element)
+- **Runtime metadata** exists only in memory and is lost when document closes
+- **Plain Text format**: Persistent metadata is NOT saved unless `bikemd: true` is set in metadata
+
+**Use Cases:**
+
+- **Runtime metadata**: Temporary state, caches, computed values that shouldn't persist
+- **Persistent metadata**: Document properties, author info, extension settings, workflow state
+
 ### Commands and Keybindings
 
 **Adding Commands:**
