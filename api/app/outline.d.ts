@@ -376,17 +376,17 @@ export type RowAttributeName = string
 
 /**
  * Text attribute names can be any string. Common built in text attributes
- * such as "strong" and "emphasized" are represented as inline tags in HTML.
+ * such as "strong" and "em" are represented as inline tags in HTML.
  * Custom attributes in spans.
  */
 export type TextAttributeName =
-  | 'emphasized'
+  | 'em' // was emphasize
   | 'strong'
   | 'code'
-  | 'highlight'
-  | 'strikethrough'
-  | 'link'
-  | 'baseline'
+  | 'mark' // was highlight
+  | 's' // was strikethough
+  | 'a' // was link
+  | 'base' // was baseline
   | string
 
 /**
