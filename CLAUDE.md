@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is the Bike Extension Kit for building extensions for Bike Outliner 2. Extensions enhance Bike's functionality by adding commands, keybindings, views, styles, and more through three different contexts:
+This is the Bike Extension Kit for building extensions for Bike Outliner. Extensions enhance Bike's functionality by adding commands, keybindings, views, styles, and more through three different contexts:
 
-- **App Context** (`app/main.ts`): Main application logic, commands, keybindings, sidebar items
-- **DOM Context** (`dom/*.ts|tsx`): Custom UI components using React (window.React/ReactDOM available globally)
-- **Style Context** (`style/main.ts`): Custom styling and visual enhancements
+- **App Context** (`app/main.ts`): Main application logic, commands, keybindings, sidebar items. Documentation for this context is available in `api/app/*.d.ts`.
+- **DOM Context** (`dom/*.ts|tsx`): Custom UI components using React (window.React/ReactDOM available globally). Documentation for this context is available in `api/app/*.d.ts`.
+- **Style Context** (`style/main.ts`): Custom styling and visual enhancements. Documentation for this context is available in `api/style/*.d.ts`.
 
 ## Essential Commands
 
@@ -90,10 +90,9 @@ extension.bkext/
 
 Extension code only runs inside Bike.app's internal JSContexts. Normally a
 separate app context is created for each extension, but there is also a special
-app context setup to evaluate code sent by AppleScript's `evaluate` command.
+app context setup to evaluate code sent by AppleScript/OSAScripts `evaluate` command.
 
-Claude Code should use Bike's AppleScript `evaluate` command to learn and test
-the app context APIs.
+Claude Code should use Bike's this `evaluate` command to learn and test the app context and dom context APIs.
 
 ### Using `evaluate` for Debugging
 
@@ -286,6 +285,7 @@ console.log(outline.explainQuery('//task[@done]'))
 ```
 
 The output includes:
+
 - **Parse Tree** - Hierarchical structure of the query
 - **Parse Trace** - Step-by-step parsing with position indicator
 - **Parse Errors** - Detailed error messages with line/column numbers
