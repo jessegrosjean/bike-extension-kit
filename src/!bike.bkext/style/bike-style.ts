@@ -490,7 +490,7 @@ style.layer('outline-focus', (row, run, caret, viewport, include) => {
 })
 
 style.layer('drag-and-drop', (row, run, caret, viewport, include) => {
-  row(`.selection-covered() = true`, (context, row) => {
+  row(`.selection() = block or selection-descendant() = block`, (context, row) => {
     if (context.isDragSource) {
       row.opacity *= 0.15
       row.decorations((each, _) => {
