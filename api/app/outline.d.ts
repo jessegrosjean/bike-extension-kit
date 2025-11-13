@@ -117,6 +117,12 @@ export class Outline {
 
   /**
    * Group outline changes into a single view update.
+   *
+   * You don't need to use this method when making changes to the outline. This
+   * just gives you more control over how the view updates when you make
+   * changes. Consider this method when making multiple changes to the outline
+   * that should be treated as a single change in the view.
+   *
    * @param options Options that determine how the view updates.
    * @param update Perform changes to the outline in this closure.
    * @returns The return value of the update closure.
@@ -234,6 +240,8 @@ export interface Row {
   /** Remove attribute by name. */
   removeAttribute(name: RowAttributeName): void
 
+  /** Row's level in the outline. Root is 0. */
+  readonly level: number
   /** Parent row, only undefined for outline root. */
   readonly parent?: Row
   /** Previous sibling row. */
@@ -253,10 +261,19 @@ export interface Row {
   readonly children: Row[]
   /** Descendants of this row */
   readonly descendants: Row[]
+  /** Previous branch */
+  readonly prevBranch?: Row
+  /** Next branch */
+  readonly nextBranch?: Row
   /** Previous row in outline order */
   readonly prevInOutline?: Row
   /** Next row in outline order */
   readonly nextInOutline?: Row
+
+  /** True if row is an ancestor of other row. */
+  isAncestor(row: Row): boolean
+  /** True if row is a descendant of other row. */
+  isDescendant(row: Row): boolean
 }
 
 /**
@@ -375,8 +392,8 @@ export interface AttributedString {
 export type RowAttributeName = string
 
 /**
- * Text attribute names can be any string. Common built in text attributes
- * such as "strong" and "em" are represented as inline tags in HTML.
+ * Text attribute names can be any string. Common built in text attributes such
+ * as "strong" and "em" are represented as inline tags in HTML (.bike format).
  * Custom attributes in spans.
  */
 export type TextAttributeName =
@@ -462,6 +479,44 @@ export type RowTemplate = {
  * TransationOptions determine how the view updates when changes are made to
  * the outline.
  */
-type TransactionOptions = {
-  animate: 'default' | 'none'
-}
+type TransactionOptions =
+  | 'default'
+  | {
+      /** Label for the transaction, used in undo history. */
+      label?: string
+      /** Animate transactions changes when set. */
+      animate?:
+        | 'none'
+        | 'default'
+        | {
+            /** Spring timing function to use for the animation. */
+            spring: Spring
+            /** Caret animation behavior. */
+            caret?: CaretAnimation
+          }
+    }
+
+/** Spring timing functions. */
+type Spring =
+  /** Spring timing used when typing */
+  | 'char'
+  /** Spring timing used when moving rows up/down etc (default) */
+  | 'row'
+  /** Spring timing used when expanding and collapsing rows */
+  | 'fold'
+  /** Spring timing used when focus in/out */
+  | 'navigation'
+
+/** Caret animation behavior */
+type CaretAnimation =
+  /** Caret slides from current position to new position */
+  | 'slide'
+  /**
+   * Caret immediatly jumps to new position in row and then animates with that
+   * row to final position (default)
+   */
+  | 'slideWithRow'
+  /** Caret immediatly jumps to final position and bounces */
+  | 'bounce'
+  /** Caret immediatly jumps to final position and large bounces */
+  | 'largeBounce'

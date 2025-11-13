@@ -5,29 +5,36 @@ import {
   OutlineEditor,
   Range,
   Selection,
+  TransactionOptions,
   URL,
 } from 'bike/app'
 
 export function homeCommand(context: CommandContext): boolean {
   let editor = context.editor
   if (!editor) return false
-  editor.transaction({ animate: 'default' }, () => {
+
+  let options: TransactionOptions = {
+    animate: {
+      spring: 'navigation',
+    },
+  }
+
+  editor.transaction(options, () => {
     editor.filter = ''
     editor.focus = editor.outline.root
   })
+
   return true
 }
 
 export function headingsCommand(context: CommandContext): boolean {
   let editor = context.editor
   if (!editor) return false
-  editor.transaction({ animate: 'default' }, () => {
-    if (editor.filter == '//heading') {
-      editor.filter = ''
-    } else {
-      editor.filter = '//heading'
-    }
-  })
+  if (editor.filter == '//heading') {
+    editor.filter = ''
+  } else {
+    editor.filter = '//heading'
+  }
   return true
 }
 
@@ -60,7 +67,13 @@ export function toggleDoneCommand(context: CommandContext) {
   let rows = context.selection?.rows
   if (!editor || !rows || rows.length == 0) return false
   let nextDoneDate = rows[0].attributes['done'] ? null : new Date()
-  editor.transaction({ animate: 'default' }, () => {
+
+  let options: TransactionOptions = {
+    label: nextDoneDate ? 'Mark Done' : 'Mark Undone',
+    animate: 'default',
+  }
+
+  editor.transaction(options, () => {
     rows.forEach((row) => {
       if (nextDoneDate) {
         row.setAttribute('done', nextDoneDate)
@@ -69,6 +82,7 @@ export function toggleDoneCommand(context: CommandContext) {
       }
     })
   })
+
   return true
 }
 

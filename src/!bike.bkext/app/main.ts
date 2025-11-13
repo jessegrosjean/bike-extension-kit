@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window } from 'bike/app'
+import { AppExtensionContext, CommandContext, Window } from 'bike/app'
 import {
   clickHandleCommand,
   clickLinkCommand,
@@ -10,6 +10,8 @@ import {
   toggleFoldCommand,
 } from './commands'
 
+import { moveDownMaintainingLevelCommand, moveUpMaintainingLevelCommand } from './move-commands'
+
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
     commands: {
@@ -17,6 +19,8 @@ export async function activate(context: AppExtensionContext) {
       'bike:headings': headingsCommand,
       'bike:toggle-focus': toggleFocusCommand,
       'bike:toggle-fold': toggleFoldCommand,
+      'bike:move-up-maintaining-level': moveUpMaintainingLevelCommand,
+      'bike:move-down-maintaining-level': moveDownMaintainingLevelCommand,
       'bike:toggle-done': toggleDoneCommand,
       'bike:open-link': openLinkCommand,
       'bike:.click-handle': clickHandleCommand,
@@ -28,6 +32,17 @@ export async function activate(context: AppExtensionContext) {
     keymap: 'block-mode',
     keybindings: {
       space: 'bike:toggle-done',
+    },
+  })
+
+  bike.keybindings.addKeybindings({
+    keymap: 'text-mode',
+    keybindings: {
+      "'": (context) => wrapTextSelection("'", "'", context),
+      '[': (context) => wrapTextSelection('[', ']', context),
+      'Shift-"': (context) => wrapTextSelection('"', '"', context),
+      'Shift-{': (context) => wrapTextSelection('{', '}', context),
+      'Shift-(': (context) => wrapTextSelection('(', ')', context),
     },
   })
 
@@ -51,4 +66,27 @@ export async function activate(context: AppExtensionContext) {
       },
     })
   })
+}
+
+function wrapTextSelection(startChar: string, endChar: string, context: CommandContext): boolean {
+  const editor = context.editor
+  const selection = editor.selection
+
+  if (selection.type === 'text') {
+    const detail = selection.detail
+    const selectedText = detail.text.string
+
+    if (selectedText.length > 0) {
+      editor.transaction({ animate: 'none' }, () => {
+        const row = selection.row
+        const wrappedText = startChar + selectedText + endChar
+        const range = selection.detail.range
+        row.text.replace(range, wrappedText)
+        editor.selectText(row, range[0] + 1, range[1] + 1)
+      })
+      return true
+    }
+  }
+
+  return false
 }

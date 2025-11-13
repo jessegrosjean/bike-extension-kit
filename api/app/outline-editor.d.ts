@@ -20,6 +20,13 @@ export interface OutlineEditor extends View {
    */
   filter?: OutlinePath
 
+  /** True when row is in focused branch and not filtered or collapsed */
+  isFocused(row: Row): boolean
+  /** Return prev focused row from given row */
+  prevFocused(row: Row): Row | undefined
+  /** Return next focused row from given row */
+  nextFocused(row: Row): Row | undefined
+
   /** True if row is expanded */
   isExpanded(row: Row): boolean
   /** True if row is collapsed */
@@ -28,13 +35,6 @@ export interface OutlineEditor extends View {
   expand(rows?: Row[], options?: FoldOptions): void
   /** Collapse the given rows with given options. */
   collapse(rows?: Row[], options?: FoldOptions): void
-
-  /** True when row is in focused branch and not filtered or collapsed */
-  isFocused(row: Row): boolean
-  /** Return prev focused row from given row */
-  prevFocused(row: Row): Row | undefined
-  /** Return next focused row from given row */
-  nextFocused(row: Row): Row | undefined
 
   /** Read editor selection. */
   readonly selection?: Selection
@@ -55,7 +55,25 @@ export interface OutlineEditor extends View {
   selectCaret(row: Row, anchor: number, runAffinity?: Affinity, lineAffinity?: Affinity): void
 
   /**
+   * Reveal the given row in editor.
+   *
+   * Use when you want to move (and maintain) the selection to a row that might
+   * not be visible. Note that when you `select` that row is automatically
+   * revealed so you don't need to call this method.
+   *
+   * @param row - The row to reveal. May focus out and expand rows as needed.
+   * @param revealChildren - Whether to also reveal the row's children.
+   */
+  revealRow(row: Row, revealChildren?: boolean): void
+
+  /**
    * Group outline changes into a single view update.
+   *
+   * You don't need to use this method when making changes to the editor. This
+   * just gives you more control over how the view updates when you make
+   * changes. Consider this method when making multiple changes to the editor
+   * that should be treated as a single change in the view.
+   *
    * @param options Options that determine how the view updates.
    * @param update Perform changes to the outline in this closure.
    * @returns The return value of the update closure.
