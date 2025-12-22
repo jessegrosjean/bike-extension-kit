@@ -194,6 +194,7 @@ export class Color {
   static textBackgroundSelected(): Color
   static contentBackgroundSelected(): Color
   static contentBackgroundSelectedUnemphasized(): Color
+  static windowBackground(): Color
 
   static label(): Color
   static labelSecondary(): Color
