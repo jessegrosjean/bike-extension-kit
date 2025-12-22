@@ -22,6 +22,9 @@ export function homeCommand(context: CommandContext): boolean {
   editor.transaction(options, () => {
     editor.filter = ''
     editor.focus = editor.outline.root
+    if (editor.focus.firstChild) {
+      editor.selectCaret(editor.focus.firstChild, 0)
+    }
   })
 
   return true
