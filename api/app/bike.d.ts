@@ -31,7 +31,7 @@ declare global {
     /** Observer called for all current and future windows. */
     observeWindows(handler: (_: Window) => void): Disposable
     /** Observer called current and future frontmost windows. */
-    observeFrontmostWindow(handler: (_: Window) => void): Disposable
+    observeFrontmostWindow(handler: (_: Window | undefined) => void): Disposable
 
     /** All open documents. */
     readonly documents: Document[]
@@ -40,7 +40,7 @@ declare global {
     /** Observer called for all current and future documents. */
     observeDocuments(handler: (_: Document) => void): Disposable
     /** Observer called current and future frontmost documents. */
-    observeFrontmostDocument(handler: (_: Document) => void): Disposable
+    observeFrontmostDocument(handler: (_: Document | undefined) => void): Disposable
 
     /** All outline editors. */
     readonly outlineEditors: OutlineEditor[]
@@ -49,7 +49,7 @@ declare global {
     /** Observer called for all current and future outline editors. */
     //observeOutlineEditors(handler: (_: OutlineEditor) => void): Disposable;
     /** Observer called current and future frontmost outline editors. */
-    observeFrontmostOutlineEditor(handler: (_: OutlineEditor) => void): Disposable
+    observeFrontmostOutlineEditor(handler: (_: OutlineEditor | undefined) => void): Disposable
 
     /**
      * Show a window or application modal alert.
@@ -143,6 +143,7 @@ export interface Document {
   readonly displayName: string
   readonly windows: Window[] // ordered front to back
   readonly frontmostWindow?: Window
+  readonly outline: Outline
 }
 
 /** Interface for a document window. */
@@ -154,7 +155,7 @@ export interface Window {
   readonly outlineEditors: OutlineEditor[]
   readonly currentOutlineEditor?: OutlineEditor
 
-  observeCurrentOutlineEditor(handler: (_: OutlineEditor) => void): Disposable
+  observeCurrentOutlineEditor(handler: (_: OutlineEditor | undefined) => void): Disposable
 
   /**
    * Present a WebView based sheet.

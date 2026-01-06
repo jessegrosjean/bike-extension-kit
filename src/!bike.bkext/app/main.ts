@@ -70,7 +70,14 @@ export async function activate(context: AppExtensionContext) {
 
 function wrapTextSelection(startChar: string, endChar: string, context: CommandContext): boolean {
   const editor = context.editor
+  if (editor == null) {
+    return false
+  }
+
   const selection = editor.selection
+  if (selection == null) {
+    return false
+  }
 
   if (selection.type === 'text') {
     const detail = selection.detail

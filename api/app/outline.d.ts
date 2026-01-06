@@ -130,11 +130,11 @@ export class Outline {
   transaction(options: TransactionOptions, update: () => any): any
 
   /**
-   * Listen for changes to the outline.
+   * Observe changes.
    * @param handler - The handler to call when the outline changes.
    * @returns A Disposable to cancel the handler.
    */
-  //onChange(handler: (value: OutlineChange) => void): Disposable;
+  observeChanges(handler: (change: OutlineChange) => void): Disposable
 }
 
 /** Metadata (JSON) storage for outlines. */
@@ -151,60 +151,46 @@ export type OutlineArchive = { data: string; format: OutlineFormat }
 export type OutlineFormat = 'bike' | 'opml' | 'plaintext'
 
 /**
- * NEED THIS API? Let me know!!!
- *
- * Describes change made to an outline.
+ * Describes changes made to an outline.
  *
  * Changes to outline structure are grouped into changes of contiguous and
- * ordered sibling rows. Only top level siblings are reported. For example
- * when siblings are removed you will get an event for the top level removed
+ * ordered sibling rows. Only top level siblings are reported. For example when
+ * siblings are removed you will get an event for the top level removed
  * siblings, but not for descendants of those siblings.
  */
-/*export type OutlineChange =
-| { type: "metadata" }
-| { type: "rowChanged"; 
-rowChange: RowChange 
-}
-| { type: "siblingsInserted"; 
-siblings: [Row] 
-}
-| { type: "siblingsRemoved"; 
-siblings: [Row] 
-}
-| { type: "siblingsMoved"; 
-oldSiblings: [Row],
-newSiblings: [Row] 
-}
-| { type: "reload"; 
-oldOutline: Outline, 
-newOutline: Outline 
-}
-*/
+export type OutlineChange =
+  | { type: 'beginTransaction' }
+  | { type: 'metadata' }
+  | { type: 'rowChanged'; rowId: RowId; change: RowChange }
+  | { type: 'siblingsInserted'; siblings: [Row] }
+  | { type: 'siblingsRemoved'; siblings: [Row] }
+  | { type: 'siblingsMoved'; oldSiblings: [Row]; newSiblings: [Row] }
+  | { type: 'reload'; oldOutline: Outline; newOutline: Outline }
+  | { type: 'endTransaction' }
 
-/** Describes change made to a row. */
-/*export type RowChange =
-| { type: "setType"; 
-oldType: RowType; 
-newType: RowType 
-}
-| { type: "setAttribute"; 
-name: string; 
-oldValue: string | null; 
-newValue: string | null 
-}
-| { type: "replacedText"; 
-at: number; 
-replacedText: AttributedString; 
-insertedText: AttributedString 
-}
-| { type: "replacedTextAndSetType"; 
-at: number; 
-replacedText: AttributedString; 
-insertedText: AttributedString; 
-oldType: RowType; 
-newType: RowType 
-};
-*/
+/** Describes change made to a specific Row. */
+export type RowChange =
+  | { type: 'setType'; oldType: RowType; newType: RowType }
+  | { type: 'setAttribute'; name: string; oldValue: string | null; newValue: string | null }
+  | {
+      type: 'replacedText'
+      at: number
+      replacedText: AttributedString
+      insertedText: AttributedString
+    }
+  | {
+      // In a few cases row type+text changes are dependent on each other. For
+      // example if you set a row type to `hr` it also replaces the text. Or if
+      // you insert text into a `hr` typed row it converts that row to type
+      // `body`. These linked changes are represented atomically using this
+      // replacedTextAndSetType change type.
+      type: 'replacedTextAndSetType'
+      at: number
+      replacedText: AttributedString
+      insertedText: AttributedString
+      oldType: RowType
+      newType: RowType
+    }
 
 /** A row is a paragraph of text that can also have children rows. */
 export interface Row {
