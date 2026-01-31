@@ -182,7 +182,7 @@ type FontWeight =
   | 'black'
 
 /** Color space for mixing operations */
-type MixColorSpace = 'srgb' | 'hsl' | 'oklab' | 'oklch'
+type ColorSpace = 'srgb' | 'hsl' | 'oklab' | 'oklch'
 
 /** WCAG contrast targets */
 type ContrastTarget = 'aa' | 'aaLarge' | 'aaa' | 'aaaLarge' | number
@@ -285,10 +285,10 @@ export class Color {
    * Blend this color with another
    * @param fraction - Blend amount (0 = this, 1 = color)
    * @param color - The color to blend toward
-   * @param colorSpace - Optional color space for mixing (default: srgb)
+   * @param colorSpace - Optional color space for mixing (default: oklab)
    * @returns A new color with the specified fraction of the specified color blended in
    */
-  withFraction(fraction: number, color: Color, colorSpace?: MixColorSpace): Color
+  withFraction(fraction: number, color: Color, colorSpace?: ColorSpace): Color
 
   /**
    * Select best contrasting color from candidates
