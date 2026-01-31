@@ -7,5 +7,6 @@
   "permissions": ["openURL"],
   "host_permissions": [],
   "enabled": true,
-  "install": true
+  "install": true,
+  "symbol": "bicycle"
 }

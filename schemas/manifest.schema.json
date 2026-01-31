@@ -56,6 +56,10 @@
     "install": {
       "type": "boolean",
       "description": "If true, the extension will be automatically installed when built."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Optional SF Symbol name for the extension, used as default for commands."
     }
   },
   "additionalProperties": false

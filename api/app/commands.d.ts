@@ -2,6 +2,13 @@ import { Range, Row } from './outline'
 import { OutlineEditor, Selection } from './outline-editor'
 import { Disposable } from './system'
 
+/** Command definition with optional metadata */
+type CommandDefinition = CommandAction | {
+  action: CommandAction
+  /** Optional SF Symbol name for this command */
+  symbol?: string
+}
+
 /** Interface for managing commands. */
 interface Commands {
   /**
@@ -9,7 +16,7 @@ interface Commands {
    * @param commands - The commands to add.
    * @returns Disposable removes added commands.
    */
-  addCommands(commands: { commands: Record<CommandName, CommandAction> }): Disposable
+  addCommands(commands: { commands: Record<CommandName, CommandDefinition> }): Disposable
 
   /**
    * Performs the named command.

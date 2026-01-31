@@ -15,14 +15,14 @@ import { moveDownMaintainingLevelCommand, moveUpMaintainingLevelCommand } from '
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
     commands: {
-      'bike:home': homeCommand,
-      'bike:headings': headingsCommand,
-      'bike:toggle-focus': toggleFocusCommand,
-      'bike:toggle-fold': toggleFoldCommand,
-      'bike:move-up-maintaining-level': moveUpMaintainingLevelCommand,
-      'bike:move-down-maintaining-level': moveDownMaintainingLevelCommand,
-      'bike:toggle-done': toggleDoneCommand,
-      'bike:open-link': openLinkCommand,
+      'bike:home': { action: homeCommand, symbol: 'house' },
+      'bike:headings': { action: headingsCommand, symbol: 'list.number' },
+      'bike:toggle-focus': { action: toggleFocusCommand, symbol: 'scope' },
+      'bike:toggle-fold': { action: toggleFoldCommand, symbol: 'chevron.down.circle' },
+      'bike:move-up-maintaining-level': { action: moveUpMaintainingLevelCommand, symbol: 'arrow.up' },
+      'bike:move-down-maintaining-level': { action: moveDownMaintainingLevelCommand, symbol: 'arrow.down' },
+      'bike:toggle-done': { action: toggleDoneCommand, symbol: 'checkmark.square' },
+      'bike:open-link': { action: openLinkCommand, symbol: 'link' },
       'bike:.click-handle': clickHandleCommand,
       'bike:.click-link': clickLinkCommand,
     },
