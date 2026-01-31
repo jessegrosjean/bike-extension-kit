@@ -181,6 +181,12 @@ type FontWeight =
   | 'heavy'
   | 'black'
 
+/** Color space for mixing operations */
+type MixColorSpace = 'srgb' | 'hsl' | 'oklab' | 'oklch'
+
+/** WCAG contrast targets */
+type ContrastTarget = 'aa' | 'aaLarge' | 'aaa' | 'aaaLarge' | number
+
 /** Color - Wraps an unerlying CGColor. */
 export class Color {
   static none(): Color
@@ -230,6 +236,33 @@ export class Color {
   static gray(white: number): Color
 
   /**
+   * Create color from HSL (hue, saturation, lightness all 0-1)
+   * @param hue - The hue component (0-1)
+   * @param saturation - The saturation component (0-1)
+   * @param lightness - The lightness component (0-1)
+   * @param alpha - The alpha component (0-1)
+   */
+  static hsla(hue: number, saturation: number, lightness: number, alpha?: number): Color
+
+  /**
+   * Create color in OKLab perceptually uniform space (l: 0-1, a/b: ~-0.4 to 0.4)
+   * @param l - The lightness component (0-1)
+   * @param a - The a component (~-0.4 to 0.4)
+   * @param b - The b component (~-0.4 to 0.4)
+   * @param alpha - The alpha component (0-1)
+   */
+  static oklab(l: number, a: number, b: number, alpha?: number): Color
+
+  /**
+   * Create color in OKLch perceptually uniform space (l: 0-1, c: 0-0.4, h: 0-1)
+   * @param l - The lightness component (0-1)
+   * @param c - The chroma component (0-0.4)
+   * @param h - The hue component (0-1)
+   * @param alpha - The alpha component (0-1)
+   */
+  static oklch(l: number, c: number, h: number, alpha?: number): Color
+
+  /**
    * @param image - The image to use as a tile pattern when filling the color
    */
   static pattern(image: Image): Color
@@ -249,11 +282,21 @@ export class Color {
   withAlpha(alpha: number): Color
 
   /**
-   * @param fraction - The fraction of the color to blend with (0-1)
-   * @param color - The color to blend with
+   * Blend this color with another
+   * @param fraction - Blend amount (0 = this, 1 = color)
+   * @param color - The color to blend toward
+   * @param colorSpace - Optional color space for mixing (default: srgb)
    * @returns A new color with the specified fraction of the specified color blended in
    */
-  withFraction(fraction: number, color: Color): Color
+  withFraction(fraction: number, color: Color, colorSpace?: MixColorSpace): Color
+
+  /**
+   * Select best contrasting color from candidates
+   * @param candidates - Array of candidate colors
+   * @param target - Optional WCAG target or custom ratio
+   * @returns The candidate color with best contrast against this color
+   */
+  contrasted(candidates: Color[], target?: ContrastTarget): Color
 
   /** @returns Resolved color attributes */
   resolve(cache: Cache): {

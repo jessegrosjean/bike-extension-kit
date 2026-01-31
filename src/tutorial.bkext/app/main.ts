@@ -5,6 +5,7 @@ export async function activate(context: AppExtensionContext) {
     commands: {
       'tutorial:archive-done': archiveDoneCommand,
       'tutorial:set-row-type': setRowTypeCommand,
+      'tutorial:insert-color-api-demo': insertColorApiDemoCommand,
     },
   })
 
@@ -88,6 +89,53 @@ async function setRowTypeCommand(context: CommandContext): Promise<boolean> {
     for (const row of selectedRows) {
       row.type = selectedType
     }
+  })
+
+  return true
+}
+
+function insertColorApiDemoCommand(context: CommandContext): boolean {
+  let editor = context.editor
+  if (!editor) return false
+
+  let outline = editor.outline
+
+  // Define demo rows showcasing the new color API
+  const demoRows = [
+    {
+      text: 'Color API Demo',
+      type: 'heading' as RowType,
+    },
+    {
+      text: 'HSL Color (coral background)',
+      attributes: { tags: 'coral' },
+    },
+    {
+      text: 'OKLch Color (perceptual blue)',
+      attributes: { tags: 'perceptual' },
+    },
+    {
+      text: 'OKLab Color (muted purple)',
+      attributes: { tags: 'lab' },
+    },
+    {
+      text: 'Color Mixing in OKLch (red + blue)',
+      attributes: { tags: 'mixed' },
+    },
+    {
+      text: 'Auto Contrast Selection (WCAG AA)',
+      attributes: { tags: 'contrast' },
+    },
+    {
+      text: 'HSL Mixing (yellow + cyan → green)',
+      attributes: { tags: 'hslmix' },
+    },
+  ]
+
+  outline.transaction({ animate: 'default' }, () => {
+    // Insert at selection or end of document
+    let insertLocation = editor.selection?.rows[0] ?? outline.root
+    outline.insertRows(demoRows, insertLocation)
   })
 
   return true
