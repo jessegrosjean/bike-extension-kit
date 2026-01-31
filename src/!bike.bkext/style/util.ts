@@ -1,7 +1,7 @@
 import {
   Color,
   StyleContext,
-  FocusMode,
+  WritingFocusMode,
   Font,
   FontAttributes,
   Image,
@@ -46,7 +46,7 @@ export function computeValues(context: StyleContext): {
   textColor: Color
   accentColor: Color
   backgroundColor: Color
-  focusMode: FocusMode | undefined
+  writingFocusMode: WritingFocusMode | undefined
   typewriterMode: number | undefined
   showCaretLine: boolean
   showGuideLines: boolean
@@ -170,7 +170,7 @@ export function computeValues(context: StyleContext): {
     textColor: textColor,
     accentColor: context.theme.accentColor,
     backgroundColor: context.theme.backgroundColor,
-    focusMode: context.settings.focusMode,
+    writingFocusMode: context.settings.writingFocusMode,
     typewriterMode: context.settings.typewriterMode,
     showCaretLine: context.settings.showCaretLine,
     showGuideLines: context.settings.showGuideLines,

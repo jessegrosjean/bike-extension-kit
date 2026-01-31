@@ -47,35 +47,20 @@ export async function activate(context: AppExtensionContext) {
   })
 
   bike.observeWindows(async (window: Window) => {
-    window.sidebar.addItem({
+    window.sidebar.addAction({
       id: 'bike:home',
       text: 'Home',
       symbol: 'house',
-      ordering: { section: 'actions' },
       action: 'bike:home',
-    })
-
-    window.sidebar.addItem({
-      id: 'bike:headings',
-      text: 'Headings 􀱁',
-      ordering: { section: 'filters' },
-      isGroup: true,
-      action: 'bike:headings',
-      children: {
-        query: '//heading',
-      },
     })
   })
 }
 
 function wrapTextSelection(startChar: string, endChar: string, context: CommandContext): boolean {
   const editor = context.editor
-  if (editor == null) {
-    return false
-  }
+  const selection = editor?.selection
 
-  const selection = editor.selection
-  if (selection == null) {
+  if (!editor || !selection) {
     return false
   }
 

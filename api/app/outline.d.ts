@@ -228,6 +228,10 @@ export interface Row {
 
   /** Row's level in the outline. Root is 0. */
   readonly level: number
+  /** Ancestors of this row */
+  readonly ancestors: Row[]
+  /** Ancestors of this row including self */
+  readonly ancestorsWithSelf: Row[]
   /** Parent row, only undefined for outline root. */
   readonly parent?: Row
   /** Previous sibling row. */
@@ -247,6 +251,8 @@ export interface Row {
   readonly children: Row[]
   /** Descendants of this row */
   readonly descendants: Row[]
+  /** Descendants of this row including self */
+  readonly descendantsWithSelf: Row[]
   /** Previous branch */
   readonly prevBranch?: Row
   /** Next branch */
@@ -274,6 +280,9 @@ export interface Row {
 export interface AttributedString {
   /** Character contents as a string. */
   string: string
+
+  /** Character count of string. */
+  count: number
 
   /**
    * Get attribute at index.

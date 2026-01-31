@@ -7,5 +7,5 @@
   "permissions": [],
   "host_permissions": ["https://api.datamuse.com/*", "https://api.dictionaryapi.dev/*"],
   "enabled": true,
-  "install": false
+  "install": true
 }

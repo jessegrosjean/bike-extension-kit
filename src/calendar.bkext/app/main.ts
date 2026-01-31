@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window } from 'bike/app'
+import { AppExtensionContext, SidebarItemHandle, Window } from 'bike/app'
 import { todayCommand, monthCommand, yearCommand } from './commands'
 import { getDayRow } from './calendar-rows'
 
@@ -12,12 +12,13 @@ export async function activate(context: AppExtensionContext) {
   })
 
   bike.observeWindows(async (window: Window) => {
-    window.sidebar.addItem({
+    window.sidebar.addAction({
       id: 'calendar:today',
       text: 'Today',
       symbol: 'calendar',
-      ordering: { section: 'actions' },
-      action: 'calendar:today',
+      action: () => {
+        bike.commands.performCommand('calendar:today')
+      },
     })
 
     const calendarHandle = await window.inspector.addItem({

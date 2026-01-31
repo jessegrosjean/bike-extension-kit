@@ -549,7 +549,7 @@ style.layer('drag-and-drop', (row, run, caret, viewport, include) => {
 style.layer('text-focus', (row, run, caret, viewport, include) => {
   row(`.*`, (context, row) => {
     let values = computeValues(context)
-    if (values.focusMode) {
+    if (values.writingFocusMode) {
       let textFocusAlpha = values.textFocusAlpha
       row.text.color = row.text.color.withAlpha(textFocusAlpha)
       row.text.underline.color = row.text.underline.color.withAlpha(textFocusAlpha)
@@ -566,7 +566,7 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
 
   run(`.*`, (context, text) => {
     let values = computeValues(context)
-    if (values.focusMode) {
+    if (values.writingFocusMode) {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(textFocusAlpha)
       text.underline.color = text.underline.color.withAlpha(textFocusAlpha)
@@ -580,7 +580,7 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
 
   row(`.selection() = block`, (context, row) => {
     let values = computeValues(context)
-    if (values.focusMode) {
+    if (values.writingFocusMode) {
       let textFocusAlpha = values.textFocusAlpha
       row.decorations((each, _) => {
         each.opacity /= textFocusAlpha
@@ -591,9 +591,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  run(`.@view-word-focus`, (context, text) => {
+  run(`.@view-writing-focus-word`, (context, text) => {
     let values = computeValues(context)
-    if (values.focusMode == 'word') {
+    if (values.writingFocusMode == 'word') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
       text.underline.color = text.underline.color.withAlpha(1.0)
@@ -605,9 +605,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  run(`.@view-sentence-focus`, (context, text) => {
+  run(`.@view-writing-focus-sentence`, (context, text) => {
     let values = computeValues(context)
-    if (values.focusMode == 'sentence') {
+    if (values.writingFocusMode == 'sentence') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
       text.underline.color = text.underline.color.withAlpha(1.0)
@@ -619,9 +619,9 @@ style.layer('text-focus', (row, run, caret, viewport, include) => {
     }
   })
 
-  run(`.@view-paragraph-focus`, (context, text) => {
+  run(`.@view-writing-focus-paragraph`, (context, text) => {
     let values = computeValues(context)
-    if (values.focusMode == 'paragraph') {
+    if (values.writingFocusMode == 'paragraph') {
       let textFocusAlpha = values.textFocusAlpha
       text.color = text.color.withAlpha(1.0)
       text.underline.color = text.underline.color.withAlpha(1.0)

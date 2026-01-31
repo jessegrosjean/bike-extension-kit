@@ -167,7 +167,7 @@ function findURLs(editor: OutlineEditor, selection: Selection): URL[] {
 function findURLsInText(text: AttributedString): URL[] {
   const urls: URL[] = []
   const range: Range = [0, 0]
-  while (range[0] < text.string.length) {
+  while (range[0] < text.count) {
     const link = text.attributeAt('a', range[0], 'downstream', range)
     if (link) {
       urls.push(new URL(link))

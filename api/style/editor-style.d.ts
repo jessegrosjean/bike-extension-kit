@@ -212,8 +212,8 @@ interface EditorSettings {
   allowFontScaling: boolean
   /** Hide controls when typing  */
   hideControlsWhenTyping: boolean
-  /** Focus mode  */
-  focusMode?: FocusMode
+  /** Writing focus mode  */
+  writingFocusMode?: WritingFocusMode
   /** Typewriter mode (0-1)  */
   typewriterMode?: number
   /** Body font  */
@@ -226,7 +226,7 @@ interface EditorSettings {
   rowSpacingMultiple: number
 }
 
-type FocusMode = 'paragraph' | 'sentence' | 'word'
+type WritingFocusMode = 'paragraph' | 'sentence' | 'word'
 
 /** CaretStyle – The global text caret style */
 interface CaretStyle {

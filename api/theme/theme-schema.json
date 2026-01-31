@@ -26,7 +26,7 @@
     },
     "colors": {
       "type": "object",
-      "description": "Color definitions used throughout the theme",
+      "description": "Color definitions used throughout the theme. Predefined properties such as 'text', 'accent', and 'background' are semantic colors used by Bike. Additional custom colors can also be defined. Colors can be referenced elsewhere using $name syntax.",
       "properties": {
         "text": {
           "$ref": "#/$defs/color",
@@ -41,8 +41,36 @@
           "default": "textBackground"
         }
       },
+      "additionalProperties": {
+        "$ref": "#/$defs/color"
+      }
+    },
+    "materials": {
+      "type": "object",
+      "description": "Material definitions used throughout the theme",
+      "properties": {
+        "window": {
+          "$ref": "#/$defs/material"
+        },
+        "titlebar": {
+          "$ref": "#/$defs/material"
+        },
+        "sidebar": {
+          "$ref": "#/$defs/material"
+        },
+        "editor": {
+          "$ref": "#/$defs/material"
+        },
+        "editorBars": {
+          "$ref": "#/$defs/material"
+        },
+        "inspector": {
+          "$ref": "#/$defs/material"
+        }
+      },
       "additionalProperties": false
     }
+
     /*
     "rows": {
       "type": "object",
@@ -75,21 +103,56 @@
       "oneOf": [
         {
           "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
-          "description": "Hex color code (6 or 8 digits)"
+          "pattern": "^\\$[a-zA-Z0-9_-][a-zA-Z0-9_-]*$",
+          "description": "Reference to a color defined in colors ($text or $my-custom-color)"
         },
         {
           "type": "string",
+          "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex color code (#RGB, #RGBA, #RRGGBB, or #RRGGBBAA)"
+        },
+        {
+          "type": "string",
+          "pattern": "^rgba?\\(.*\\)$",
+          "description": "RGB/RGBA color function (rgb(255, 0, 0), rgba(255 0 0 / 50%), rgb(100% 0% 0%))"
+        },
+        {
+          "type": "string",
+          "pattern": "^hsla?\\(.*\\)$",
+          "description": "HSL/HSLA color function (hsl(120, 100%, 50%), hsla(120deg 100% 50% / 0.5))"
+        },
+        {
+          "type": "string",
+          "pattern": "^oklab\\(.*\\)$",
+          "description": "OKLab perceptually uniform color (oklab(0.5 0.1 -0.1), oklab(50% 0.1 -0.1 / 80%))"
+        },
+        {
+          "type": "string",
+          "pattern": "^oklch\\(.*\\)$",
+          "description": "OKLCH cylindrical color (oklch(0.7 0.15 180), oklch(70% 0.15 180deg / 50%))"
+        },
+        {
+          "type": "string",
+          "pattern": "^color-mix\\(.*\\)$",
+          "description": "Mix two colors (color-mix(in oklch, red, blue), color-mix(in srgb, $primary 30%, white))"
+        },
+        {
+          "type": "string",
+          "pattern": "^color-contrast\\(.*\\)$",
+          "description": "Select highest contrast color (color-contrast($background vs black, white), color-contrast(gray vs black, white to AA))"
+        },
+        {
+          "type": "string",
+          "description": "macOS named colors, these adapt to light/dark mode",
           "enum": [
-            "black",
-            "white",
-
             "text",
             "textHeader",
             "textBackground",
             "textBackgroundSelected",
+
             "contentBackgroundSelected",
             "contentBackgroundSelectedUnemphasized",
+            "windowBackground",
 
             "label",
             "labelSecondary",
@@ -103,23 +166,298 @@
             "separator",
             "highlight",
             "findHighlight",
-            "insertionPoint",
 
             "systemBlue",
             "systemBrown",
+            "systemCyan",
             "systemGray",
             "systemGreen",
             "systemIndigo",
+            "systemMint",
             "systemOrange",
             "systemPink",
             "systemPurple",
             "systemRed",
             "systemTeal",
             "systemYellow"
-          ],
-          "description": "macOS system color"
+          ]
+        },
+        {
+          "type": "string",
+          "description": "CSS named colors, these are standard color names recognized by most browsers",
+          "enum": [
+            "red",
+            "green",
+            "blue",
+            "black",
+            "white",
+            "gray",
+            "grey",
+
+            "yellow",
+            "orange",
+            "purple",
+            "pink",
+            "brown",
+            "cyan",
+            "magenta",
+            "indigo",
+            "mint",
+            "teal",
+
+            "clear",
+            "transparent",
+
+            "aliceblue",
+            "antiquewhite",
+            "aqua",
+            "aquamarine",
+            "azure",
+            "beige",
+            "bisque",
+            "blanchedalmond",
+            "blueviolet",
+            "burlywood",
+            "cadetblue",
+            "chartreuse",
+            "chocolate",
+            "coral",
+            "cornflowerblue",
+            "cornsilk",
+            "crimson",
+            "darkblue",
+            "darkcyan",
+            "darkgoldenrod",
+            "darkgray",
+            "darkgrey",
+            "darkgreen",
+            "darkkhaki",
+            "darkmagenta",
+            "darkolivegreen",
+            "darkorange",
+            "darkorchid",
+            "darkred",
+            "darksalmon",
+            "darkseagreen",
+            "darkslateblue",
+            "darkslategray",
+            "darkslategrey",
+            "darkturquoise",
+            "darkviolet",
+            "deeppink",
+            "deepskyblue",
+            "dimgray",
+            "dimgrey",
+            "dodgerblue",
+            "firebrick",
+            "floralwhite",
+            "forestgreen",
+            "fuchsia",
+            "gainsboro",
+            "ghostwhite",
+            "gold",
+            "goldenrod",
+            "greenyellow",
+            "honeydew",
+            "hotpink",
+            "indianred",
+            "ivory",
+            "khaki",
+            "lavender",
+            "lavenderblush",
+            "lawngreen",
+            "lemonchiffon",
+            "lightblue",
+            "lightcoral",
+            "lightcyan",
+            "lightgoldenrodyellow",
+            "lightgray",
+            "lightgrey",
+            "lightgreen",
+            "lightpink",
+            "lightsalmon",
+            "lightseagreen",
+            "lightskyblue",
+            "lightslategray",
+            "lightslategrey",
+            "lightsteelblue",
+            "lightyellow",
+            "lime",
+            "limegreen",
+            "linen",
+            "maroon",
+            "mediumaquamarine",
+            "mediumblue",
+            "mediumorchid",
+            "mediumpurple",
+            "mediumseagreen",
+            "mediumslateblue",
+            "mediumspringgreen",
+            "mediumturquoise",
+            "mediumvioletred",
+            "midnightblue",
+            "mintcream",
+            "mistyrose",
+            "moccasin",
+            "navajowhite",
+            "navy",
+            "oldlace",
+            "olive",
+            "olivedrab",
+            "orangered",
+            "orchid",
+            "palegoldenrod",
+            "palegreen",
+            "paleturquoise",
+            "palevioletred",
+            "papayawhip",
+            "peachpuff",
+            "peru",
+            "plum",
+            "powderblue",
+            "rosybrown",
+            "royalblue",
+            "saddlebrown",
+            "salmon",
+            "sandybrown",
+            "seagreen",
+            "seashell",
+            "sienna",
+            "silver",
+            "skyblue",
+            "slateblue",
+            "slategray",
+            "slategrey",
+            "snow",
+            "springgreen",
+            "steelblue",
+            "tan",
+            "thistle",
+            "tomato",
+            "turquoise",
+            "violet",
+            "wheat",
+            "whitesmoke",
+            "yellowgreen"
+          ]
         }
       ]
+    },
+    "gradient": {
+      "type": "object",
+      "description": "Gradient definition with color stops",
+      "required": ["type", "stops"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["linear", "radial"],
+          "description": "Type of gradient"
+        },
+        "stops": {
+          "type": "array",
+          "description": "Color stops for the gradient",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["color", "position"],
+            "properties": {
+              "color": {
+                "$ref": "#/$defs/color"
+              },
+              "position": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Position of the color stop (0.0 to 1.0)"
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "angle": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360,
+          "description": "Angle in degrees for linear gradients (0 = top to bottom, 90 = left to right)"
+        },
+        "centerX": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Horizontal center position for radial gradients (0.0 to 1.0)"
+        },
+        "centerY": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Vertical center position for radial gradients (0.0 to 1.0)"
+        }
+      },
+      "additionalProperties": false
+    },
+    "material": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/color"
+        },
+        {
+          "$ref": "#/$defs/gradient"
+        },
+        {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "glass",
+              "description": "Specifies this is a glass material"
+            },
+            "style": {
+              "type": "string",
+              "enum": ["clear", "regular"],
+              "default": "regular",
+              "description": "Style of the glass material"
+            },
+            "tintColor": {
+              "$ref": "#/$defs/color",
+              "default": null,
+              "description": "Tint color for the glass material"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": ["type"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "system",
+              "description": "Specifies this is a system material"
+            },
+            "style": {
+              "type": "string",
+              "enum": ["header", "titlebar", "windowBackground"],
+              "default": "header",
+              "description": "Style of the system material"
+            },
+            "opacity": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "default": null,
+              "description": "Opacity of the material, null for default"
+            },
+            "followsActive": {
+              "type": "boolean",
+              "default": false,
+              "description": "Appearance changes based on window active state"
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "description": "A visual material (color, gradient, glass, or system)"
     }
 
     /*"textStyle": {

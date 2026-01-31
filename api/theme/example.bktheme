@@ -8,6 +8,26 @@
   "colors": {
     "text": "#000000",
     "accent": "accent",
-    "background": "#FFFFFF"
+    "background": "#FFFFFF",
+    "titleBackground": "#FFFFFF",
+    "accessoryBackground": "#FFFFFF",
+    "inspectorBackground": "#FFFFFF",
   }
+  "materials": {
+     "titlebarBackground": "white",
+     "sidebarBackground": {
+        "type": "glass"
+     },
+     "inspectorBackground": {
+        "type": "system",
+        "style": "header",
+        "opacity": 0.15
+      },
+      "documentPanelsBackground": {
+        "type": "system",
+        "style": "header",
+        "opacity": 0.35
+      }
+  }
+
 }
