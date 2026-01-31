@@ -1,0 +1,103 @@
+{
+  "$schema": "./theme-schema.json",
+  "metadata": {
+    "name": "Full Example Theme",
+    "version": "1.0.0",
+    "author": "Bike Extension Kit"
+  },
+  "colors": {
+    "text": "#000000",
+    "accent": "accent",
+    "background": "text",
+
+    "hexShort": "#F00",
+    "hexShortAlpha": "#F00A",
+    "hexLong": "#FF5500",
+    "hexLongAlpha": "#FF550080",
+
+    "rgbValues": "rgb(255, 128, 0)",
+    "rgbPercent": "rgb(100% 50% 0%)",
+    "rgbaValues": "rgba(255, 128, 0, 0.5)",
+    "rgbaSlash": "rgba(255 128 0 / 50%)",
+
+    "hslValues": "hsl(120, 100%, 50%)",
+    "hslDeg": "hsl(120deg 100% 50%)",
+    "hslaValues": "hsla(120, 100%, 50%, 0.5)",
+    "hslaSlash": "hsla(120deg 100% 50% / 0.5)",
+
+    "oklabColor": "oklab(0.5 0.1 -0.1)",
+    "oklabPercent": "oklab(50% 0.1 -0.1 / 80%)",
+
+    "oklchColor": "oklch(0.7 0.15 180)",
+    "oklchDeg": "oklch(70% 0.15 180deg / 50%)",
+
+    "colorMixBasic": "color-mix(in oklch, red, blue)",
+    "colorMixPercent": "color-mix(in srgb, $accent 30%, white)",
+
+    "colorContrastBasic": "color-contrast($background vs black, white)",
+    "colorContrastAA": "color-contrast(gray vs black, white to AA)",
+
+    "cssRed": "red",
+    "cssGreen": "green",
+    "cssBlue": "blue",
+    "cssBlack": "black",
+    "cssWhite": "white",
+    "cssGray": "gray",
+    "cssClear": "clear",
+    "cssTransparent": "transparent",
+    "cssCornflowerblue": "cornflowerblue",
+    "cssMidnightblue": "midnightblue",
+    "cssSlategray": "slategray",
+
+    "customPrimary": "#3498db",
+    "customSecondary": "oklch(0.65 0.12 251)",
+    "customHighlight": "color-mix(in oklch, $customPrimary 70%, white)",
+
+    "refText": "$text",
+    "refAccent": "$accent",
+    "refCustom": "$customPrimary"
+  },
+  "materials": {
+    "window": {
+      "type": "linear",
+      "angle": 180,
+      "stops": [
+        { "color": "$customPrimary", "position": 0 },
+        { "color": "$customHighlight", "position": 0.5 },
+        { "color": "$customSecondary", "position": 1 }
+      ]
+    },
+    "titlebar": {
+      "type": "system",
+      "style": "titlebar",
+      "opacity": 0.9,
+      "followsActive": true
+    },
+    "sidebar": {
+      "type": "glass",
+      "style": "regular",
+      "tintColor": "$customPrimary"
+    },
+    "editor": {
+      "type": "linear",
+      "angle": 135,
+      "stops": [
+        { "color": "$cssMidnightblue", "position": 0 },
+        { "color": "$customPrimary", "position": 0.3 },
+        { "color": "$hexLong", "position": 0.7 },
+        { "color": "$cssRed", "position": 1 }
+      ]
+    },
+    "editorBars": {
+      "type": "system",
+      "style": "header",
+      "opacity": 0.5,
+      "followsActive": false
+    },
+    "inspector": {
+      "type": "glass",
+      "style": "clear",
+      "tintColor": "$oklchColor"
+    }
+  }
+}
