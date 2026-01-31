@@ -47,6 +47,10 @@ export type CommandContext = {
 /**
  * The closure to perform when a command is triggered. When false is
  * returned lower priority commands with same CommandName are triggered
- * until on returns true or no more commands match.
+ * until one returns true or no more commands match.
+ *
+ * Async commands can return a Promise<boolean>. When a Promise is returned,
+ * the command is considered handled (as if it returned true) and the chain
+ * stops. The resolved value is for the command's internal use.
  */
-type CommandAction = (context: CommandContext) => boolean
+type CommandAction = (context: CommandContext) => boolean | Promise<boolean>

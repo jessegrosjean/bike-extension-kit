@@ -83,6 +83,35 @@ declare global {
      * ```
      */
     showAlert(options: AlertOptions, window?: Window): Promise<AlertResult>
+
+    /**
+     * Show a fuzzy-filtering choice box for selecting from a list of items.
+     *
+     * @param items - The items to choose from
+     * @param options - The options for the choice box
+     * @param window - A window to attach the choice box to
+     * @returns A promise that resolves to the selected indices, or null if cancelled.
+     * @example
+     * ```typescript
+     * const indices = await bike.showChoiceBox(
+     *   [
+     *     { name: "First Option", symbol: "star" },
+     *     { name: "Second Option", container: "Category A" },
+     *     { name: "Third Option" }
+     *   ],
+     *   {
+     *     placeholder: "Choose an option...",
+     *     defaultSymbol: "circle",
+     *     allowsMultipleSelection: false
+     *   }
+     * );
+     *
+     * if (indices !== null) {
+     *   console.log("Selected index:", indices[0]);
+     * }
+     * ```
+     */
+    showChoiceBox(items: ChoiceBoxItem[], options?: ChoiceBoxOptions, window?: Window): Promise<number[] | null>
   }
 }
 
@@ -215,3 +244,25 @@ interface AlertResult {
 
 type AlertStyle = 'informational' | 'warning' | 'critical'
 type AlertFieldType = 'text' | 'secure' | 'checkbox' | 'dropdown'
+
+/** An item to display in a choice box. */
+interface ChoiceBoxItem {
+  /** The display name for this item. */
+  name: string
+  /** Optional container/category shown after the name (separated by tab). */
+  container?: string
+  /** Optional SF Symbol name to display beside the item. */
+  symbol?: string
+}
+
+/** Options for configuring a choice box. */
+interface ChoiceBoxOptions {
+  /** Placeholder text shown in the search field. */
+  placeholder?: string
+  /** Default SF Symbol to use when an item doesn't specify one. */
+  defaultSymbol?: string
+  /** Whether the user can dismiss without selecting (default: false). */
+  allowsEmptySelection?: boolean
+  /** Whether multiple items can be selected (default: false). */
+  allowsMultipleSelection?: boolean
+}
