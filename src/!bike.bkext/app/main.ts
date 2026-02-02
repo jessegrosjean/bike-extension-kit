@@ -1,28 +1,10 @@
 import { AppExtensionContext, CommandContext, Window } from 'bike/app'
-import {
-  clickHandleCommand,
-  clickLinkCommand,
-  headingsCommand,
-  homeCommand,
-  openLinkCommand,
-  toggleDoneCommand,
-  toggleFocusCommand,
-  toggleFoldCommand,
-} from './commands'
-
-import { moveDownMaintainingLevelCommand, moveUpMaintainingLevelCommand } from './move-commands'
+import { clickHandleCommand, clickLinkCommand } from './commands'
 
 export async function activate(context: AppExtensionContext) {
+  // Hidden commands for style interactions (not shown in command palette)
   bike.commands.addCommands({
     commands: {
-      'bike:home': { action: homeCommand, symbol: 'house' },
-      'bike:headings': { action: headingsCommand, symbol: 'list.number' },
-      'bike:toggle-focus': { action: toggleFocusCommand, symbol: 'scope' },
-      'bike:toggle-fold': { action: toggleFoldCommand, symbol: 'chevron.down.circle' },
-      'bike:move-up-maintaining-level': { action: moveUpMaintainingLevelCommand, symbol: 'arrow.up' },
-      'bike:move-down-maintaining-level': { action: moveDownMaintainingLevelCommand, symbol: 'arrow.down' },
-      'bike:toggle-done': { action: toggleDoneCommand, symbol: 'checkmark.square' },
-      'bike:open-link': { action: openLinkCommand, symbol: 'link' },
       'bike:.click-handle': clickHandleCommand,
       'bike:.click-link': clickLinkCommand,
     },
@@ -31,7 +13,7 @@ export async function activate(context: AppExtensionContext) {
   bike.keybindings.addKeybindings({
     keymap: 'block-mode',
     keybindings: {
-      space: 'bike:toggle-done',
+      space: 'row:toggle-done',
     },
   })
 
@@ -48,10 +30,10 @@ export async function activate(context: AppExtensionContext) {
 
   bike.observeWindows(async (window: Window) => {
     window.sidebar.addAction({
-      id: 'bike:home',
+      id: 'navigate:home',
       text: 'Home',
       symbol: 'house',
-      action: 'bike:home',
+      action: 'navigate:home',
     })
   })
 }

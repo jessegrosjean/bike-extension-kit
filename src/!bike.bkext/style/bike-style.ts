@@ -193,7 +193,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     let indent = values.indent
     row.text.margin.left = Math.floor(indent * 2)
     row.text.decoration('mark', (mark, layout) => {
-      mark.commandName = 'bike:toggle-done'
+      mark.commandName = 'row:toggle-done'
       mark.x = layout.leading.offset(-values.indent / 2)
       mark.y = layout.firstLine.centerY
       let size = layout.firstLine.height
@@ -322,7 +322,7 @@ style.layer('controls', (row, run, caret, viewport, include) => {
       let values = computeValues(context)
       row.text.decoration('focus', (focus, layout) => {
         let size = layout.lastLine.height
-        focus.commandName = 'bike:toggle-focus'
+        focus.commandName = 'focus:toggle'
         focus.contents.gravity = 'center'
         focus.contents.image = symbolImage(
           'arrow.down.forward',

@@ -25,7 +25,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
   row(`.@type = task`, (context, row) => {
     row.text.decoration('mark', (mark, layout) => {
       let lineHeight = layout.firstLine.height
-      mark.commandName = 'bike:toggle-done'
+      mark.commandName = 'row:toggle-done'
       mark.x = layout.leading.offset(-28 / 2)
       mark.y = layout.firstLine.centerY
       mark.width = lineHeight
