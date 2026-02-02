@@ -51,11 +51,11 @@
           "$ref": "#/$defs/color",
           "description": "Background highlight for the line containing the caret"
         },
-        "selectionText": {
+        "textBackgroundSelected": {
           "$ref": "#/$defs/color",
           "description": "Text selection highlight color"
         },
-        "selectionBlock": {
+        "blockBackgroundSelected": {
           "$ref": "#/$defs/color",
           "description": "Block selection highlight color"
         },
@@ -520,6 +520,10 @@
           "$ref": "#/$defs/color",
           "description": "Text color. Supports color references ($name), hex codes, CSS functions, and named colors."
         },
+        "backgroundColor": {
+          "$ref": "#/$defs/color",
+          "description": "Background color behind text."
+        },
         "fontFamily": {
           "type": "string",
           "description": "Font family name (e.g., 'SF Mono', 'Helvetica')"
@@ -550,6 +554,57 @@
             "enum": ["italic", "bold", "expanded", "condensed", "monospace"]
           },
           "description": "Font traits to apply (italic, bold, expanded, condensed, monospace)"
+        },
+        "underline": {
+          "$ref": "#/$defs/textLineStyle",
+          "description": "Underline styling"
+        },
+        "strikethrough": {
+          "$ref": "#/$defs/textLineStyle",
+          "description": "Strikethrough styling"
+        }
+      },
+      "additionalProperties": false
+    },
+    "textLineStyle": {
+      "type": "object",
+      "description": "Styling properties for underline and strikethrough lines.",
+      "properties": {
+        "color": {
+          "$ref": "#/$defs/color",
+          "description": "Line color. Supports color references ($name), hex codes, CSS functions, and named colors."
+        },
+        "single": {
+          "type": "boolean",
+          "description": "Single line style"
+        },
+        "thick": {
+          "type": "boolean",
+          "description": "Thick line style"
+        },
+        "double": {
+          "type": "boolean",
+          "description": "Double line style"
+        },
+        "patternDot": {
+          "type": "boolean",
+          "description": "Dot pattern"
+        },
+        "patternDash": {
+          "type": "boolean",
+          "description": "Dash pattern"
+        },
+        "patternDashDot": {
+          "type": "boolean",
+          "description": "Dash-dot pattern"
+        },
+        "patternDashDotDot": {
+          "type": "boolean",
+          "description": "Dash-dot-dot pattern"
+        },
+        "byWord": {
+          "type": "boolean",
+          "description": "Apply style word by word"
         }
       },
       "additionalProperties": false

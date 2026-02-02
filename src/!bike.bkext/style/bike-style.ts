@@ -244,6 +244,9 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
   run(`.@mark`, (context, text) => {
     context.theme.runs.highlight.apply(text)
 
+    // mark color not themeable because expect mark runs to get a color
+    // attribute and they will use standard sysmte color based on that
+    // attribute.
     let values = computeValues(context)
     let uiScale = values.uiScale
     text.decoration('mark', (mark, layout) => {
@@ -272,7 +275,6 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
 
   run(`.@s`, (context, text) => {
     context.theme.runs.strikethrough.apply(text)
-    //text.strikethrough.thick = true
   })
 
   run(`.@a`, (context, text) => {
@@ -373,8 +375,11 @@ style.layer('controls', (row, run, caret, viewport, include) => {
 
 style.layer('selection', (row, run, caret, viewport, include) => {
   row(`.selection() = block`, (context, row) => {
+    let colors = context.theme.colors
     let values = computeValues(context)
-    let selection = context.theme.colors.selectionText
+    let selection = context.isKey
+      ? colors.textBackgroundSelected
+      : colors.text.withFraction(0.8, colors.background)
     row.decoration('selection', (background, layout) => {
       background.anchor.x = 0
       background.anchor.y = 0
@@ -394,7 +399,11 @@ style.layer('selection', (row, run, caret, viewport, include) => {
 
   run(`.@view-selected-range and not @view-marked-range`, (context, text) => {
     let values = computeValues(context)
-    let selection = context.theme.colors.selectionText
+    let colors = context.theme.colors
+    let selection = context.isKey
+      ? colors.textBackgroundSelected
+      : colors.text.withFraction(0.8, colors.background)
+
     text.decoration('selection', (sel, layout) => {
       sel.zPosition = -2
       sel.anchor.x = 0
@@ -417,7 +426,7 @@ style.layer('selection', (row, run, caret, viewport, include) => {
 
   run(`.@view-marked-range`, (context, text) => {
     text.underline.thick = true
-    text.underline.color = context.theme.colors.selectionText
+    text.underline.color = context.theme.colors.textBackgroundSelected
   })
 })
 
@@ -475,6 +484,7 @@ style.layer('highlights', (row, run, caret, viewport, include) => {
   })
 
   run(`.@view-find-current or @view-check-current`, (context, run) => {
+    let colors = context.theme.colors
     let values = computeValues(context)
     let uiScale = values.uiScale
 
@@ -485,7 +495,7 @@ style.layer('highlights', (row, run, caret, viewport, include) => {
     run.backgroundColor = Color.clear()
 
     run.decoration('selection', (selection, layout) => {
-      selection.color = Color.findHighlight()
+      selection.color = colors.findMatchCurrent
       selection.corners.radius = 2 * uiScale
       selection.border.width = 0
       selection.shadow.opacity = 0.4

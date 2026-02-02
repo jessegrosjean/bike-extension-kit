@@ -77,7 +77,10 @@ export function computeValues(context: StyleContext): {
       } else if (rowToViewRatio < inverseGolden) {
         let desiredRowWidth = viewportSize.width * inverseGolden
         let neededScale = 1.0 + (desiredRowWidth - rowWidth) / desiredRowWidth
-        font = font.withPointSize(geometry.fontAttributes.pointSize * neededScale)
+        let newPointSize = geometry.fontAttributes.pointSize * neededScale
+        // Round to whole point sizes to avoid sub-pixel flickering during resize
+        newPointSize = Math.round(newPointSize)
+        font = font.withPointSize(newPointSize)
         geometry = computeGeometryForFont(font, context)
       }
     }
@@ -86,9 +89,10 @@ export function computeValues(context: StyleContext): {
 
     if (rowWrapWidth) {
       let availibleWidth = viewportSize.width - rowWrapWidth
-      let sidePadding = Math.floor(availibleWidth / 2)
-      geometry.viewportPadding.left = Math.max(sidePadding, geometry.viewportPadding.left)
-      geometry.viewportPadding.right = Math.max(sidePadding, geometry.viewportPadding.right)
+      let leftPadding = Math.floor(availibleWidth / 2)
+      let rightPadding = Math.ceil(availibleWidth / 2)
+      geometry.viewportPadding.left = Math.max(leftPadding, geometry.viewportPadding.left)
+      geometry.viewportPadding.right = Math.max(rightPadding, geometry.viewportPadding.right)
     }
 
     if (typewriterMode) {
