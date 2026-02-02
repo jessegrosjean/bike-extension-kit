@@ -26,19 +26,70 @@
     },
     "colors": {
       "type": "object",
-      "description": "Color definitions used throughout the theme. Predefined properties such as 'text', 'accent', and 'background' are semantic colors used by Bike. Additional custom colors can also be defined. Colors can be referenced elsewhere using $name syntax.",
+      "description": "Color definitions used throughout the theme. Predefined properties are semantic colors used by Bike. Additional custom colors can also be defined. Colors can be referenced elsewhere using $name syntax.",
       "properties": {
         "text": {
           "$ref": "#/$defs/color",
+          "description": "Primary text color",
           "default": "text"
         },
         "accent": {
           "$ref": "#/$defs/color",
+          "description": "Accent color for highlights and interactive elements",
           "default": "accent"
         },
         "background": {
           "$ref": "#/$defs/color",
+          "description": "Editor background color",
           "default": "textBackground"
+        },
+        "caret": {
+          "$ref": "#/$defs/color",
+          "description": "Text insertion caret color"
+        },
+        "caretLine": {
+          "$ref": "#/$defs/color",
+          "description": "Background highlight for the line containing the caret"
+        },
+        "selectionText": {
+          "$ref": "#/$defs/color",
+          "description": "Text selection highlight color"
+        },
+        "selectionBlock": {
+          "$ref": "#/$defs/color",
+          "description": "Block selection highlight color"
+        },
+        "findMatch": {
+          "$ref": "#/$defs/color",
+          "description": "Find/search match highlight color"
+        },
+        "findMatchCurrent": {
+          "$ref": "#/$defs/color",
+          "description": "Current find/search match highlight color"
+        },
+        "handle": {
+          "$ref": "#/$defs/color",
+          "description": "Row handle (disclosure triangle) color"
+        },
+        "guideLine": {
+          "$ref": "#/$defs/color",
+          "description": "Indentation guide line color"
+        },
+        "focusArrow": {
+          "$ref": "#/$defs/color",
+          "description": "Focus arrow indicator color"
+        },
+        "grammar": {
+          "$ref": "#/$defs/color",
+          "description": "Grammar check underline color"
+        },
+        "spelling": {
+          "$ref": "#/$defs/color",
+          "description": "Spelling check underline color"
+        },
+        "replacement": {
+          "$ref": "#/$defs/color",
+          "description": "Text replacement indicator color"
         }
       },
       "additionalProperties": {
@@ -69,34 +120,36 @@
         }
       },
       "additionalProperties": false
-    }
-
-    /*
+    },
     "rows": {
       "type": "object",
-      "description": "Styling for different row types",
+      "description": "Styling for different row types. Keys are row type names (body, heading, note, blockquote, codeblock, task, orderedList, unorderedList, horizontalRule) or custom names.",
       "properties": {
-        "body": { "$ref": "#/$defs/textStyle" },
-        "heading": { "$ref": "#/$defs/textStyle" },
-        "ordered": { "$ref": "#/$defs/textStyle" },
-        "unordered": { "$ref": "#/$defs/textStyle" },
-        "task": { "$ref": "#/$defs/textStyle" }
+        "body": { "$ref": "#/$defs/textStyle", "description": "Default body text style" },
+        "heading": { "$ref": "#/$defs/textStyle", "description": "Heading row style" },
+        "note": { "$ref": "#/$defs/textStyle", "description": "Note row style" },
+        "blockquote": { "$ref": "#/$defs/textStyle", "description": "Blockquote row style" },
+        "codeblock": { "$ref": "#/$defs/textStyle", "description": "Code block row style" },
+        "task": { "$ref": "#/$defs/textStyle", "description": "Task list row style" },
+        "orderedList": { "$ref": "#/$defs/textStyle", "description": "Ordered list row style" },
+        "unorderedList": { "$ref": "#/$defs/textStyle", "description": "Unordered list row style" },
+        "horizontalRule": { "$ref": "#/$defs/textStyle", "description": "Horizontal rule row style" }
       },
-      "additionalProperties": false
+      "additionalProperties": { "$ref": "#/$defs/textStyle" }
     },
     "runs": {
       "type": "object",
-      "description": "Styling for text runs and inline formatting",
+      "description": "Styling for text runs and inline formatting. Keys are run type names (strong, emphasis, strikethrough, code, highlight, link) or custom names.",
       "properties": {
-        "strong": { "$ref": "#/$defs/textStyle" },
-        "emphasis": { "$ref": "#/$defs/textStyle" },
-        "strikethrough": { "$ref": "#/$defs/textStyle" },
-        "code": { "$ref": "#/$defs/textStyle" },
-        "link": { "$ref": "#/$defs/textStyle" }
+        "strong": { "$ref": "#/$defs/textStyle", "description": "Bold/strong text style" },
+        "emphasis": { "$ref": "#/$defs/textStyle", "description": "Italic/emphasized text style" },
+        "strikethrough": { "$ref": "#/$defs/textStyle", "description": "Strikethrough text style" },
+        "code": { "$ref": "#/$defs/textStyle", "description": "Inline code style" },
+        "highlight": { "$ref": "#/$defs/textStyle", "description": "Highlighted/marked text style" },
+        "link": { "$ref": "#/$defs/textStyle", "description": "Link text style" }
       },
-      "additionalProperties": false
+      "additionalProperties": { "$ref": "#/$defs/textStyle" }
     }
-  */
   },
   "$defs": {
     "color": {
@@ -458,24 +511,22 @@
         }
       ],
       "description": "A visual material (color, gradient, glass, or system)"
-    }
-
-    /*"textStyle": {
+    },
+    "textStyle": {
       "type": "object",
-      "description": "Theme properties for text",
+      "description": "Styling properties for rows and runs. All properties are optional.",
       "properties": {
         "color": {
           "$ref": "#/$defs/color",
-          "default": "text"
+          "description": "Text color. Supports color references ($name), hex codes, CSS functions, and named colors."
         },
         "fontFamily": {
           "type": "string",
-          "default": "SF Pro"
+          "description": "Font family name (e.g., 'SF Mono', 'Helvetica')"
         },
         "fontAdjust": {
           "type": "number",
-          "description": "Font size +- adjust relative to base font size",
-          "default": 0
+          "description": "Font size multiplier relative to base font size (e.g., 1.2 = 20% larger, 0.8 = 20% smaller)"
         },
         "fontWeight": {
           "type": "string",
@@ -490,7 +541,7 @@
             "heavy",
             "black"
           ],
-          "default": "regular"
+          "description": "Font weight"
         },
         "fontTraits": {
           "type": "array",
@@ -498,10 +549,10 @@
             "type": "string",
             "enum": ["italic", "bold", "expanded", "condensed", "monospace"]
           },
-          "default": []
+          "description": "Font traits to apply (italic, bold, expanded, condensed, monospace)"
         }
       },
       "additionalProperties": false
-    }*/
+    }
   }
 }
