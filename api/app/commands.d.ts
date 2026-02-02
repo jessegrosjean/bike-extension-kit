@@ -2,12 +2,8 @@ import { Range, Row } from './outline'
 import { OutlineEditor, Selection } from './outline-editor'
 import { Disposable } from './system'
 
-/** Command definition with optional metadata */
-type CommandDefinition = CommandAction | {
-  action: CommandAction
-  /** Optional SF Symbol name for this command */
-  symbol?: string
-}
+/** Command definition */
+type CommandDefinition = CommandAction
 
 /** Interface for managing commands. */
 interface Commands {

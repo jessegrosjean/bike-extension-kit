@@ -322,7 +322,7 @@ style.layer('controls', (row, run, caret, viewport, include) => {
       let values = computeValues(context)
       row.text.decoration('focus', (focus, layout) => {
         let size = layout.lastLine.height
-        focus.commandName = 'focus:toggle'
+        focus.commandName = 'go:focus-toggle'
         focus.contents.gravity = 'center'
         focus.contents.image = symbolImage(
           'arrow.down.forward',

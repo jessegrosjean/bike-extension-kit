@@ -30,10 +30,10 @@ export async function activate(context: AppExtensionContext) {
 
   bike.observeWindows(async (window: Window) => {
     window.sidebar.addAction({
-      id: 'navigate:home',
+      id: 'go:home',
       text: 'Home',
       symbol: 'house',
-      action: 'navigate:home',
+      action: 'go:home',
     })
   })
 }
