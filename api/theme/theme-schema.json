@@ -123,7 +123,7 @@
     },
     "rows": {
       "type": "object",
-      "description": "Styling for different row types. Keys are row type names (body, heading, note, blockquote, codeblock, task, orderedList, unorderedList, horizontalRule) or custom names.",
+      "description": "Styling for different row types.",
       "properties": {
         "body": { "$ref": "#/$defs/textStyle", "description": "Default body text style" },
         "heading": { "$ref": "#/$defs/textStyle", "description": "Heading row style" },
@@ -135,11 +135,11 @@
         "unorderedList": { "$ref": "#/$defs/textStyle", "description": "Unordered list row style" },
         "horizontalRule": { "$ref": "#/$defs/textStyle", "description": "Horizontal rule row style" }
       },
-      "additionalProperties": { "$ref": "#/$defs/textStyle" }
+      "additionalProperties": false
     },
     "runs": {
       "type": "object",
-      "description": "Styling for text runs and inline formatting. Keys are run type names (strong, emphasis, strikethrough, code, highlight, link) or custom names.",
+      "description": "Styling for text runs and inline formatting.",
       "properties": {
         "strong": { "$ref": "#/$defs/textStyle", "description": "Bold/strong text style" },
         "emphasis": { "$ref": "#/$defs/textStyle", "description": "Italic/emphasized text style" },
@@ -148,7 +148,7 @@
         "highlight": { "$ref": "#/$defs/textStyle", "description": "Highlighted/marked text style" },
         "link": { "$ref": "#/$defs/textStyle", "description": "Link text style" }
       },
-      "additionalProperties": { "$ref": "#/$defs/textStyle" }
+      "additionalProperties": false
     }
   },
   "$defs": {

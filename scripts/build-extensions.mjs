@@ -4,8 +4,15 @@ import fastGlob from 'fast-glob'
 import esbuild from 'esbuild'
 import process from 'process'
 import path from 'path'
+import Ajv from 'ajv'
 import os from 'os'
 import fs from 'fs'
+
+const themeSchema = JSON.parse(
+  fs.readFileSync('./api/theme/theme-schema.json', 'utf-8')
+)
+const ajv = new Ajv({ allErrors: true })
+const validateTheme = ajv.compile(themeSchema)
 
 const outdir = './out/extensions'
 
@@ -34,6 +41,7 @@ const context = await esbuild.context({
     }),
     copyManifestPlugin(outdir),
     copyThemePlugin(outdir),
+    validateApiThemesPlugin(),
     typecheckTSConfigPlugin(),
     installExtensionPlugin(),
   ],
@@ -74,14 +82,51 @@ function copyManifestPlugin(outdir) {
   }
 }
 
+function validateThemeFile(file) {
+  const themeContent = fs.readFileSync(file, 'utf-8')
+  let theme
+  try {
+    theme = JSON.parse(themeContent)
+  } catch (e) {
+    console.error(`\x1b[31mError parsing ${file}: ${e.message}\x1b[0m`)
+    process.exit(1)
+  }
+
+  const valid = validateTheme(theme)
+  if (!valid) {
+    console.error(`\x1b[31mTheme validation failed: ${file}\x1b[0m`)
+    for (const error of validateTheme.errors) {
+      const location = error.instancePath || '(root)'
+      console.error(`  ${location}: ${error.message}`)
+    }
+    process.exit(1)
+  }
+}
+
+function validateApiThemesPlugin() {
+  return {
+    name: 'validate-api-themes',
+    setup(build) {
+      build.onEnd(async () => {
+        const files = await fastGlob('api/theme/*.bktheme')
+        for (const file of files) {
+          validateThemeFile(file)
+        }
+      })
+    },
+  }
+}
+
 function copyThemePlugin(outdir) {
   let pattern = 'src/**/theme/*.bktheme'
+
   return {
     name: 'copy-theme',
     setup(build) {
       build.onEnd(async () => {
         const files = await fastGlob(pattern)
         for (const file of files) {
+          validateThemeFile(file)
           const dest = path.join(outdir, path.relative('src', file))
           fs.mkdirSync(path.dirname(dest), { recursive: true })
           fs.copyFileSync(file, dest)

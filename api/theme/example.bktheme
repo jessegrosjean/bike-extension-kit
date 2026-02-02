@@ -3,7 +3,7 @@
   "metadata": {
     "name": "Example Theme",
     "version": "1.0.0",
-    "author": "Mr Example",
+    "author": "Mr Example"
   },
   "colors": {
     "text": "#000000",
@@ -11,23 +11,22 @@
     "background": "#FFFFFF",
     "titleBackground": "#FFFFFF",
     "accessoryBackground": "#FFFFFF",
-    "inspectorBackground": "#FFFFFF",
-  }
+    "inspectorBackground": "#FFFFFF"
+  },
   "materials": {
-     "titlebarBackground": "white",
-     "sidebarBackground": {
-        "type": "glass"
-     },
-     "inspectorBackground": {
-        "type": "system",
-        "style": "header",
-        "opacity": 0.15
-      },
-      "documentPanelsBackground": {
-        "type": "system",
-        "style": "header",
-        "opacity": 0.35
-      }
+    "titlebar": "white",
+    "sidebar": {
+      "type": "glass"
+    },
+    "inspector": {
+      "type": "system",
+      "style": "header",
+      "opacity": 0.15
+    },
+    "editorBars": {
+      "type": "system",
+      "style": "header",
+      "opacity": 0.35
+    }
   }
-
 }

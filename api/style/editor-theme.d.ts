@@ -59,13 +59,6 @@ interface ColorTheme {
   readonly grammar: Color
   readonly spelling: Color
   readonly replacement: Color
-
-  /**
-   * Get a named color from the theme's colors dictionary.
-   * @param name - The color name (e.g., "text", "accent", "link", or custom names)
-   * @returns The color if defined, undefined otherwise
-   */
-  [name: string]: Color | undefined
 }
 
 /**
@@ -84,13 +77,6 @@ interface RowThemes {
   readonly orderedList: TextContainerTheme
   readonly unorderedList: TextContainerTheme
   readonly horizontalRule: TextContainerTheme
-
-  /**
-   * Get a row theme by name.
-   * @param name - The row type name (e.g., "heading", "note", "codeblock")
-   * @returns The text theme
-   */
-  [name: string]: TextContainerTheme | undefined
 }
 
 /**
@@ -106,13 +92,6 @@ interface RunThemes {
   readonly code: TextContainerTheme
   readonly highlight: TextContainerTheme
   readonly link: TextContainerTheme
-
-  /**
-   * Get a run theme by name.
-   * @param name - The run type name (e.g., "strong", "emphasis", "code")
-   * @returns The text theme
-   */
-  [name: string]: TextContainerTheme | undefined
 }
 
 /**
