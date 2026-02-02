@@ -1,7 +1,6 @@
 import {
   Color,
   StyleContext,
-  WritingFocusMode,
   Font,
   FontAttributes,
   Image,
@@ -13,9 +12,10 @@ import {
 } from 'bike/style'
 
 /**
- * This function computes/caches values derived from `Editor` state. Bike styles
- * should use `editor` values where appropriate to the style, but it's also
- * useful to adjust those values in some cases.
+ * This function computes/caches values derived from `StyleContext` state. Bike
+ * styles should use `context.settings` and `context.theme` values directly
+ * where appropriate, but this function is useful for values that need
+ * computation or caching.
  *
  * For example, consider the case where the editor is wrapping text to a
  * specific column (`lineWidth`) while displaying in a large viewport. In
@@ -24,34 +24,15 @@ import {
  * choosen font to better fill the viewport, while maintaining the user's
  * `lineWidth` setting.
  *
- * This function also caches derived values for performance and ease of use. For
- * example there is no user setting for `guideColor`, but that value is needed
- * by this editor style. Instead of hard coding a value, this function creates
- * the guide color by combining various values from the editor state.
- *
  * This function is not a required part of an editor style, but I think it's a
  * useful pattern, especially for more complex editor styles that try to work
  * under a variety of conditions.
  *
- * @param editor
- * @returns The computed values derived from the editor
+ * @param context
+ * @returns The computed values derived from the context
  */
 export function computeValues(context: StyleContext): {
   font: Font
-  lineWidth: number | undefined
-  lineHeightMultiple: number
-  rowSpacingMultiple: number
-  isFullScreen: boolean
-  isDarkMode: boolean
-  textColor: Color
-  accentColor: Color
-  backgroundColor: Color
-  writingFocusMode: WritingFocusMode | undefined
-  typewriterMode: number | undefined
-  showCaretLine: boolean
-  showGuideLines: boolean
-  showFocusArrows: boolean
-  hideControlsWhenTyping: boolean
   fontAttributes: FontAttributes
   indent: number
   uiScale: number
@@ -59,17 +40,10 @@ export function computeValues(context: StyleContext): {
   rowTextMargin: Insets
   rowTextPadding: Insets
   viewportPadding: Insets
-  selectionColor: Color
-  blockSelectionColor: Color
-  handleColor: Color
-  guideColor: Color
-  separatorColor: Color
-  secondaryControlColor: Color
   secondaryControlAlpha: number
   handleImage: Image
   outlineFocusAlpha: number
   textFocusAlpha: number
-  replacementColor: Color
 } {
   if (context.userCache.has('values')) {
     return context.userCache.get('values')
@@ -134,19 +108,8 @@ export function computeValues(context: StyleContext): {
   }
 
   let uiScale = geometry.uiScale
-  let textColor = context.theme.textColor
-  let handleColor = textColor
-  let backgroundColor = context.theme.backgroundColor
   let secondaryControlAlpha = context.isDarkMode ? 0.175 : 0.075
-  let secondaryControlColor = textColor.withAlpha(secondaryControlAlpha)
-  let guideColor = textColor.withAlpha(secondaryControlAlpha / 2)
-  let selectionColor = context.isKey
-    ? Color.textBackgroundSelected()
-    : textColor.withFraction(0.8, backgroundColor)
-
-  let blockSelectionColor = context.isKey
-    ? Color.contentBackgroundSelected().withFraction(0.5, backgroundColor) //Color.systemGreen().withFraction(0.5, backgroundColor)
-    : textColor.withFraction(0.8, backgroundColor)
+  let handleColor = context.theme.colors.handle
 
   let handleWidth = Math.max(1, 6 * uiScale)
   let handleHeight = Math.max(1, 10 * uiScale)
@@ -162,20 +125,6 @@ export function computeValues(context: StyleContext): {
 
   let values = {
     font: font,
-    lineWidth: context.settings.lineWidth,
-    lineHeightMultiple: context.settings.lineHeightMultiple,
-    rowSpacingMultiple: context.settings.rowSpacingMultiple,
-    isFullScreen: context.isFullScreen,
-    isDarkMode: context.isDarkMode,
-    textColor: textColor,
-    accentColor: context.theme.accentColor,
-    backgroundColor: context.theme.backgroundColor,
-    writingFocusMode: context.settings.writingFocusMode,
-    typewriterMode: context.settings.typewriterMode,
-    showCaretLine: context.settings.showCaretLine,
-    showGuideLines: context.settings.showGuideLines,
-    showFocusArrows: context.settings.showFocusArrows,
-    hideControlsWhenTyping: context.settings.hideControlsWhenTyping,
     fontAttributes: geometry.fontAttributes,
     indent: geometry.indent,
     uiScale: uiScale,
@@ -183,17 +132,10 @@ export function computeValues(context: StyleContext): {
     rowTextMargin: geometry.rowTextMargin,
     rowTextPadding: geometry.rowTextPadding,
     viewportPadding: geometry.viewportPadding,
-    selectionColor: selectionColor,
-    blockSelectionColor: blockSelectionColor,
-    handleColor: handleColor,
-    guideColor: guideColor,
-    separatorColor: textColor,
-    secondaryControlColor: secondaryControlColor,
     secondaryControlAlpha: secondaryControlAlpha,
     handleImage: handleImage,
     outlineFocusAlpha: 0.0,
     textFocusAlpha: 0.15,
-    replacementColor: context.theme.accentColor.withAlpha(0.5),
   }
 
   context.userCache.set('values', values)
@@ -257,4 +199,9 @@ function computeGeometryForFont(
 export function symbolImage(name: string, color: Color, font: Font): Image {
   let symbol = new SymbolConfiguration(name).withHierarchicalColor(color).withFont(font)
   return Image.fromSymbol(symbol)
+}
+
+export function secondaryControlColor(context: StyleContext): Color {
+  let secondaryControlAlpha = context.isDarkMode ? 0.175 : 0.075
+  return context.theme.colors.text.withAlpha(secondaryControlAlpha)
 }
