@@ -1,4 +1,4 @@
-import { AppExtensionContext, Window, DOMScript, Row, CommandContext } from 'bike/app'
+import { AppExtensionContext, DOMScript, Row, CommandContext } from 'bike/app'
 
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
@@ -12,22 +12,6 @@ export async function activate(context: AppExtensionContext) {
         return true
       },
     },
-  })
-
-  bike.observeWindows(async (window: Window) => {
-    window.sidebar.addAction({
-      id: 'd3:tree-view',
-      text: 'Tree View',
-      symbol: 'tree',
-      action: 'd3:show-tree-view',
-    })
-
-    window.sidebar.addAction({
-      id: 'd3:radial-view',
-      text: 'Radial View',
-      symbol: 'tree.circle',
-      action: 'd3:show-radial-view',
-    })
   })
 }
 

@@ -29,7 +29,7 @@ export async function activate(context: AppExtensionContext) {
   })
 
   bike.observeWindows(async (window: Window) => {
-    window.sidebar.addAction({
+    window.sidebar.addLocation({
       id: 'go:home',
       text: 'Home',
       symbol: 'house',

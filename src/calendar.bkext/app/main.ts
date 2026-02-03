@@ -12,12 +12,16 @@ export async function activate(context: AppExtensionContext) {
   })
 
   bike.observeWindows(async (window: Window) => {
-    window.sidebar.addAction({
+    const todayHandle = window.sidebar.addLocation({
       id: 'calendar:today',
       text: 'Today',
       symbol: 'calendar',
       action: () => {
-        bike.commands.performCommand('calendar:today')
+        const editor = window.currentOutlineEditor
+        if (editor) {
+          bike.commands.performCommand('calendar:today')
+          todayHandle.representedRowId = getDayRow(editor.outline, new Date()).id
+        }
       },
     })
 
