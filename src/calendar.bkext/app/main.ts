@@ -1,6 +1,7 @@
-import { AppExtensionContext, SidebarItemHandle, Window } from 'bike/app'
+import { AppExtensionContext, Window } from 'bike/app'
 import { todayCommand, monthCommand, yearCommand } from './commands'
 import { getDayRow } from './calendar-rows'
+import { getDateComponents } from './util'
 
 export async function activate(context: AppExtensionContext) {
   bike.commands.addCommands({
@@ -12,16 +13,13 @@ export async function activate(context: AppExtensionContext) {
   })
 
   bike.observeWindows(async (window: Window) => {
-    const todayHandle = window.sidebar.addLocation({
+    window.sidebar.addLocation({
       id: 'calendar:today',
       text: 'Today',
       symbol: 'calendar',
+      representedRowId: getDateComponents(new Date()).dayId,
       action: () => {
-        const editor = window.currentOutlineEditor
-        if (editor) {
-          bike.commands.performCommand('calendar:today')
-          todayHandle.representedRowId = getDayRow(editor.outline, new Date()).id
-        }
+        bike.commands.performCommand('calendar:today')
       },
     })
 
