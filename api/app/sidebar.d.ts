@@ -5,19 +5,11 @@ import { Disposable } from './system'
 /** Sidebar is a view that displays a list of navigation items. */
 export interface Sidebar extends View {
   /**
-   * Add a location item to the sidebar.
+   * Add a navigation shortcut to the top of the sidebar.
    *
-   * Location items appear at top of the sidebar and have an associated action.
-   * That action is expected to navigate to a specific row. It is an action,
-   * because the row might not exist yet and the action will need to create it,
-   * such as the "Today" location.
-   *
-   * The location should know the representedRowId of the row it is associated
-   * with. Even if it hasn't created the row yet, it should still provide the ID
-   * of the row it will create when activated.
-   *
-   * The representedRowId is used to automatically select the location item when
-   * the editor navigates through any means, such as when you focusIn a row.
+   * When clicked, the action runs (typically navigating to the represented row,
+   * creating it if needed). The location is automatically highlighted when the
+   * editor navigates to its represented row by any means.
    *
    * @param item - The location item to add.
    * @returns A disposable to remove the item.
@@ -27,14 +19,15 @@ export interface Sidebar extends View {
 
 /** A location item in the sidebar. */
 export type LocationItem = Readonly<{
-  /** The unique identifier for the item. */
+  /** Unique identifier. Adding a location with an existing ID replaces it. */
   id: string
-  /** The text to display for the item. */
+  /** The text to display. */
   text: string
-  /** The SFSymbol to display for the item. */
+  /** The SF Symbol name to display. */
   symbol: string
-  /** The persistent ID of the row this location represents. */
+  /** The persistent row ID this location represents. Provide the expected ID
+   * even if the row doesn't exist yet. */
   representedRowId: string
-  /** The action to perform when the item is clicked. */
+  /** The action to perform when clicked. */
   action: CommandName | (() => void)
 }>
