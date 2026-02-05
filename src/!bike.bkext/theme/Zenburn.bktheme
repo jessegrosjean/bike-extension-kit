@@ -1,0 +1,107 @@
+{
+  "metadata": {
+    "name": "Zenburn",
+    "version": "1.0.0",
+    "author": "Hog Bay Software",
+    "appearance": "dark"
+  },
+  "colors": {
+    "background": "#3f3f3f",
+    "backgroundAlt": "#4f4f4f",
+    "backgroundDark": "#383838",
+    "foreground": "#dcdccc",
+    "comment": "#7f9f7f",
+    "red": "#cc9393",
+    "orange": "#dfaf8f",
+    "yellow": "#f0dfaf",
+    "green": "#7f9f7f",
+    "cyan": "#93e0e3",
+    "blue": "#8cd0d3",
+    "purple": "#dc8cc3",
+
+    "text": "$foreground",
+    "secondaryText": "$comment",
+    "accent": "$blue",
+    "caret": "$foreground",
+    "caretLine": "rgba(255, 255, 255, 0.03)",
+    "textBackgroundSelected": "rgba(140, 208, 211, 0.25)",
+    "blockBackgroundSelected": "rgba(140, 208, 211, 0.12)",
+    "findMatch": "rgba(240, 223, 175, 0.3)",
+    "findMatchCurrent": "rgba(240, 223, 175, 0.5)",
+    "handle": "#6f6f6f",
+    "guideLine": "$backgroundAlt",
+    "focusArrow": "#6f6f6f",
+    "spelling": "$red",
+    "grammar": "$green"
+  },
+  "materials": {
+    "window": "$background",
+    "titlebar": "$backgroundDark",
+    "sidebar": "$backgroundDark",
+    "editor": "$background"
+  },
+  "rows": {
+    "body": {
+      "color": "$text"
+    },
+    "heading": {
+      "color": "$yellow",
+      "fontWeight": "semibold"
+    },
+    "note": {
+      "color": "$comment"
+    },
+    "blockquote": {
+      "color": "$orange",
+      "fontTraits": ["italic"]
+    },
+    "codeblock": {
+      "color": "$foreground",
+      "backgroundColor": "$backgroundAlt",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"]
+    },
+    "task": {
+      "color": "$text"
+    },
+    "orderedList": {
+      "color": "$text"
+    },
+    "unorderedList": {
+      "color": "$text"
+    },
+    "horizontalRule": {
+      "color": "#6f6f6f"
+    }
+  },
+  "runs": {
+    "strong": {
+      "color": "$yellow",
+      "fontWeight": "semibold"
+    },
+    "emphasis": {
+      "fontTraits": ["italic"]
+    },
+    "strikethrough": {
+      "color": "#6f6f6f",
+      "strikethrough": {
+        "single": true
+      }
+    },
+    "code": {
+      "color": "$cyan",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"],
+      "backgroundColor": "$backgroundAlt"
+    },
+    "highlight": {
+      "backgroundColor": "rgba(240, 223, 175, 0.2)"
+    },
+    "link": {
+      "color": "$blue",
+      "underline": {
+        "single": true
+      }
+    }
+  }
+}

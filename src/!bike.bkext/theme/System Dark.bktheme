@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "name": "System Dark",
+    "version": "1.0.0",
+    "author": "Hog Bay Software",
+    "appearance": "dark"
+  },
+  "colors": {
+    "text": "label",
+    "secondaryText": "labelSecondary",
+    "accent": "accent",
+    "background": "textBackground",
+    "caret": "label",
+    "caretLine": "rgba(255, 255, 255, 0.04)",
+    "textBackgroundSelected": "textBackgroundSelected",
+    "blockBackgroundSelected": "rgba(255, 255, 255, 0.1)",
+    "findMatch": "rgba(255, 255, 0, 0.3)",
+    "findMatchCurrent": "rgba(255, 200, 0, 0.45)",
+    "handle": "labelSecondary",
+    "guideLine": "separator",
+    "focusArrow": "labelTertiary",
+    "spelling": "systemRed",
+    "grammar": "systemGreen"
+  },
+  "materials": {
+    "window": "windowBackground",
+    "titlebar": {
+      "type": "system",
+      "style": "titlebar",
+      "followsActive": true
+    },
+    "sidebar": {
+      "type": "system",
+      "style": "windowBackground",
+      "followsActive": true
+    },
+    "editor": "textBackground"
+  },
+  "rows": {
+    "body": {
+      "color": "$text"
+    },
+    "heading": {
+      "color": "$text",
+      "fontWeight": "semibold"
+    },
+    "note": {
+      "color": "$secondaryText"
+    },
+    "blockquote": {
+      "color": "$secondaryText",
+      "fontTraits": ["italic"]
+    },
+    "codeblock": {
+      "color": "$text",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"]
+    },
+    "task": {
+      "color": "$text"
+    },
+    "orderedList": {
+      "color": "$text"
+    },
+    "unorderedList": {
+      "color": "$text"
+    },
+    "horizontalRule": {
+      "color": "$secondaryText"
+    }
+  },
+  "runs": {
+    "strong": {
+      "fontWeight": "semibold"
+    },
+    "emphasis": {
+      "fontTraits": ["italic"]
+    },
+    "strikethrough": {
+      "color": "$secondaryText",
+      "strikethrough": {
+        "single": true
+      }
+    },
+    "code": {
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"],
+      "backgroundColor": "rgba(255, 255, 255, 0.08)"
+    },
+    "highlight": {
+      "backgroundColor": "rgba(255, 230, 0, 0.3)"
+    },
+    "link": {
+      "color": "link",
+      "underline": {
+        "single": true
+      }
+    }
+  }
+}

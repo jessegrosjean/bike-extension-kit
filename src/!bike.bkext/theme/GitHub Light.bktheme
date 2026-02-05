@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "name": "GitHub Light",
+    "version": "1.0.0",
+    "author": "Hog Bay Software",
+    "appearance": "light"
+  },
+  "colors": {
+    "background": "#ffffff",
+    "backgroundAlt": "#f6f8fa",
+    "foreground": "#24292f",
+    "muted": "#57606a",
+    "subtle": "#6e7781",
+    "border": "#d0d7de",
+    "blue": "#0969da",
+    "green": "#1a7f37",
+    "red": "#cf222e",
+    "orange": "#bc4c00",
+    "purple": "#8250df",
+    "pink": "#bf3989",
+
+    "text": "$foreground",
+    "secondaryText": "$muted",
+    "accent": "$blue",
+    "caret": "$foreground",
+    "caretLine": "rgba(0, 0, 0, 0.04)",
+    "textBackgroundSelected": "rgba(9, 105, 218, 0.15)",
+    "blockBackgroundSelected": "rgba(9, 105, 218, 0.08)",
+    "findMatch": "rgba(255, 230, 0, 0.4)",
+    "findMatchCurrent": "rgba(255, 200, 0, 0.6)",
+    "handle": "$subtle",
+    "guideLine": "$border",
+    "focusArrow": "$subtle",
+    "spelling": "$red",
+    "grammar": "$green"
+  },
+  "materials": {
+    "window": "$background",
+    "titlebar": "$backgroundAlt",
+    "sidebar": "$backgroundAlt",
+    "editor": "$background"
+  },
+  "rows": {
+    "body": {
+      "color": "$text"
+    },
+    "heading": {
+      "color": "$foreground",
+      "fontWeight": "semibold"
+    },
+    "note": {
+      "color": "$muted"
+    },
+    "blockquote": {
+      "color": "$muted",
+      "fontTraits": ["italic"]
+    },
+    "codeblock": {
+      "color": "$foreground",
+      "backgroundColor": "$backgroundAlt",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"]
+    },
+    "task": {
+      "color": "$text"
+    },
+    "orderedList": {
+      "color": "$text"
+    },
+    "unorderedList": {
+      "color": "$text"
+    },
+    "horizontalRule": {
+      "color": "$border"
+    }
+  },
+  "runs": {
+    "strong": {
+      "fontWeight": "semibold"
+    },
+    "emphasis": {
+      "fontTraits": ["italic"]
+    },
+    "strikethrough": {
+      "color": "$muted",
+      "strikethrough": {
+        "single": true
+      }
+    },
+    "code": {
+      "color": "$pink",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"],
+      "backgroundColor": "rgba(175, 184, 193, 0.2)"
+    },
+    "highlight": {
+      "backgroundColor": "rgba(255, 230, 0, 0.35)"
+    },
+    "link": {
+      "color": "$blue",
+      "underline": {
+        "single": true
+      }
+    }
+  }
+}

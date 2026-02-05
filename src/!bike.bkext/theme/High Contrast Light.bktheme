@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "name": "High Contrast Light",
+    "version": "1.0.0",
+    "author": "Hog Bay Software",
+    "appearance": "light"
+  },
+  "colors": {
+    "black": "#000000",
+    "white": "#ffffff",
+    "darkGray": "#333333",
+    "mediumGray": "#666666",
+    "blue": "#0000ee",
+    "red": "#cc0000",
+    "green": "#006600",
+    "yellow": "#ffff00",
+
+    "text": "$black",
+    "secondaryText": "$darkGray",
+    "accent": "$blue",
+    "background": "$white",
+    "caret": "$black",
+    "caretLine": "rgba(0, 0, 0, 0.06)",
+    "textBackgroundSelected": "rgba(0, 0, 238, 0.25)",
+    "blockBackgroundSelected": "rgba(0, 0, 238, 0.15)",
+    "findMatch": "rgba(255, 255, 0, 0.6)",
+    "findMatchCurrent": "rgba(255, 200, 0, 0.8)",
+    "handle": "$darkGray",
+    "guideLine": "#cccccc",
+    "focusArrow": "$mediumGray",
+    "spelling": "$red",
+    "grammar": "$green"
+  },
+  "materials": {
+    "window": "$white",
+    "titlebar": "#e0e0e0",
+    "sidebar": "#f0f0f0",
+    "editor": "$white"
+  },
+  "rows": {
+    "body": {
+      "color": "$text"
+    },
+    "heading": {
+      "color": "$black",
+      "fontWeight": "bold"
+    },
+    "note": {
+      "color": "$darkGray"
+    },
+    "blockquote": {
+      "color": "$darkGray",
+      "fontTraits": ["italic"]
+    },
+    "codeblock": {
+      "color": "$black",
+      "backgroundColor": "#f5f5f5",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"]
+    },
+    "task": {
+      "color": "$text"
+    },
+    "orderedList": {
+      "color": "$text"
+    },
+    "unorderedList": {
+      "color": "$text"
+    },
+    "horizontalRule": {
+      "color": "$darkGray"
+    }
+  },
+  "runs": {
+    "strong": {
+      "fontWeight": "bold"
+    },
+    "emphasis": {
+      "fontTraits": ["italic"]
+    },
+    "strikethrough": {
+      "color": "$mediumGray",
+      "strikethrough": {
+        "single": true,
+        "thick": true
+      }
+    },
+    "code": {
+      "color": "$black",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"],
+      "backgroundColor": "#f0f0f0"
+    },
+    "highlight": {
+      "backgroundColor": "$yellow"
+    },
+    "link": {
+      "color": "$blue",
+      "underline": {
+        "single": true,
+        "thick": true
+      }
+    }
+  }
+}

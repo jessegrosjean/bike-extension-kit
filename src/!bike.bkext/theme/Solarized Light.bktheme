@@ -1,0 +1,112 @@
+{
+  "metadata": {
+    "name": "Solarized Light",
+    "version": "1.0.0",
+    "author": "Hog Bay Software",
+    "appearance": "light"
+  },
+  "colors": {
+    "base03": "#002b36",
+    "base02": "#073642",
+    "base01": "#586e75",
+    "base00": "#657b83",
+    "base0": "#839496",
+    "base1": "#93a1a1",
+    "base2": "#eee8d5",
+    "base3": "#fdf6e3",
+    "yellow": "#b58900",
+    "orange": "#cb4b16",
+    "red": "#dc322f",
+    "magenta": "#d33682",
+    "violet": "#6c71c4",
+    "blue": "#268bd2",
+    "cyan": "#2aa198",
+    "green": "#859900",
+
+    "text": "$base00",
+    "secondaryText": "$base1",
+    "accent": "$blue",
+    "background": "$base3",
+    "caret": "$base00",
+    "caretLine": "rgba(0, 0, 0, 0.04)",
+    "textBackgroundSelected": "rgba(38, 139, 210, 0.25)",
+    "blockBackgroundSelected": "rgba(38, 139, 210, 0.15)",
+    "findMatch": "rgba(181, 137, 0, 0.3)",
+    "findMatchCurrent": "rgba(181, 137, 0, 0.5)",
+    "handle": "$base1",
+    "guideLine": "$base2",
+    "focusArrow": "$base1",
+    "spelling": "$red",
+    "grammar": "$green"
+  },
+  "materials": {
+    "window": "$base3",
+    "titlebar": "$base2",
+    "sidebar": "$base2",
+    "editor": "$base3"
+  },
+  "rows": {
+    "body": {
+      "color": "$text"
+    },
+    "heading": {
+      "color": "$orange",
+      "fontWeight": "semibold"
+    },
+    "note": {
+      "color": "$secondaryText"
+    },
+    "blockquote": {
+      "color": "$cyan",
+      "fontTraits": ["italic"]
+    },
+    "codeblock": {
+      "color": "$green",
+      "backgroundColor": "$base2",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"]
+    },
+    "task": {
+      "color": "$text"
+    },
+    "orderedList": {
+      "color": "$text"
+    },
+    "unorderedList": {
+      "color": "$text"
+    },
+    "horizontalRule": {
+      "color": "$base1"
+    }
+  },
+  "runs": {
+    "strong": {
+      "color": "$base01",
+      "fontWeight": "semibold"
+    },
+    "emphasis": {
+      "fontTraits": ["italic"]
+    },
+    "strikethrough": {
+      "color": "$secondaryText",
+      "strikethrough": {
+        "single": true
+      }
+    },
+    "code": {
+      "color": "$magenta",
+      "fontFamily": "SF Mono",
+      "fontTraits": ["monospace"],
+      "backgroundColor": "$base2"
+    },
+    "highlight": {
+      "backgroundColor": "rgba(181, 137, 0, 0.25)"
+    },
+    "link": {
+      "color": "$blue",
+      "underline": {
+        "single": true
+      }
+    }
+  }
+}

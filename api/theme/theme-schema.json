@@ -21,6 +21,11 @@
         "author": {
           "type": "string",
           "description": "Theme author"
+        },
+        "appearance": {
+          "type": "string",
+          "enum": ["light", "dark", "any"],
+          "description": "Preferred appearance mode. 'light' for light mode only, 'dark' for dark mode only, 'any' or omit for both."
         }
       }
     },
