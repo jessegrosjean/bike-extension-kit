@@ -223,7 +223,7 @@ style.layer('row-formatting', (row, run, caret, viewport, include) => {
     row.text.decoration('ruler', (ruler, layout) => {
       ruler.height = layout.fixed(Math.max(1 * values.uiScale, 0.5))
       ruler.width = layout.width.minus(row.text.padding.width)
-      ruler.color = colors.text
+      ruler.color = row.text.color
     })
   })
 })
@@ -378,7 +378,7 @@ style.layer('selection', (row, run, caret, viewport, include) => {
     let colors = context.theme.colors
     let values = computeValues(context)
     let selection = context.isKey
-      ? colors.textBackgroundSelected
+      ? colors.blockBackgroundSelected
       : colors.text.withFraction(0.8, colors.background)
     row.decoration('selection', (background, layout) => {
       background.anchor.x = 0
