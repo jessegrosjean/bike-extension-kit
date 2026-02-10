@@ -1,105 +1,4 @@
-import {
-  AttributedString,
-  CommandContext,
-  FoldOptions,
-  OutlineEditor,
-  Range,
-  Selection,
-  TransactionOptions,
-  URL,
-} from 'bike/app'
-
-export function homeCommand(context: CommandContext): boolean {
-  let editor = context.editor
-  if (!editor) return false
-
-  let options: TransactionOptions = {
-    animate: {
-      spring: 'navigation',
-    },
-  }
-
-  editor.transaction(options, () => {
-    editor.filter = ''
-    editor.focus = editor.outline.root
-    if (editor.focus.firstChild) {
-      editor.selectCaret(editor.focus.firstChild, 0)
-    }
-  })
-
-  return true
-}
-
-export function headingsCommand(context: CommandContext): boolean {
-  let editor = context.editor
-  if (!editor) return false
-  if (editor.filter == '//heading') {
-    editor.filter = ''
-  } else {
-    editor.filter = '//heading'
-  }
-  return true
-}
-
-export function toggleFocusCommand(context: CommandContext): boolean {
-  let editor = context.editor
-  let row = context.selection?.row
-  if (!editor || !row) return false
-  if (editor.focus.id == row.id) {
-    editor.focus = editor.outline.root
-  } else {
-    editor.focus = row
-  }
-  return true
-}
-
-export function toggleFoldCommand(context: CommandContext): boolean {
-  let editor = context.editor
-  let row = context.selection?.row
-  if (!editor || !row) return false
-  if (editor.isCollapsed(row)) {
-    editor.expand([row])
-  } else {
-    editor.collapse([row])
-  }
-  return true
-}
-
-export function toggleDoneCommand(context: CommandContext) {
-  let editor = context.editor
-  let rows = context.selection?.rows
-  if (!editor || !rows || rows.length == 0) return false
-  let nextDoneDate = rows[0].attributes['done'] ? null : new Date()
-
-  let options: TransactionOptions = {
-    label: nextDoneDate ? 'Mark Done' : 'Mark Undone',
-    animate: 'default',
-  }
-
-  editor.transaction(options, () => {
-    rows.forEach((row) => {
-      if (nextDoneDate) {
-        row.setAttribute('done', nextDoneDate)
-      } else {
-        row.removeAttribute('done')
-      }
-    })
-  })
-
-  return true
-}
-
-export function openLinkCommand(context: CommandContext): boolean {
-  let editor = context.editor
-  let selection = context.selection
-  if (!editor || !selection) return false
-  let urls = findURLs(editor, selection)
-  if (urls.length == 0) return false
-  for (let url of urls) {
-    url.open({})
-  }
-  return true
-}
+import { AttributedString, CommandContext, FoldOptions, OutlineEditor, Range, Selection, URL } from 'bike/app'
 
 export function clickHandleCommand(context: CommandContext): boolean {
   let options: FoldOptions = bike.keybindings.isOptionPressed ? 'completely' : 'row'
@@ -110,6 +9,18 @@ export function clickHandleCommand(context: CommandContext): boolean {
     editor.expand([row], options)
   } else {
     editor.collapse([row], options)
+  }
+  return true
+}
+
+export function clickFocusCommand(context: CommandContext): boolean {
+  let editor = context.editor
+  let row = context.selection?.row
+  if (!editor || !row) return false
+  if (editor.focus.id == row.id) {
+    editor.focus = editor.outline.root
+  } else {
+    editor.focus = row
   }
   return true
 }

@@ -1,11 +1,12 @@
 import { AppExtensionContext, CommandContext, Window } from 'bike/app'
-import { clickHandleCommand, clickLinkCommand } from './commands'
+import { clickHandleCommand, clickLinkCommand, clickFocusCommand } from './commands'
 
 export async function activate(context: AppExtensionContext) {
   // Hidden commands for style interactions (not shown in command palette)
   bike.commands.addCommands({
     commands: {
       'bike:.click-handle': clickHandleCommand,
+      'bike:.click-focus': clickFocusCommand,
       'bike:.click-link': clickLinkCommand,
     },
   })
