@@ -95,6 +95,18 @@
         "replacement": {
           "$ref": "#/$defs/color",
           "description": "Text replacement indicator color"
+        },
+        "titlebarSeparator": {
+          "$ref": "#/$defs/color",
+          "description": "Separator below the titlebar"
+        },
+        "sidebarSeparators": {
+          "$ref": "#/$defs/color",
+          "description": "Split view dividers between sidebar, editor, and inspector"
+        },
+        "editorBarSeparators": {
+          "$ref": "#/$defs/color",
+          "description": "Toolbar separator (top) and bottom panel separators (status bar, find, check)"
         }
       },
       "additionalProperties": {
@@ -138,7 +150,10 @@
         "task": { "$ref": "#/$defs/textStyle", "description": "Task list row style" },
         "orderedList": { "$ref": "#/$defs/textStyle", "description": "Ordered list row style" },
         "unorderedList": { "$ref": "#/$defs/textStyle", "description": "Unordered list row style" },
-        "horizontalRule": { "$ref": "#/$defs/textStyle", "description": "Horizontal rule row style" }
+        "horizontalRule": {
+          "$ref": "#/$defs/textStyle",
+          "description": "Horizontal rule row style"
+        }
       },
       "additionalProperties": false
     },
@@ -150,7 +165,10 @@
         "emphasis": { "$ref": "#/$defs/textStyle", "description": "Italic/emphasized text style" },
         "strikethrough": { "$ref": "#/$defs/textStyle", "description": "Strikethrough text style" },
         "code": { "$ref": "#/$defs/textStyle", "description": "Inline code style" },
-        "highlight": { "$ref": "#/$defs/textStyle", "description": "Highlighted/marked text style" },
+        "highlight": {
+          "$ref": "#/$defs/textStyle",
+          "description": "Highlighted/marked text style"
+        },
         "link": { "$ref": "#/$defs/textStyle", "description": "Link text style" }
       },
       "additionalProperties": false
