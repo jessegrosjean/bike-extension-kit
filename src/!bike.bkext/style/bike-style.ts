@@ -291,6 +291,7 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
     text.padding.right = imageWidth
     text.decoration('button', (button, layout) => {
       button.commandName = 'bike:.click-link'
+      button.fragmentPlacement = 'last'
       button.x = layout.trailing
       button.anchor.x = 0
       button.width = layout.fixed(imageWidth)

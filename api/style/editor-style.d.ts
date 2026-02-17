@@ -451,6 +451,8 @@ interface Decoration {
   height: LayoutValue
   /** Whether the decoration can be merged with similar (see interface docs) */
   mergable: boolean
+  /** Which line fragment(s) to show the decoration on when text wraps (default 'all') */
+  fragmentPlacement: 'all' | 'first' | 'last'
   /** Optional command name to perform when activated (clicked) */
   commandName?: string
   /** Optional interaction capabilities */
