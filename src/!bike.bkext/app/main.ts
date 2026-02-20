@@ -8,24 +8,35 @@ export async function activate(context: AppExtensionContext) {
       'bike:.click-handle': clickHandleCommand,
       'bike:.click-focus': clickFocusCommand,
       'bike:.click-link': clickLinkCommand,
-    },
-  })
-
-  bike.keybindings.addKeybindings({
-    keymap: 'block-mode',
-    keybindings: {
-      space: 'row:toggle-done',
+      "text:wrap-'": (context) => wrapTextSelection("'", "'", context),
+      'text:wrap-[': (context) => wrapTextSelection('[', ']', context),
+      'text:wrap-"': (context) => wrapTextSelection('"', '"', context),
+      'text:wrap-{': (context) => wrapTextSelection('{', '}', context),
+      'text:wrap-(': (context) => wrapTextSelection('(', ')', context),
     },
   })
 
   bike.keybindings.addKeybindings({
     keymap: 'text-mode',
     keybindings: {
-      "'": (context) => wrapTextSelection("'", "'", context),
-      '[': (context) => wrapTextSelection('[', ']', context),
-      'Shift-"': (context) => wrapTextSelection('"', '"', context),
-      'Shift-{': (context) => wrapTextSelection('{', '}', context),
-      'Shift-(': (context) => wrapTextSelection('(', ')', context),
+      'Shift-Return': 'row:insert-above',
+      'Command-Return': 'row:insert-below',
+      'Command-Shift-Return': 'row:insert-child',
+      "'": "text:wrap-'",
+      '[': 'text:wrap-[',
+      'Shift-"': 'text:wrap-"',
+      'Shift-{': 'text:wrap-{',
+      'Shift-(': 'text:wrap-(',
+    },
+  })
+
+  bike.keybindings.addKeybindings({
+    keymap: 'block-mode',
+    keybindings: {
+      Space: 'row:toggle-done',
+      'Shift-Return': 'row:insert-above',
+      'Command-Return': 'row:insert-below',
+      'Command-Shift-Return': 'row:insert-child',
     },
   })
 
