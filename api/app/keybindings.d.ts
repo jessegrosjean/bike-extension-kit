@@ -1,4 +1,4 @@
-import { CommandName, CommandContext } from './commands'
+import { CommandName } from './commands'
 import { Disposable } from './system'
 
 /** Interface to manage outline editor Keybindings. */
@@ -35,7 +35,7 @@ interface Keybindings {
    */
   addKeybindings(keybindings: {
     keymap: KeymapName
-    keybindings: Record<KeySequence, KeybindingAction>
+    keybindings: Record<KeySequence, CommandName>
     priority?: number
   }): Disposable
 
@@ -141,19 +141,6 @@ type Modifiers =
  * - ctrl-x ctrl-s
  */
 type KeySequence = string
-
-/**
- * Represents the action triggered by a keybinding.
- *
- * This can be either:
- * 1. A named command, or
- * 2. A closure that returns a boolean.
- *
- * If the action returns `true`, keybinding processing stops and no
- * lower-priority keybindings are tried. If it returns `false`, processing
- * continues to keybindings with lower priority.
- */
-type KeybindingAction = CommandName | ((context: CommandContext) => boolean)
 
 /** Typed key such as `a` or `;`. */
 type Key = string
