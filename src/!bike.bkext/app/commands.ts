@@ -32,24 +32,26 @@ export function clickLinkCommand(context: CommandContext): boolean {
   let urls = findURLs(editor, selection)
   if (urls.length == 0) return false
   for (let url of urls) {
-    let queryParameters = url.queryParameters || {}
+    if (url.scheme === 'bike') {
+      let queryParameters = url.queryParameters || {}
 
-    if (bike.keybindings.isCommandPressed) {
-      queryParameters.target = 'tab'
-    } else if (bike.keybindings.isOptionPressed) {
-      queryParameters.target = 'window'
-    }
-
-    if (queryParameters.target) {
-      if (bike.keybindings.isShiftPressed) {
-        queryParameters.activate = 'true'
-      } else {
-        queryParameters.activate = 'false'
+      if (bike.keybindings.isCommandPressed) {
+        queryParameters.target = 'tab'
+      } else if (bike.keybindings.isOptionPressed) {
+        queryParameters.target = 'window'
       }
-    }
 
-    url.queryParameters = queryParameters
-    url.open({})
+      if (queryParameters.target) {
+        queryParameters.activate = bike.keybindings.isShiftPressed ? 'true' : 'false'
+      }
+
+      url.queryParameters = queryParameters
+      url.open({})
+    } else {
+      let activate = !(bike.keybindings.isCommandPressed || bike.keybindings.isOptionPressed)
+        || bike.keybindings.isShiftPressed
+      url.open({ activate })
+    }
   }
   return true
 }

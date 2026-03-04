@@ -3,5 +3,11 @@
     "name": "Bike (Default)",
     "version": "1.0.0",
     "author": "Jesse Grosjean"
+  },
+  "materials": {
+    "sidebar": {
+      "type": "system",
+      "style": "titlebar"
+    }
   }
 }

@@ -218,7 +218,7 @@
       "fontFamily": "SF Mono",
       "fontTraits": ["monospace"]
     },
-    "highlight": {
+    "mark": {
       "backgroundColor": "$macSystemYellow",
       "underline": {
         "color": "$macSystemOrange",

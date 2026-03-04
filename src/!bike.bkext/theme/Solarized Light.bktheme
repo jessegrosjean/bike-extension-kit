@@ -99,7 +99,7 @@
       "fontTraits": ["monospace"],
       "backgroundColor": "$base2"
     },
-    "highlight": {
+    "mark": {
       "backgroundColor": "rgba(181, 137, 0, 0.25)"
     },
     "link": {

@@ -45,6 +45,7 @@ interface ColorTheme {
   // Caret and selection
   readonly caret: Color
   readonly caretLine: Color
+  readonly caretMessage: Color
   readonly textBackgroundSelected: Color
   readonly blockBackgroundSelected: Color
   readonly findMatch: Color
@@ -52,6 +53,7 @@ interface ColorTheme {
 
   // UI elements
   readonly handle: Color
+  readonly handleUnloaded: Color
   readonly guideLine: Color
   readonly focusArrow: Color
 
@@ -90,7 +92,7 @@ interface RunThemes {
   readonly emphasis: TextContainerTheme
   readonly strikethrough: TextContainerTheme
   readonly code: TextContainerTheme
-  readonly highlight: TextContainerTheme
+  readonly mark: TextContainerTheme
   readonly link: TextContainerTheme
 }
 

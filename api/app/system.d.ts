@@ -58,7 +58,7 @@ export class URL {
 /** Configuration for opening a URL. */
 type URLOpenConfiguration = {
   /** Whether to activate the application (default: true) */
-  activates?: boolean
+  activate?: boolean
   /** Whether to prompt the user if needed (default: true) */
   promptsUserIfNeeded?: boolean
 }

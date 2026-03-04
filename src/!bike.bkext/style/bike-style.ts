@@ -1,5 +1,6 @@
 import { Color, Text, Image, SymbolConfiguration, defineEditorStyle } from 'bike/style'
-import { computeValues, symbolImage, secondaryControlColor } from './util'
+import { computeValues, symbolImage } from './util'
+import { color } from 'd3'
 
 let style = defineEditorStyle('bike', 'Bike (default)')
 
@@ -21,7 +22,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
       caret.blinkStyle = 'continuous'
       caret.lineColor = context.settings.showCaretLine ? colors.caretLine : Color.clear()
       caret.messageFont = values.font
-      caret.messageColor = secondaryControlColor(context)
+      caret.messageColor = colors.caretMessage
       caret.loadedAttributesFont = values.font.withPointSize(pointSize * 0.6)
       caret.loadedAttributesColor = Color.white()
     } else {
@@ -41,9 +42,8 @@ style.layer('base', (row, run, caret, viewport, include) => {
       handle.commandName = 'bike:.click-handle'
       handle.capabilities = ['drag-row', 'accept-drop']
       let size = layout.firstLine.height.min(values.indent)
-      handle.opacity = values.secondaryControlAlpha
       handle.contents.gravity = 'center'
-      handle.contents.image = values.handleImage
+      handle.contents.image = values.handleUnloadedImage
       handle.x = layout.leadingContent.offset(-values.indent / 2)
       handle.y = layout.firstLine.centerY
       handle.width = size
@@ -242,7 +242,12 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
   })
 
   run(`.@mark`, (context, text) => {
-    context.theme.runs.highlight.apply(text)
+    let savedBackgroundColor = text.backgroundColor
+    let markColor = context.theme.runs.mark.backgroundColor
+
+    context.theme.runs.mark.apply(text)
+
+    text.backgroundColor = savedBackgroundColor
 
     // mark color not themeable because expect mark runs to get a color
     // attribute and they will use standard sysmte color based on that
@@ -258,9 +263,9 @@ style.layer(`run-formatting`, (row, run, caret, viewport, include) => {
       mark.width = layout.width.offset(4 * uiScale)
       mark.height = layout.height
       mark.corners.radius = 3 * uiScale
-      mark.color = Color.systemYellow().withAlpha(0.25)
+      mark.color = markColor
       mark.border.width = 1 * uiScale
-      mark.border.color = Color.systemYellow().withAlpha(0.5)
+      mark.border.color = markColor.withFraction(0.1, context.theme.colors.text)
       mark.mergable = true
     })
   })
@@ -327,7 +332,7 @@ style.layer('controls', (row, run, caret, viewport, include) => {
         focus.contents.gravity = 'center'
         focus.contents.image = symbolImage(
           'arrow.down.forward',
-          secondaryControlColor(context),
+          context.theme.colors.focusArrow,
           values.font,
         )
         focus.x = layout.lastLine.trailing.offset(size.scale(0.5)).offset(row.text.padding.right)
@@ -351,8 +356,9 @@ style.layer('controls', (row, run, caret, viewport, include) => {
   })
 
   row(`.parent() = true and collapsed() = true`, (context, row) => {
+    let values = computeValues(context)
     row.decoration('handle', (handle, _) => {
-      handle.opacity = 1.0
+      handle.contents.image = values.handleImage
     })
   })
 
@@ -388,9 +394,9 @@ style.layer('selection', (row, run, caret, viewport, include) => {
       background.y = layout.top
       background.width = layout.width.offset(layout.leadingContent.scale(-1))
       background.height = layout.text.bottom.minus(layout.top).offset(row.text.margin.bottom)
-      background.color = selection.withAlpha(0.5)
+      background.color = selection
       background.border.width = 1 * values.uiScale
-      background.border.color = selection
+      background.border.color = selection.withFraction(0.1, colors.text)
       background.corners.radius = 3 * values.uiScale
       background.mergable = true
       background.transitions.color = false
@@ -411,9 +417,9 @@ style.layer('selection', (row, run, caret, viewport, include) => {
       sel.anchor.y = 0
       sel.x = layout.leading
       sel.y = layout.top
-      sel.color = selection.withAlpha(0.5)
+      sel.color = selection
       sel.border.width = 1 * values.uiScale
-      sel.border.color = selection
+      sel.border.color = selection.withFraction(0.1, colors.text)
       sel.corners.radius = 3 * values.uiScale
       sel.mergable = true
     })

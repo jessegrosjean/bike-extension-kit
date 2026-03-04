@@ -56,6 +56,10 @@
           "$ref": "#/$defs/color",
           "description": "Background highlight for the line containing the caret"
         },
+        "caretMessage": {
+          "$ref": "#/$defs/color",
+          "description": "Text color of caret messages (e.g. Task List)"
+        },
         "textBackgroundSelected": {
           "$ref": "#/$defs/color",
           "description": "Text selection highlight color"
@@ -75,6 +79,10 @@
         "handle": {
           "$ref": "#/$defs/color",
           "description": "Row handle (disclosure triangle) color"
+        },
+        "handleUnloaded": {
+          "$ref": "#/$defs/color",
+          "description": "Row handle color when row has no children or is expanded"
         },
         "guideLine": {
           "$ref": "#/$defs/color",
@@ -165,9 +173,9 @@
         "emphasis": { "$ref": "#/$defs/textStyle", "description": "Italic/emphasized text style" },
         "strikethrough": { "$ref": "#/$defs/textStyle", "description": "Strikethrough text style" },
         "code": { "$ref": "#/$defs/textStyle", "description": "Inline code style" },
-        "highlight": {
+        "mark": {
           "$ref": "#/$defs/textStyle",
-          "description": "Highlighted/marked text style"
+          "description": "Marked/highlighted text style"
         },
         "link": { "$ref": "#/$defs/textStyle", "description": "Link text style" }
       },

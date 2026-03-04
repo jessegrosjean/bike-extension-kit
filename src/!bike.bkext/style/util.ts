@@ -40,8 +40,8 @@ export function computeValues(context: StyleContext): {
   rowTextMargin: Insets
   rowTextPadding: Insets
   viewportPadding: Insets
-  secondaryControlAlpha: number
   handleImage: Image
+  handleUnloadedImage: Image
   outlineFocusAlpha: number
   textFocusAlpha: number
 } {
@@ -112,20 +112,10 @@ export function computeValues(context: StyleContext): {
   }
 
   let uiScale = geometry.uiScale
-  let secondaryControlAlpha = context.isDarkMode ? 0.175 : 0.075
-  let handleColor = context.theme.colors.handle
-
   let handleWidth = Math.max(1, 6 * uiScale)
   let handleHeight = Math.max(1, 10 * uiScale)
-  let handlePath = new Path()
-  handlePath.moveTo(new Point(0, 0))
-  handlePath.addLineTo(new Point(0, handleHeight))
-  handlePath.addLineTo(new Point(handleWidth, handleHeight / 2))
-  handlePath.closeSubpath()
-  let handleShape = new Shape(handlePath)
-  handleShape.fill.color = handleColor
-  handleShape.line.width = 0
-  let handleImage = Image.fromShape(handleShape)
+  let handleImage = buildHandleImage(handleWidth, handleHeight, context.theme.colors.handle)
+  let handleUnloadedImage = buildHandleImage(handleWidth, handleHeight, context.theme.colors.handleUnloaded)
 
   let values = {
     font: font,
@@ -136,8 +126,8 @@ export function computeValues(context: StyleContext): {
     rowTextMargin: geometry.rowTextMargin,
     rowTextPadding: geometry.rowTextPadding,
     viewportPadding: geometry.viewportPadding,
-    secondaryControlAlpha: secondaryControlAlpha,
     handleImage: handleImage,
+    handleUnloadedImage: handleUnloadedImage,
     outlineFocusAlpha: 0.0,
     textFocusAlpha: 0.15,
   }
@@ -149,7 +139,7 @@ export function computeValues(context: StyleContext): {
 
 function computeGeometryForFont(
   font: Font,
-  context: StyleContext
+  context: StyleContext,
 ): {
   uiScale: number
   indent: number
@@ -176,7 +166,7 @@ function computeGeometryForFont(
     10 * uiScale,
     10 * uiScale + indent,
     viewportSize.height * 0.5,
-    10 * uiScale
+    10 * uiScale,
   )
 
   let lineWidth = context.settings.lineWidth ?? Number.MAX_SAFE_INTEGER
@@ -200,12 +190,19 @@ function computeGeometryForFont(
   }
 }
 
+function buildHandleImage(width: number, height: number, color: Color): Image {
+  let path = new Path()
+  path.moveTo(new Point(0, 0))
+  path.addLineTo(new Point(0, height))
+  path.addLineTo(new Point(width, height / 2))
+  path.closeSubpath()
+  let shape = new Shape(path)
+  shape.fill.color = color
+  shape.line.width = 0
+  return Image.fromShape(shape)
+}
+
 export function symbolImage(name: string, color: Color, font: Font): Image {
   let symbol = new SymbolConfiguration(name).withHierarchicalColor(color).withFont(font)
   return Image.fromSymbol(symbol)
-}
-
-export function secondaryControlColor(context: StyleContext): Color {
-  let secondaryControlAlpha = context.isDarkMode ? 0.175 : 0.075
-  return context.theme.colors.text.withAlpha(secondaryControlAlpha)
 }
