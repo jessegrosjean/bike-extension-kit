@@ -282,6 +282,12 @@ export class Color {
   withAlpha(alpha: number): Color
 
   /**
+   * @param factor - The factor to multiply the existing alpha by (0-1)
+   * @returns A new color with the same RGB components and alpha multiplied by factor
+   */
+  multipliedAlpha(factor: number): Color
+
+  /**
    * Blend this color with another
    * @param fraction - Blend amount (0 = this, 1 = color)
    * @param color - The color to blend toward
