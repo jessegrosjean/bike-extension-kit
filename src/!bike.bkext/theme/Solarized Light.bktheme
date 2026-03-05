@@ -32,10 +32,7 @@
     "textBackgroundSelected": "rgba(38, 139, 210, 0.25)",
     "blockBackgroundSelected": "rgba(38, 139, 210, 0.15)",
     "findMatch": "rgba(181, 137, 0, 0.3)",
-    "findMatchCurrent": "rgba(181, 137, 0, 0.5)",
     "handle": "$base1",
-    "guideLine": "$base2",
-    "focusArrow": "$base1",
     "spelling": "$red",
     "grammar": "$green"
   },

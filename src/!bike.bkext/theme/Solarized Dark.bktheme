@@ -32,7 +32,6 @@
     "textBackgroundSelected": "rgba(38, 139, 210, 0.35)",
     "blockBackgroundSelected": "rgba(38, 139, 210, 0.2)",
     "findMatch": "rgba(181, 137, 0, 0.35)",
-    "findMatchCurrent": "rgba(181, 137, 0, 0.55)",
     "handle": "$base01",
     "guideLine": "$base02",
     "focusArrow": "$base01",
