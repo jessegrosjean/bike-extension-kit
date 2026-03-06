@@ -2,7 +2,8 @@
   "metadata": {
     "name": "All Features Example Theme",
     "version": "1.0.0",
-    "author": "Bike Extension Kit"
+    "author": "Bike Extension Kit",
+    "appearance": "any"
   },
   "colors": {
     "text": "#000000",
@@ -21,6 +22,11 @@
     "grammar": "systemGreen",
     "spelling": "systemRed",
     "replacement": "$accent",
+    "caretMessage": "$macLabelSecondary",
+    "handleUnloaded": "rgba(0, 0, 0, 0.15)",
+    "titlebarSeparator": "$macSeparator",
+    "sidebarSeparators": "$macSeparator",
+    "editorBarSeparators": "rgba(0, 0, 0, 0.12)",
 
     "hexShort": "#F00",
     "hexShortAlpha": "#F00A",
@@ -168,7 +174,8 @@
       "fontTraits": ["italic"],
       "underline": {
         "color": "$accent",
-        "single": true
+        "single": true,
+        "patternDash": true
       }
     },
     "codeblock": {
@@ -181,7 +188,8 @@
     "task": {
       "fontAdjust": 1.0,
       "strikethrough": {
-        "thick": true
+        "thick": true,
+        "patternDashDot": true
       }
     },
     "orderedList": {
@@ -223,7 +231,7 @@
       "underline": {
         "color": "$macSystemOrange",
         "double": true,
-        "patternDash": true
+        "patternDashDotDot": true
       }
     },
     "link": {
