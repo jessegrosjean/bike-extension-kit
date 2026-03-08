@@ -34,12 +34,8 @@ interface EditorTheme {
  * ColorTheme - Colors accessible via `theme.colors`.
  *
  * All colors have sensible defaults if not specified in the theme.
- * Colors can reference other colors using `$name` syntax in the theme JSON.
  */
 interface ColorTheme {
-  /** Access custom colors defined in the theme by name. Returns undefined if not found. */
-  color(name: string): Color | undefined
-
   // Core colors
   readonly text: Color
   readonly accent: Color
@@ -64,6 +60,9 @@ interface ColorTheme {
   readonly grammar: Color
   readonly spelling: Color
   readonly replacement: Color
+
+  /** Access custom colors defined in the theme by name. Returns undefined if not found. */
+  get(name: string): Color | undefined
 }
 
 /**
