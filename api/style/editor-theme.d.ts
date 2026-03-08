@@ -37,6 +37,9 @@ interface EditorTheme {
  * Colors can reference other colors using `$name` syntax in the theme JSON.
  */
 interface ColorTheme {
+  /** Access custom colors defined in the theme by name. Returns undefined if not found. */
+  color(name: string): Color | undefined
+
   // Core colors
   readonly text: Color
   readonly accent: Color
