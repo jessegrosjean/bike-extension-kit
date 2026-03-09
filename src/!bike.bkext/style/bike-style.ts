@@ -55,7 +55,7 @@ style.layer('base', (row, run, caret, viewport, include) => {
 
     if (context.settings.showGuideLines) {
       row.decoration('guide', (guide, layout) => {
-        guide.color = context.theme.colors.guideLine
+        guide.color = colors.guideLine
         guide.x = layout.leadingContent.offset(-values.indent / 2)
         guide.y = layout.firstLine.bottom
         guide.anchor.y = 0
