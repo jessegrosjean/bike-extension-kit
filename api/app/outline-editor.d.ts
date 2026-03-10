@@ -79,6 +79,20 @@ export interface OutlineEditor extends View {
    * @returns The return value of the update closure.
    */
   transaction(options: TransactionOptions, update: () => any): any
+
+  /**
+   * Show a message in the editor's status bar.
+   *
+   * If a timeout is provided the message auto-dismisses after that duration.
+   * Dispose the returned handle to clear the message early. Disposing only
+   * clears the message if it is still the active one — extensions cannot
+   * accidentally clear each other's messages.
+   *
+   * @param message - The message to display.
+   * @param timeout - Optional auto-dismiss duration in milliseconds.
+   * @returns A Disposable that clears this specific message.
+   */
+  showStatusMessage(message: string, timeout?: number): Disposable
 }
 
 /**

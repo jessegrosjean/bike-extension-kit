@@ -6,6 +6,7 @@ export async function activate(context: AppExtensionContext) {
       'tutorial:archive-done': archiveDoneCommand,
       'tutorial:set-row-type': setRowTypeCommand,
       'tutorial:insert-color-api-demo': insertColorApiDemoCommand,
+      'tutorial:status-message-demo': statusMessageDemoCommand,
     },
   })
 
@@ -90,6 +91,22 @@ async function setRowTypeCommand(context: CommandContext): Promise<boolean> {
       row.type = selectedType
     }
   })
+
+  return true
+}
+
+function statusMessageDemoCommand(context: CommandContext): boolean {
+  let editor = context.editor
+  if (!editor) return false
+
+  // Show a persistent message, then replace it after 2 seconds
+  let handle = editor.showStatusMessage('Processing items…')
+
+  setTimeout(() => {
+    // Dispose the old message and show a temporary one
+    handle.dispose()
+    editor!.showStatusMessage('Done — 42 items processed', 3000)
+  }, 2000)
 
   return true
 }
