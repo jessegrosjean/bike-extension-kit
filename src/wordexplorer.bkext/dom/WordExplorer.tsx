@@ -18,17 +18,41 @@ const WordExplorer: React.FC<WordExplorerProps> = ({ context }) => {
   const [currentSynonyms, setCurrentSynonyms] = useState([] as string[])
 
   useEffect(() => {
-    context.onmessage = (message: { word: string; definitions: string[]; synonyms: string[] }) => {
-      if (message.word && message.synonyms) {
+    context.onmessage = (message: any) => {
+      if (message.clear) {
+        setCurrentWord('')
+        setCurrentDefinitions([])
+        setCurrentSynonyms([])
+      } else if (message.word && message.synonyms) {
         setCurrentWord(message.word)
         setCurrentDefinitions(message.definitions)
         setCurrentSynonyms(message.synonyms)
       }
     }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      context.postMessage({ type: 'visible', value: entry.isIntersecting })
+    })
+    
+    observer.observe(context.element)
+
+    return () => {
+      observer.disconnect()
+      context.onmessage = undefined
+      context.postMessage({ type: 'visible', value: false })
+    }
   }, [])
 
   const changeWord = (word: string) => {
-    context.postMessage(word)
+    context.postMessage({ type: 'changeWord', word })
+  }
+
+  if (!currentWord) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--system-secondary-label-color, #888)' }}>
+        <p>Select a word to explore</p>
+      </div>
+    )
   }
 
   return (

@@ -2,13 +2,31 @@ import { AppExtensionContext, Window, DOMScriptHandle } from 'bike/app'
 
 export async function activate(context: AppExtensionContext) {
   bike.observeWindows(async (window: Window) => {
-    const synonymsHandle = await window.inspector.addItem({
-      id: 'word-explorer',
+    const handle = await window.inspector.addItem({
+      tab: 'book',
+      label: 'Word Explorer',
       script: 'WordExplorer.js',
     })
 
-    synonymsHandle.onmessage = (message: string) => {
-      fetchSynonymsAndPostToDOM(synonymsHandle, message)
+    let pendingWord = ''
+    let visible = false
+
+    handle.onmessage = (message: any) => {
+      switch (message.type) {
+        case 'visible':
+          visible = message.value
+          if (visible && pendingWord) {
+            fetchAndPost(handle, pendingWord)
+          }
+          break
+        case 'changeWord':
+          if (visible) {
+            fetchAndPost(handle, message.word)
+          } else {
+            pendingWord = message.word
+          }
+          break
+      }
     }
 
     window.observeCurrentOutlineEditor(async (editor) => {
@@ -19,16 +37,24 @@ export async function activate(context: AppExtensionContext) {
             selection.type != 'text' ||
             selection.word != selection.detail.text.string
           ) {
+            pendingWord = ''
+            if (visible) {
+              handle.postMessage({ clear: true })
+            }
             return
           }
-          fetchSynonymsAndPostToDOM(synonymsHandle, selection.word)
+          if (visible) {
+            fetchAndPost(handle, selection.word)
+          } else {
+            pendingWord = selection.word
+          }
         }, 250)
       }
     })
   })
 }
 
-async function fetchSynonymsAndPostToDOM(handle: DOMScriptHandle, word: string) {
+async function fetchAndPost(handle: DOMScriptHandle, word: string) {
   try {
     let [dictionaryJSON, synonymsJSON] = await Promise.all([
       (await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)).json(),
@@ -38,7 +64,7 @@ async function fetchSynonymsAndPostToDOM(handle: DOMScriptHandle, word: string) 
     const normalizedWord = dictionaryJSON[0]?.word || word
     const definitions =
       dictionaryJSON[0]?.meanings?.flatMap((meaning: any) =>
-        meaning.definitions.map((definition: any) => definition.definition)
+        meaning.definitions.map((definition: any) => definition.definition),
       ) || []
     const synonyms = (synonymsJSON as { word: string }[]).map((item) => item.word)
     handle.postMessage({

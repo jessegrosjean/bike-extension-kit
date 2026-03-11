@@ -34,7 +34,10 @@ import { Json } from '../core/json'
  */
 export type DOMScript = string
 
-/** A handle to send and receive messages with a DOMScript. */
+/** 
+ * A handle to send and receive messages with a DOMScript. Use `.dispose()` to
+ * remove the script. 
+ */
 export interface DOMScriptHandle extends Disposable {
   /**
    * Receive messages from the DOM context.

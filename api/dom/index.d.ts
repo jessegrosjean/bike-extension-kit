@@ -3,6 +3,9 @@ import { Json } from '../core/json'
 /**
  * DOMExtensionContext is passed to DOMScript's activate function.
  *
+ * DOM scripts have access to the system font classes and CSS custom properties
+ * defined in `common.css`. Use these to match macOS system appearance and adapt to light/dark mode.
+ *
  * Example:
  *
  * ```ts

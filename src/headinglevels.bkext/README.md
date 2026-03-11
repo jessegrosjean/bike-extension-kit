@@ -20,3 +20,5 @@ Colors are applied only when the `headinglevels.bktheme` theme (or any theme def
 ## Theme
 
 The included `headinglevels.bktheme` defines custom colors for each heading level using `color-contrast()` to automatically select appropriate variants for light and dark mode.
+
+> **Note:** A separate theme file is probably overkill for a style modifier like this. You could just as easily define colors directly in the style code. The main purpose of a theme is to allow easy configuration without requiring style modification — that's mostly useful for full editor styles, not style modifiers.

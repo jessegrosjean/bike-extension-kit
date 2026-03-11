@@ -1,4 +1,4 @@
-import { RelativeOrdering, View } from './bike'
+import { View } from './bike'
 import { DOMScript, DOMScriptHandle } from './dom-script'
 
 export interface Inspector extends View {
@@ -6,23 +6,20 @@ export interface Inspector extends View {
    * Add an item to the inspector.
    *
    * @param item - The item to add to the inspector.
-   * @param tab - The tab to add the item to.
    * @returns A promise that resolves to a DOMScriptHandle.
    */
-  addItem(
-    item: InspectorItem,
-    tab?: InspectorTab // IGNORED FOR NOW
-  ): Promise<DOMScriptHandle>
+  addItem(item: InspectorItem): Promise<DOMScriptHandle>
 }
 
 export type InspectorItem = {
-  id: string
+  /** 
+   * Tab identifier. If it resolves to an SF Symbol, the icon is used; otherwise
+   * the text is shown. Items with the same tab share a tab. Defaults to
+   * 'info.circle'. 
+   */
+  tab?: string
+  /** Label shown in the tab bar tooltip. */
+  label: string
+  /** The DOM script to run. */
   script: DOMScript
-  ordering?: RelativeOrdering<string, string> // ignored
-}
-
-export type InspectorTab = {
-  name: string
-  symbol: string
-  ordering?: RelativeOrdering<string, string> // ignored
 }

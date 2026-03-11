@@ -6,7 +6,6 @@
     "appearance": "any"
   },
   "colors": {
-    "background": "green",
     "heading1": "color-contrast($background vs #1a5276, #5dade2)",
     "heading2": "color-contrast($background vs #117864, #48c9b0)",
     "heading3": "color-contrast($background vs #7d3c98, #bb8fce)",

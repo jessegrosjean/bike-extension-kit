@@ -1,3 +1,5 @@
+/* System Fonts */
+
 body {
   font: -apple-system-body;
 }
@@ -44,4 +46,70 @@ h2 {
 
 .tall-body {
   font: -apple-system-tall-body;
+}
+
+/* System Colors — all adapt to light/dark mode automatically */
+
+:root {
+  color-scheme: light dark;
+
+  /* Text/Label */
+  --label: -apple-system-label;
+  --secondary-label: -apple-system-secondary-label;
+  --tertiary-label: -apple-system-tertiary-label;
+  --quaternary-label: -apple-system-quaternary-label;
+  --quinary-label: -apple-system-quinary-label;
+
+  /* Text State */
+  --header-text: -apple-system-header-text;
+  --placeholder-text: -apple-system-placeholder-text;
+  --selected-text: -apple-system-selected-text;
+  --alternate-selected-text: -apple-system-alternate-selected-text;
+  --unemphasized-selected-text: -apple-system-unemphasized-selected-text;
+
+  /* Backgrounds */
+  --background: -apple-system-background;
+  --secondary-background: -apple-system-secondary-background;
+  --tertiary-background: -apple-system-tertiary-background;
+  --grouped-background: -apple-system-grouped-background;
+  --secondary-grouped-background: -apple-system-secondary-grouped-background;
+  --tertiary-grouped-background: -apple-system-tertiary-grouped-background;
+
+  /* Selection Backgrounds */
+  --text-background: -apple-system-text-background;
+  --selected-text-background: -apple-system-selected-text-background;
+  --unemphasized-selected-text-background: -apple-system-unemphasized-selected-text-background;
+  --selected-content-background: -apple-system-selected-content-background;
+  --unemphasized-selected-content-background: -apple-system-unemphasized-selected-content-background;
+
+  /* Fills */
+  --tertiary-fill: -apple-system-tertiary-fill;
+  --opaque-fill: -apple-system-opaque-fill;
+  --opaque-secondary-fill: -apple-system-opaque-secondary-fill;
+
+  /* Controls/UI */
+  --control-background: -apple-system-control-background;
+  --control-accent: -apple-system-control-accent;
+  --separator: -apple-system-separator;
+  --container-border: -apple-system-container-border;
+  --grid: -apple-system-grid;
+
+  /* Highlights */
+  --app-highlight-background: -apple-system-app-highlight-background;
+  --find-highlight-background: -apple-system-find-highlight-background;
+
+  /* Alternating Content */
+  --even-alternating-content-background: -apple-system-even-alternating-content-background;
+  --odd-alternating-content-background: -apple-system-odd-alternating-content-background;
+
+  /* System Hues */
+  --system-blue: -apple-system-blue;
+  --system-brown: -apple-system-brown;
+  --system-gray: -apple-system-gray;
+  --system-green: -apple-system-green;
+  --system-orange: -apple-system-orange;
+  --system-pink: -apple-system-pink;
+  --system-purple: -apple-system-purple;
+  --system-red: -apple-system-red;
+  --system-yellow: -apple-system-yellow;
 }
