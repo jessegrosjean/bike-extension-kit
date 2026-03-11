@@ -49,8 +49,8 @@ const WordExplorer: React.FC<WordExplorerProps> = ({ context }) => {
 
   if (!currentWord) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--system-secondary-label-color, #888)' }}>
-        <p>Select a word to explore</p>
+      <div style={{ padding: '1em', color: 'var(--label)' }}>
+        <p>Fully select a word to explore its definitions and synonyms.</p>
       </div>
     )
   }

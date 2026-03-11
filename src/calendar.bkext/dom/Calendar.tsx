@@ -15,7 +15,15 @@ export function activate(context: DOMExtensionContext) {
 
   root.render(
     <div>
-      <Calendar onChange={onChange} />
+      <Calendar
+        onChange={onChange}
+        defaultValue={new Date()}
+        maxDetail="month"
+        minDetail="month"
+        prev2Label={null}
+        next2Label={null}
+        formatShortWeekday={(_locale: any, date: Date) => ['S','M','T','W','T','F','S'][date.getDay()]}
+      />
     </div>
   )
 }

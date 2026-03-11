@@ -88,8 +88,9 @@ h2 {
   --opaque-secondary-fill: -apple-system-opaque-secondary-fill;
 
   /* Controls/UI */
-  --control-background: -apple-system-control-background;
+  --control-background: -webkit-control-background;
   --control-accent: -apple-system-control-accent;
+  --focus-ring: -webkit-focus-ring-color;
   --separator: -apple-system-separator;
   --container-border: -apple-system-container-border;
   --grid: -apple-system-grid;
