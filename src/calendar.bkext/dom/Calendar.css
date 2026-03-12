@@ -1,5 +1,5 @@
 .react-calendar {
-  max-width: 200px;
+  max-width: 300px;
   margin: 0 auto;
 }
 
@@ -12,30 +12,34 @@
   cursor: pointer;
 }
 
-/* Navigation: centered month label, subtle arrows */
+/* Navigation: 7-column grid so arrows align over first/last day columns */
 .react-calendar__navigation {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   align-items: center;
   margin-bottom: 0.5em;
 }
 
 .react-calendar__navigation__label {
-  flex-grow: 1;
+  grid-column: 2 / 7;
   text-align: center;
   font: -apple-system-headline;
 }
 
 .react-calendar__navigation__arrow {
-  font-size: 1.2em;
-  padding: 0.3em 0.6em;
+  text-align: center;
   color: var(--secondary-label);
+}
+
+.react-calendar__navigation__arrow .bike-symbol {
+  vertical-align: middle;
 }
 
 /* Weekday headers: single row, evenly spaced */
 .react-calendar__month-view__weekdays {
   text-align: center;
-  font: -apple-system-short-caption1;
-  color: var(--tertiary-label);
+  font: -apple-system-subheadline;
+  color: var(--secondary-label);
 }
 
 .react-calendar__month-view__weekdays abbr {
@@ -46,8 +50,7 @@
 .react-calendar__tile {
   padding: 0;
   text-align: center;
-  font: inherit;
-  font-size: 0.9em;
+  font: -apple-system-subheadline;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,6 +81,6 @@
 }
 
 /* Neighboring month days */
-.react-calendar__month-view__days__day--neighboringMonth {
-  color: var(--quaternary-label);
+.react-calendar button.react-calendar__month-view__days__day--neighboringMonth {
+  color: var(--tertiary-label);
 }

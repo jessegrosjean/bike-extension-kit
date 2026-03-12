@@ -1,4 +1,76 @@
-/* System Fonts */
+/*
+ * common.css — macOS system fonts and colors for DOM extensions
+ *
+ * Loaded automatically in all DOM contexts (sheets, inspector).
+ * All values adapt to light/dark mode automatically.
+ *
+ * FONTS
+ * -----
+ * Applied automatically to HTML elements:
+ *   body        — -apple-system-body (default for all text)
+ *   h1          — -apple-system-headline (section titles)
+ *   h2          — -apple-system-subheadline (subsection titles)
+ *
+ * Available as CSS classes:
+ *   .caption1   — secondary labels, timestamps, metadata
+ *   .caption2   — smallest text, badges, footnote references
+ *   .footnote   — supplementary info, help text
+ *   .tall-body  — body text needing extra line height
+ *
+ * "Short" variants use tighter line spacing for compact layouts:
+ *   .short-body, .short-headline, .short-subheadline,
+ *   .short-caption1, .short-footnote
+ *
+ * Or use directly in CSS:
+ *   font: -apple-system-body;
+ *   font: -apple-system-headline;
+ *   font: -apple-system-caption1;
+ *   etc.
+ *
+ * COLORS
+ * ------
+ * Color vars are injected at runtime from native NSColor values so they
+ * resolve correctly across light/dark mode and accent color changes.
+ * Use as CSS custom properties: color: var(--label);
+ *
+ * Text colors (progressively lighter):
+ *   --label              — primary text
+ *   --secondary-label    — subtitles, less prominent text
+ *   --tertiary-label     — disabled text, placeholders
+ *   --quaternary-label   — watermarks, very subtle text
+ *
+ * Backgrounds:
+ *   --background                  — main content area
+ *   --secondary-background        — grouped sections, cards
+ *   --tertiary-background         — nested groups
+ *
+ * Controls:
+ *   --control-accent              — buttons, toggles, links
+ *   --control-background          — input fields, text areas
+ *   --separator                   — dividers, borders
+ *   --container-border            — panel/card borders
+ *
+ * Fills:
+ *   --tertiary-fill               — subtle background fill
+ *   --opaque-fill                 — opaque button/control fill
+ *   --opaque-secondary-fill       — hover state fill
+ *
+ * Selection:
+ *   --selected-text               — text color when selected
+ *   --alternate-selected-text     — text on accent-colored backgrounds
+ *   --selected-content-background — highlighted row/item background
+ *
+ * System hues:
+ *   --system-blue, --system-brown, --system-gray, --system-green,
+ *   --system-orange, --system-pink, --system-purple, --system-red,
+ *   --system-yellow
+ */
+
+:root {
+  color-scheme: light dark;
+}
+
+/* Default element fonts */
 
 body {
   font: -apple-system-body;
@@ -11,6 +83,8 @@ h1 {
 h2 {
   font: -apple-system-subheadline;
 }
+
+/* Font utility classes */
 
 .caption1 {
   font: -apple-system-caption1;
@@ -46,71 +120,4 @@ h2 {
 
 .tall-body {
   font: -apple-system-tall-body;
-}
-
-/* System Colors — all adapt to light/dark mode automatically */
-
-:root {
-  color-scheme: light dark;
-
-  /* Text/Label */
-  --label: -apple-system-label;
-  --secondary-label: -apple-system-secondary-label;
-  --tertiary-label: -apple-system-tertiary-label;
-  --quaternary-label: -apple-system-quaternary-label;
-  --quinary-label: -apple-system-quinary-label;
-
-  /* Text State */
-  --header-text: -apple-system-header-text;
-  --placeholder-text: -apple-system-placeholder-text;
-  --selected-text: -apple-system-selected-text;
-  --alternate-selected-text: -apple-system-alternate-selected-text;
-  --unemphasized-selected-text: -apple-system-unemphasized-selected-text;
-
-  /* Backgrounds */
-  --background: -apple-system-background;
-  --secondary-background: -apple-system-secondary-background;
-  --tertiary-background: -apple-system-tertiary-background;
-  --grouped-background: -apple-system-grouped-background;
-  --secondary-grouped-background: -apple-system-secondary-grouped-background;
-  --tertiary-grouped-background: -apple-system-tertiary-grouped-background;
-
-  /* Selection Backgrounds */
-  --text-background: -apple-system-text-background;
-  --selected-text-background: -apple-system-selected-text-background;
-  --unemphasized-selected-text-background: -apple-system-unemphasized-selected-text-background;
-  --selected-content-background: -apple-system-selected-content-background;
-  --unemphasized-selected-content-background: -apple-system-unemphasized-selected-content-background;
-
-  /* Fills */
-  --tertiary-fill: -apple-system-tertiary-fill;
-  --opaque-fill: -apple-system-opaque-fill;
-  --opaque-secondary-fill: -apple-system-opaque-secondary-fill;
-
-  /* Controls/UI */
-  --control-background: -webkit-control-background;
-  --control-accent: -apple-system-control-accent;
-  --focus-ring: -webkit-focus-ring-color;
-  --separator: -apple-system-separator;
-  --container-border: -apple-system-container-border;
-  --grid: -apple-system-grid;
-
-  /* Highlights */
-  --app-highlight-background: -apple-system-app-highlight-background;
-  --find-highlight-background: -apple-system-find-highlight-background;
-
-  /* Alternating Content */
-  --even-alternating-content-background: -apple-system-even-alternating-content-background;
-  --odd-alternating-content-background: -apple-system-odd-alternating-content-background;
-
-  /* System Hues */
-  --system-blue: -apple-system-blue;
-  --system-brown: -apple-system-brown;
-  --system-gray: -apple-system-gray;
-  --system-green: -apple-system-green;
-  --system-orange: -apple-system-orange;
-  --system-pink: -apple-system-pink;
-  --system-purple: -apple-system-purple;
-  --system-red: -apple-system-red;
-  --system-yellow: -apple-system-yellow;
 }

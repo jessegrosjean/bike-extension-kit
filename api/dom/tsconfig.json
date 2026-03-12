@@ -3,7 +3,8 @@
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
     "paths": {
-      "bike/dom": ["./index.d.ts"]
+      "bike/dom": ["./index.d.ts"],
+      "bike/components": ["./components.d.ts"]
     }
   }
 }

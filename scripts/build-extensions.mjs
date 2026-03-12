@@ -31,13 +31,14 @@ const context = await esbuild.context({
     'src/**/dom/*.ts',
     'src/**/dom/*.tsx',
   ],
-  external: ['bike/app', 'bike/dom', 'bike/style', 'react', 'react-dom'],
+  external: ['bike/app', 'bike/dom', 'bike/style', 'bike/components', 'react', 'react-dom'],
   plugins: [
     externalGlobalPlugin.externalGlobalPlugin({
       react: 'window.React',
       'react-dom': 'window.ReactDOM',
       'react-dom/client': 'window.ReactDOMClient',
       'react/jsx-runtime': 'window.ReactJSXRuntime',
+      'bike/components': 'window.BikeComponents',
     }),
     copyManifestPlugin(outdir),
     copyThemePlugin(outdir),

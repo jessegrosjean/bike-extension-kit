@@ -7,6 +7,7 @@ export async function activate(context: AppExtensionContext) {
       'tutorial:set-row-type': setRowTypeCommand,
       'tutorial:insert-color-api-demo': insertColorApiDemoCommand,
       'tutorial:status-message-demo': statusMessageDemoCommand,
+      'tutorial:components-demo': componentsDemoCommand,
     },
   })
 
@@ -108,6 +109,11 @@ function statusMessageDemoCommand(context: CommandContext): boolean {
     editor!.showStatusMessage('Done — 42 items processed', 3000)
   }, 2000)
 
+  return true
+}
+
+function componentsDemoCommand(context: CommandContext): boolean {
+  bike.frontmostWindow?.presentSheet('components-demo.js')
   return true
 }
 

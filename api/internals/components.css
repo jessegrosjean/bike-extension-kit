@@ -1,0 +1,185 @@
+/* SFSymbol */
+
+.bike-symbol {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  vertical-align: middle;
+}
+
+/* Button */
+
+.bike-button {
+  font: -apple-system-body;
+  color: var(--label);
+  background: var(--opaque-fill);
+  border: none;
+  border-radius: 6px;
+  padding: 3px 11px;
+  cursor: pointer;
+}
+
+.bike-button:hover {
+  background: var(--opaque-secondary-fill);
+}
+
+.bike-button:active {
+  filter: brightness(0.9);
+}
+
+.bike-button:disabled {
+  color: var(--tertiary-label);
+  cursor: default;
+  filter: none;
+}
+
+.bike-button:disabled:hover {
+  background: var(--opaque-fill);
+}
+
+.bike-button--mini {
+  border-radius: 5px;
+  padding: 0px 6px;
+}
+
+.bike-button--small {
+  border-radius: 5px;
+  padding: 1.5px 9px;
+}
+
+.bike-button--large {
+  border-radius: 999px;
+  padding: 6px 18px;
+}
+
+/* Label */
+
+.bike-label {
+  font: -apple-system-body;
+  color: var(--label);
+}
+
+.bike-label--secondary {
+  color: var(--secondary-label);
+}
+
+.bike-label--tertiary {
+  color: var(--tertiary-label);
+}
+
+.bike-label--headline {
+  font: -apple-system-headline;
+}
+
+.bike-label--subheadline {
+  font: -apple-system-subheadline;
+}
+
+.bike-label--caption {
+  font: -apple-system-caption1;
+}
+
+.bike-label--footnote {
+  font: -apple-system-footnote;
+}
+
+/* FormRow */
+
+.bike-form-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 3px 0;
+}
+
+.bike-form-row__label {
+  font: -apple-system-body;
+  color: var(--secondary-label);
+  flex-shrink: 0;
+  text-align: right;
+  width: var(--bike-form-label-width, 80px);
+}
+
+.bike-form-row__content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* SegmentedControl */
+
+.bike-segmented {
+  display: inline-flex;
+  background: var(--opaque-fill);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bike-segmented__item {
+  font: -apple-system-body;
+  color: var(--label);
+  background: none;
+  border: none;
+  padding: 3px 11px;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+}
+
+.bike-segmented__item + .bike-segmented__item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 0.5px;
+  background: var(--separator);
+}
+
+.bike-segmented__item:hover {
+  background: var(--opaque-secondary-fill);
+}
+
+.bike-segmented__item:active {
+  filter: brightness(0.9);
+}
+
+.bike-segmented__item--selected {
+  background: var(--opaque-secondary-fill);
+}
+
+/* Mini */
+
+.bike-segmented--mini {
+  border-radius: 5px;
+}
+
+.bike-segmented--mini .bike-segmented__item {
+  padding: 0px 6px;
+}
+
+/* Small */
+
+.bike-segmented--small {
+  border-radius: 5px;
+}
+
+.bike-segmented--small .bike-segmented__item {
+  padding: 1.5px 9px;
+}
+
+/* Large */
+
+.bike-segmented--large {
+  border-radius: 999px;
+}
+
+.bike-segmented--large .bike-segmented__item {
+  padding: 6px 18px;
+}
