@@ -1,29 +1,26 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Bike Outliner Extension Manifest",
+  "description": "The extension's id and display name are derived from the .bkext folder name. The id is the folder name without the .bkext suffix. The display name is the folder name split on '-' with each word capitalized (e.g., 'heading-levels.bkext' becomes 'Heading Levels').",
   "type": "object",
   "required": [
-    "id",
-    "name",
     "version",
     "api_version",
     "permissions",
-    "host_permissions",
-    "enabled",
-    "install"
+    "host_permissions"
   ],
   "properties": {
     "$schema": {
       "type": "string",
       "description": "The schema to verify this document against."
     },
-    "id": {
+    "description": {
       "type": "string",
-      "description": "A unique identifier for the extension (folder name)."
+      "description": "A brief description of what the extension does."
     },
-    "name": {
+    "author": {
       "type": "string",
-      "description": "The display name of the extension."
+      "description": "The author of the extension."
     },
     "version": {
       "type": "string",
@@ -57,9 +54,18 @@
       "type": "boolean",
       "description": "If true, the extension will be automatically installed when built."
     },
+    "built-in": {
+      "type": "boolean",
+      "description": "If true, the extension is a built-in to Bike Outliner."
+    },
     "symbol": {
       "type": "string",
       "description": "Optional SF Symbol name for the extension, used as default for commands."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL for the extension's homepage or source code."
     }
   },
   "additionalProperties": false

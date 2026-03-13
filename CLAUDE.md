@@ -34,6 +34,8 @@ The build system automatically:
 
 Extensions live in `src/` with each `.bkext` folder containing:
 
+The extension's id and display name are derived from the `.bkext` folder name. The id is the folder name without the suffix. The display name is the folder name split on `-` with each word capitalized (e.g., `heading-levels.bkext` becomes "Heading Levels").
+
 ```
 extension.bkext/
 ├── manifest.json    # Extension metadata, permissions, install config

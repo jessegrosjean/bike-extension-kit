@@ -1,8 +1,8 @@
 {
   "$schema": "../../schemas/manifest.schema.json",
-  "description": "Example extension from the Bike user guide extension tutorial",
+  "description": "Style modifier that applies distinct colors to headings based on outline depth",
   "author": "Jesse Grosjean",
-  "url": "https://github.com/jessegrosjean/bike-extension-kit/tree/main/src/tutorial.bkext",
+  "url": "https://github.com/jessegrosjean/bike-extension-kit/tree/main/src/heading-levels.bkext",
   "version": "0.0.0",
   "api_version": "0.0.0",
   "permissions": [],

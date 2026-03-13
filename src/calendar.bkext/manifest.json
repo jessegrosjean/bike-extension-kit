@@ -1,11 +1,12 @@
 {
   "$schema": "../../schemas/manifest.schema.json",
-  "id": "calendar",
-  "name": "calendar",
+  "description": "Notes calendar that generates outline structure when selecting a date.",
+  "author": "Jesse Grosjean",
+  "url": "https://github.com/jessegrosjean/bike-extension-kit/tree/main/src/calendar.bkext",
   "version": "0.0.0",
   "api_version": "0.0.0",
   "permissions": [],
   "host_permissions": [],
-  "enabled": true,
+  "built-in": true,
   "install": true
 }

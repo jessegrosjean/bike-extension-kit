@@ -1,11 +1,12 @@
 {
   "$schema": "../../schemas/manifest.schema.json",
-  "id": "bike",
-  "name": "bike",
+  "description": "Core extension providing commands, keybindings, and styles",
+  "author": "Jesse Grosjean",
+  "url": "https://github.com/jessegrosjean/bike-extension-kit/tree/main/src/!bike.bkext",
   "version": "0.0.0",
   "api_version": "0.0.0",
   "permissions": ["openURL"],
   "host_permissions": [],
-  "enabled": true,
+  "built-in": true,
   "install": true
 }

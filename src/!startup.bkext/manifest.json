@@ -1,11 +1,11 @@
 {
   "$schema": "../../schemas/manifest.schema.json",
-  "id": "startup",
-  "name": "startup",
+  "description": "Experimental playground for testing custom ideas before moving them to separate extensions",
+  "author": "Jesse Grosjean",
+  "url": "https://github.com/jessegrosjean/bike-extension-kit/tree/main/src/!startup.bkext",
   "version": "0.0.0",
   "api_version": "0.0.0",
   "permissions": [],
   "host_permissions": [],
-  "enabled": true,
   "install": false
 }
