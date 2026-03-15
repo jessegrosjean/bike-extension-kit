@@ -3,8 +3,9 @@
 This kit is for building [Bike Outliner
 2](https://support.hogbaysoftware.com/c/bike/releases/24) extensions.
 
-Use extensions to customize and enhance the functionality of Bike. Extensions can add
-new commands, keybindings, views, styles, and more. Sensitive features are protected by a permission system.
+Use extensions to customize and enhance the functionality of Bike. Extensions
+can add new commands, keybindings, views, styles, and more. Sensitive features
+are protected by a permission system.
 
 ## Screencasts
 
@@ -66,9 +67,22 @@ To install extensions:
 2. Copy extensions from `out/extensions` to Bike's extensions folder
 
 For example move `out/extensions/d3.bkext` to Bike's extensions folder. You
-should see new d3 items appear in Bike's sidebar. To avoid this step you can set
-the `install` property in the extension's `manifest.json` to `true`. When you do
-this Bike automatically installs the extension each time you build.
+should see new d3 commands appear in Bike's command palette.
+
+To avoid that step you can set the `install` property in the extension's
+`manifest.json` to `true`. When you do this Bike automatically installs the
+extension each time you build.
+
+## Development Workflow
+
+See [docs/workflow.md](docs/workflow.md) for creating extensions, building,
+extension contexts (app, DOM, style), debugging with `evaluate`, and manifest
+configuration.
+
+## Sharing Extensions
+
+See [docs/sharing-extensions.md](docs/sharing-extensions.md) for packaging,
+releasing, registry submission, and GitHub Actions automation.
 
 ## Next Steps
 

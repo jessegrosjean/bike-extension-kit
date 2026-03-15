@@ -8,7 +8,9 @@
     "new": "node scripts/new.mjs",
     "watch": "node scripts/build-extensions.mjs",
     "build": "node scripts/build-extensions.mjs production",
-    "build-internals": "node scripts/build-internals.mjs production"
+    "build-internals": "node scripts/build-internals.mjs production",
+    "package": "node scripts/package-extensions.mjs",
+    "release": "node scripts/release-extensions.mjs"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
