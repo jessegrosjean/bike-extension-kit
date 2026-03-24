@@ -1,8 +1,0 @@
-{
-  "compilerOptions": {
-    "lib": ["esnext"],
-    "paths": {
-      "bike/style": ["./index.d.ts"]
-    }
-  }
-}

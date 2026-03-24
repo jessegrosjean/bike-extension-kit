@@ -1,4 +1,0 @@
-{
-  "extends": "../api/style/tsconfig.json",
-  "include": ["../src/*/style/**/*"]
-}

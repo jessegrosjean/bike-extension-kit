@@ -1,4 +1,0 @@
-{
-  "extends": "../api/dom/tsconfig.json",
-  "include": ["../api/dom/globals.d.ts", "../src/*/dom/**/*"]
-}
